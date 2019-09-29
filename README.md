@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Bao Nguyen
-- MEMBER2
+- Sidney Mitchell
 - MEMBER3
 - MEMBER4
 
