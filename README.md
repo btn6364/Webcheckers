@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Bao Nguyen
 - Sidney Mitchell
-- MEMBER3
+- Liam Obrochta
 - MEMBER4
 
 
