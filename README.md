@@ -9,7 +9,7 @@ a web micro-framework.
 - Bao Nguyen
 - Sidney Mitchell
 - Liam Obrochta
-- MEMBER4
+- John Licitra
 
 
 ## Prerequisites
