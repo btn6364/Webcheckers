@@ -10,6 +10,7 @@ a web micro-framework.
 - Sidney Mitchell
 - Liam Obrochta
 - John Licitra
+- Angela Hudak
 
 
 ## Prerequisites
