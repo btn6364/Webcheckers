@@ -74,7 +74,7 @@ public class CheckersGame {
         if (isRed || isKing){
             //higher y
             if (y < 6){
-                if (x < 6){
+                if (x > 1){
                     // sw
                     // First check if destination is empty
                     jumps[3] = this.board[y+2][x-2] == Piece.EMPTY;
@@ -86,7 +86,7 @@ public class CheckersGame {
                         jumps[3] = this.board[y+1][x-1] == Piece.RED || this.board[y+1][x-1] == Piece.RED_KING;
                     }
                 }
-                if (x > 1){
+                if (x < 6){
                     // se
                     // First check if destination is empty
                     jumps[2] = this.board[y+2][x+2] == Piece.EMPTY;
@@ -103,7 +103,7 @@ public class CheckersGame {
         if (!isRed || isKing){
             //lower y
             if (y > 1){
-                if (x < 6){
+                if (x > 1){
                     // nw
                     // First check if destination is empty
                     jumps[0] = this.board[y-2][x-2] == Piece.EMPTY;
@@ -115,7 +115,7 @@ public class CheckersGame {
                         jumps[0] = this.board[y-1][x-1] == Piece.RED || this.board[y-1][x-1] == Piece.RED_KING;
                     }
                 }
-                if (x > 1){
+                if (x < 6){
                     // ne
                     // First check if destination is empty
                     jumps[1] = this.board[y-2][x+2] == Piece.EMPTY;
@@ -189,7 +189,7 @@ public class CheckersGame {
         }
         else{
             // If there isn't a valid jump, only simple moves are valid
-            if(Math.abs(dy-sy) == 1 && Math.abs(dx-sx) == 1){
+            if((Math.abs(dx-sx) == 1 ) && (Math.abs(dy-sy) == 1)){
                 return true;
             }
         }
@@ -201,23 +201,11 @@ public class CheckersGame {
      * Debug function to print the board state to console
      */
     private void printBoard() {
+        System.out.print(" 01234567\n");
         for (int y = 0; y < this.board.length; y++){
+            System.out.print(y);
             for (int x = 0; x < this.board.length; x++){
-                if (this.board[y][x] == Piece.EMPTY){
-                    System.out.print("-");
-                }
-                else if (this.board[y][x] == Piece.RED){
-                    System.out.print("r");
-                }
-                else if (this.board[y][x] == Piece.WHITE){
-                    System.out.print("w");
-                }
-                else if (this.board[y][x] == Piece.RED_KING){
-                    System.out.print("R");
-                }
-                else if (this.board[y][x] == Piece.WHITE_KING){
-                    System.out.print("W");
-                }
+                printTile(x,y);
             }
             System.out.print("\n");
         }
@@ -234,15 +222,78 @@ public class CheckersGame {
     }
 
     /**
+     * Debug function to clear the board
+     */
+    private void clearBoard(){
+        for (int y=0; y<this.board.length; y++){
+            for (int x=0; x<this.board.length; x++){
+                this.board[y][x] = Piece.EMPTY;
+            }
+        }
+    }
+
+    /**
+     * Print a tile, for printBoard and printValidMoves
+     * @param x X coordinate of the tile
+     * @param y Y coordinate of the tile
+     */
+    private void printTile(int x, int y){
+        if (this.board[y][x] == Piece.EMPTY){
+            System.out.print("-");
+        }
+        else if (this.board[y][x] == Piece.RED){
+            System.out.print("r");
+        }
+        else if (this.board[y][x] == Piece.WHITE){
+            System.out.print("w");
+        }
+        else if (this.board[y][x] == Piece.RED_KING){
+            System.out.print("R");
+        }
+        else if (this.board[y][x] == Piece.WHITE_KING){
+            System.out.print("W");
+        }
+    }
+
+    /**
+     * Debug function to display valid moves for the given tile
+     * @param tx X coordinate of the tile
+     * @param ty Y coordinate of the tile
+     */
+    private void printValidMoves(int tx, int ty){
+        System.out.println(" 01234567");
+        for (int y = 0; y < this.board.length; y++){
+            System.out.print(y);
+            for (int x = 0; x < this.board.length; x++){
+                if(validateMove(tx, ty, x, y)){
+                    System.out.print("X");
+                }
+                else{
+                    printTile(x, y);
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+
+    /**
      * Main function to test CheckersGame class
      * @param args Main takes no args
      */
     public static void main(String[] args){
         CheckersGame checkers = new CheckersGame();
-        checkers.assignToTile(2,5, Piece.EMPTY);
+        checkers.clearBoard();
         checkers.assignToTile(1,4, Piece.RED_KING);
         checkers.assignToTile(2,3, Piece.WHITE_KING);
-        checkers.assignToTile(3,2, Piece.EMPTY);
+        checkers.assignToTile(2,5, Piece.WHITE);
+        checkers.assignToTile(5,6, Piece.RED_KING);
+        checkers.assignToTile(6,1, Piece.RED);
+        checkers.printValidMoves(1,4);
+        System.out.print("\n");
+        checkers.printValidMoves(5,6);
+        System.out.print("\n");
+        checkers.printValidMoves(6,1);
+        System.out.print("\n");
         checkers.printBoard();
     }
 }
