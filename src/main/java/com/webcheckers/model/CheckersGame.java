@@ -64,13 +64,73 @@ public class CheckersGame {
      * Does the piece have valid jumps?
      * @param x X coordinate of the piece
      * @param y Y coordinate of the piece
-     * @return An int array specifying which jumps are legal in form {nw, ne, se, sw}
+     * @return An int array specifying which jumps are legal in form {nw, ne, se, sw, total}
      */
-    private int[] jumpExists(int x, int y){
-        int[] jumps = {0, 0, 0, 0};
+    private boolean[] jumpExists(int x, int y){
+        boolean[] jumps = {false, false, false, false, false};
         boolean isKing = (this.board[y][x] == Piece.WHITE_KING || this.board[y][x] == Piece.RED_KING);
-        //TODO
-        // Check the forward two tiles. If isKing, check back two tiles.
+        boolean isRed = (this.board[y][x] == Piece.RED || this.board[y][x] == Piece.RED_KING);
+
+        if (isRed || isKing){
+            //higher y
+            if (y < 6){
+                if (x < 6){
+                    // sw
+                    // First check if destination is empty
+                    jumps[3] = this.board[y+2][x-2] == Piece.EMPTY;
+                    // Then check if the piece being jumped over is the opposite color (skip check if destination is full)
+                    if(isRed && jumps[3]){
+                        jumps[3] = this.board[y+1][x-1] == Piece.WHITE || this.board[y+1][x-1] == Piece.WHITE_KING;
+                    }
+                    else if (jumps[3]){
+                        jumps[3] = this.board[y+1][x-1] == Piece.RED || this.board[y+1][x-1] == Piece.RED_KING;
+                    }
+                }
+                if (x > 1){
+                    // se
+                    // First check if destination is empty
+                    jumps[2] = this.board[y+2][x+2] == Piece.EMPTY;
+                    // Then check if the piece being jumped over is the opposite color (skip check if destination is full)
+                    if(isRed && jumps[2]){
+                        jumps[2] = this.board[y+1][x+1] == Piece.WHITE || this.board[y+1][x+1] == Piece.WHITE_KING;
+                    }
+                    else if (jumps[2]){
+                        jumps[2] = this.board[y+1][x+1] == Piece.RED || this.board[y+1][x+1] == Piece.RED_KING;
+                    }
+                }
+            }
+        }
+        if (!isRed || isKing){
+            //lower y
+            if (y > 1){
+                if (x < 6){
+                    // nw
+                    // First check if destination is empty
+                    jumps[0] = this.board[y-2][x-2] == Piece.EMPTY;
+                    // Then check if the piece being jumped over is the opposite color
+                    if(isRed && jumps[0]){
+                        jumps[0] = this.board[y-1][x-1] == Piece.WHITE || this.board[y-1][x-1] == Piece.WHITE_KING;
+                    }
+                    else if (jumps[0]){
+                        jumps[0] = this.board[y-1][x-1] == Piece.RED || this.board[y-1][x-1] == Piece.RED_KING;
+                    }
+                }
+                if (x > 1){
+                    // ne
+                    // First check if destination is empty
+                    jumps[1] = this.board[y-2][x+2] == Piece.EMPTY;
+                    // Then check if the piece being jumped over is the opposite color
+                    if(isRed && jumps[1]){
+                        jumps[1] = this.board[y-1][x+1] == Piece.WHITE || this.board[y-1][x+1] == Piece.WHITE_KING;
+                    }
+                    else if (jumps[1]){
+                        jumps[1] = this.board[y-1][x+1] == Piece.RED || this.board[y-1][x+1] == Piece.RED_KING;
+                    }
+                }
+            }
+        }
+        // jumps[4] signifies that one of the jumps is valid
+        for (boolean b : jumps){if (b){jumps[4] = true;}}
 
         return jumps;
     }
@@ -98,6 +158,10 @@ public class CheckersGame {
         else if (this.board[sy][sx] == Piece.EMPTY){
             return false;
         }
+        // Validate destination tile has no piece on it
+        else if (this.board[dy][dx] != Piece.EMPTY){
+            return false;
+        }
         // Validate moving piece is owned (red player)
         else if (this.currentPlayer && (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
             return false;
@@ -106,22 +170,41 @@ public class CheckersGame {
         else if (!this.currentPlayer && (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
             return false;
         }
-        //TODO
-        // Validate that piece is a valid move
-        // First, we check if there is a valid jump. If there is a valid jump, the move cannot be simple
-        // If there is a valid jump, validate only a valid jump. If there isn't, validate only a simple move
-
+        // Validate that destination is a valid move
+        boolean[] jumps = jumpExists(sx, sy);
+        if (jumps[4]){
+            // If there is a valid jump, only moves which jump are valid
+            if(dy == sy-2 && dx == sx-2){
+                return jumps[0];
+            }
+            else if(dy == sy-2 && dx == sx+2){
+                return jumps[1];
+            }
+            else if(dy == sy+2 && dx == sx+2){
+                return jumps[2];
+            }
+            else if(dy == sy+2 && dx == sx-2){
+                return jumps[3];
+            }
+        }
+        else{
+            // If there isn't a valid jump, only simple moves are valid
+            if(Math.abs(dy-sy) == 1 && Math.abs(dx-sx) == 1){
+                return true;
+            }
+        }
+        // We've checked every possible legal move, so if we get to this point, return false
         return false;
     }
 
     /**
      * Debug function to print the board state to console
      */
-    public void printBoard() {
+    private void printBoard() {
         for (int y = 0; y < this.board.length; y++){
             for (int x = 0; x < this.board.length; x++){
                 if (this.board[y][x] == Piece.EMPTY){
-                    System.out.print("_");
+                    System.out.print("-");
                 }
                 else if (this.board[y][x] == Piece.RED){
                     System.out.print("r");
@@ -141,11 +224,25 @@ public class CheckersGame {
     }
 
     /**
+     * Debug function to assign a status to a given tile
+     * @param x X coordinate of tile to assign to
+     * @param y Y coordinate of tile to assign to
+     * @param type Status to assign
+     */
+    private void assignToTile(int x, int y, Piece type){
+        this.board[y][x] = type;
+    }
+
+    /**
      * Main function to test CheckersGame class
-     * @param args
+     * @param args Main takes no args
      */
     public static void main(String[] args){
         CheckersGame checkers = new CheckersGame();
+        checkers.assignToTile(2,5, Piece.EMPTY);
+        checkers.assignToTile(1,4, Piece.RED_KING);
+        checkers.assignToTile(2,3, Piece.WHITE_KING);
+        checkers.assignToTile(3,2, Piece.EMPTY);
         checkers.printBoard();
     }
 }
