@@ -197,6 +197,12 @@ public class CheckersGame {
         return false;
     }
 
+    public void attemptMove(){
+        //Ask the player where they'd like to move their piece
+        //Get instruction from the player and then use validateMove to
+        //check and see if it is a valid move.
+    }
+
     /**
      * Debug function to print the board state to console
      */
