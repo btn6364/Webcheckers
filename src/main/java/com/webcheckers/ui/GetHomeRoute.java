@@ -1,10 +1,12 @@
 package com.webcheckers.ui;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -61,4 +63,9 @@ public class GetHomeRoute implements Route {
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
   }
+
+  public void displayPlayers(List<Player> players){
+    //functionality here
+  }
+
 }
