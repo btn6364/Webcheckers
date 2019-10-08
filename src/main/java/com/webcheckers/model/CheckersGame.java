@@ -213,14 +213,24 @@ public class CheckersGame {
 
 
         //Store the x coordinate and convert to int
-        String xCoord = list[0];
+        String xCoordStr = list[0];
+        int xCoord = Integer.valueOf(xCoordStr);
 
         //Store the y coordinate and convert to int
-        String yCoord = list[1];
+        String yCoordStr = list[1];
+        int yCoord = Integer.valueOf(yCoordStr);
 
+        //Call validate move using your coords.
+        boolean moveValid = validateMove(xPos,yPos,xCoord,yCoord);
 
-
-        //Get the coords of the player's move.
+        if(moveValid){
+            System.out.println("Valid move!");
+            //Actually make the move, to be implemented later.
+        }
+        else{
+            System.out.println("Move is not valid!");
+            //Do not make the move
+        }
 
     }
 
