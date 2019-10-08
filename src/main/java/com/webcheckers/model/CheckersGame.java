@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.Scanner;
+
 /**
  * A class representing a model of a Checkers game
  * @author John Licitra
@@ -197,10 +199,29 @@ public class CheckersGame {
         return false;
     }
 
-    public void attemptMove(){
-        //Ask the player where they'd like to move their piece
-        //Get instruction from the player and then use validateMove to
-        //check and see if it is a valid move.
+    public void attemptMove(int xPos, int yPos){
+
+        //Print the label
+        System.out.println("Enter coordinates for your move in a (x,y) format: ");
+
+        Scanner sc = new Scanner(System.in);
+
+        String move = sc.nextLine();
+
+        //Now that we have the line, we must split it in two at the comma
+        String[] list = move.split(",");
+
+
+        //Store the x coordinate and convert to int
+        String xCoord = list[0];
+
+        //Store the y coordinate and convert to int
+        String yCoord = list[1];
+
+
+
+        //Get the coords of the player's move.
+
     }
 
     /**
