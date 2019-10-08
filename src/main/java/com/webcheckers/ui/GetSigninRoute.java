@@ -49,9 +49,6 @@ public class GetSigninRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
-        // display a user message in the Home page
-        vm.put("message", WELCOME_MSG);
-
         // render the View
         return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
     }
