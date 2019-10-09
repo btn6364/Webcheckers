@@ -7,13 +7,15 @@ package com.webcheckers.model;
 public class Player {
     /** The player's name **/
     private String name;
+    private String sessionId;
 
     /**
      * Construct a new player
      * @param name The name of the player
      */
-    public Player(String name){
+    public Player(String name, String sessionId){
         this.name = name;
+        this.sessionId = sessionId;
     }
 
     /**
@@ -23,4 +25,9 @@ public class Player {
     public String getName(){
         return this.name;
     }
+
+    public String getSessionId(){
+        return this.sessionId;
+    }
+
 }
