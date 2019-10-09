@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class GameServer {
 
-    // list of in-progress games.
+    // Games in progress
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
 
     public Game getGameFromPlayer(Player player){
