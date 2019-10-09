@@ -25,7 +25,7 @@ public class GetSigninRoute implements Route {
 
     private static final Message WELCOME_MSG = Message.info("Enter a username to sign-in");
 
-    private final String TITLE = "Sign in";
+    private  final String TITLE = "Sign in";
 
     private final TemplateEngine templateEngine;
 
