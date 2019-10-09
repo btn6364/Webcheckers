@@ -24,6 +24,24 @@ public class GameServer {
         return false;
     }
 
+    public Player getPlayerFromSessionID(String sessionID){
+        for (Player player : players){
+            if (player.getSessionId().equals(sessionID)){
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public Game getGameFromPlayer(Player player){
+        for (Game game : gamesInProgress){
+            if (game.contains(player)){
+                return game;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
