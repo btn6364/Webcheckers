@@ -44,7 +44,7 @@ public class PostSigninRoute implements Route {
         final Map<String, Object> vm = new HashMap<>();
 
         String inputUsername = request.queryParams(USERNAME_PARAM);
-        if ((!playerLobby.isAlphaNumeric(inputUsername)) || playerLobby.isPlayerOnline(inputUsername)){
+        if ((!PlayerLobby.isAlphaNumeric(inputUsername)) || PlayerLobby.isPlayerOnline(inputUsername)){
             //redirect to the sign-in page again.
             response.redirect(WebServer.SIGNIN_URL);
             halt();
@@ -52,7 +52,7 @@ public class PostSigninRoute implements Route {
            //If player has submitted a valid name
         } else {
             //reserve the name of the user and return to the home page.
-            playerLobby.addPlayerToServer(inputUsername, request.session().id());
+            PlayerLobby.addPlayerToServer(inputUsername, request.session().id());
 
             //Place the key-val pair of Lobby and the playerLobby object
             vm.put("Lobby", playerLobby);

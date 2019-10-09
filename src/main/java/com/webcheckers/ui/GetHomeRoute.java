@@ -61,8 +61,11 @@ public class GetHomeRoute implements Route {
     vm.put(NUM_PLAYER_ATTR, PlayerLobby.numPlayers());
     vm.put(PLAYER_LIST_ATTR, PlayerLobby.getPlayers());
 
-    // retrieve the HTTP session
-    final Session httpSession = request.session();
+    // Display Player info if signed in
+    Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
+    if (player != null){
+      vm.put("currentUser", player);
+    }
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
