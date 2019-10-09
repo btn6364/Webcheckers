@@ -1,4 +1,5 @@
  <div class="navigation">
+     <a href="/">home</a>
   <#if currentUser??>
     <a href="/">my home</a> |
     <form id="signout" action="/signout" method="post">
