@@ -1,12 +1,11 @@
 package com.webcheckers.ui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
+import com.webcheckers.model.GameServer;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.PlayerLobby;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -25,7 +24,7 @@ public class GetHomeRoute implements Route {
 
   static String PLAYERSERVICES_KEY = "playerServices";
 
-  static final String USER_KEY = "user";
+  private PlayerLobby playerLobby;
 
 
   /**

@@ -13,6 +13,7 @@ public class GameServer {
     // list of in-progress games.
     ArrayList inprogressGames = new ArrayList();
 
-
-
+    public ArrayList<Player> getPlayers () {
+        return players;
+    }
 }
