@@ -25,4 +25,9 @@ public class Player {
     public String getName(){
         return this.name;
     }
+
+    public String getSessionId(){
+        return this.sessionId;
+    }
+
 }
