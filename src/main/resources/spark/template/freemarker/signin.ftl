@@ -17,24 +17,16 @@
 
   <div class="body">
 
-    <!-- Provide a message to the user, if supplied. -->
-    <#include "message.ftl" />
+    <h2>User Sign In</h2>
 
+    <form id="signin" action="/signin" method="post">
+      <input type="text" name="username" value="">
+    </form>
 
-  <#if player??>
+    <br>
+    <input type="submit" value="Submit">
 
-        <ul>
-        <#list lobby.getPlayers as otherPlayers>
-            <#if otherPlayers.getName != player.getName>
-                <li>$(otherPlayers.getName()</li>
-            <#/if>
-        </#list>
-        </ul>
-
-        <#else>
-            $(lobby.numPlayers()) Players Logged In
-        </#if>
-
+    <p>Enter a username and click the "submit" button to sign in!</p>
 
 
   </div>
