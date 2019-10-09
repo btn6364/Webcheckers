@@ -15,7 +15,7 @@ public class CheckersGame {
     /**
      * An enum representing the various things that can be on a tile
      */
-    enum Piece {
+    public enum Piece {
         EMPTY, RED, WHITE, RED_KING, WHITE_KING
     }
 

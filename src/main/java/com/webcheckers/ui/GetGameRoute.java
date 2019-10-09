@@ -49,7 +49,7 @@ public class GetGameRoute implements Route {
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", "RED");
-            //TODO: vm.put("board", ADD game.getBoardView() HERE);
+            vm.put("board", new BoardView(gameToRender.getGame()));
         }
 
         // render the view model

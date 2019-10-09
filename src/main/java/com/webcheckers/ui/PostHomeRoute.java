@@ -51,6 +51,9 @@ public class PostHomeRoute implements Route {
         if (secondPlayer == null){
             return null; //player didn't exist
         }
+        else if (PlayerLobby.getGameFromPlayer(secondPlayer) != null){
+            return null; //player already in a game
+        }
 
         PlayerLobby.newGame(firstPlayer, secondPlayer);
 

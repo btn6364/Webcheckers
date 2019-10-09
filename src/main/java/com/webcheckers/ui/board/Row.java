@@ -1,5 +1,6 @@
 package com.webcheckers.ui.board;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class Row implements Iterable<Space> {
     /** A List containing the Spaces in the row **/
-    private List<Space> spaces;
+    private ArrayList<Space> spaces;
     /** The index of the row in the board **/
     private int index;
 
@@ -19,7 +20,7 @@ public class Row implements Iterable<Space> {
      * @param spaces the list of Spaces in the row
      * @param index the index of the row in the board
      */
-    public Row(List<Space> spaces, int index){
+    public Row(ArrayList<Space> spaces, int index){
         this.spaces = spaces;
         this.index = index;
     }
