@@ -92,7 +92,7 @@ public class GetHomeRoute implements Route {
   public void displayPlayers(List<Player> players){
     //functionality here
     //function for displaying list of players
-    //Uses game.ftl's window.playerData t
+    //Uses game.ftl's window.playerData
   }
 
 
