@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+
 /**
  * Keeps track of all online players and provides functions for accessing that information
  * Handling sign-in actions (checking existing users and add new users) using model.
@@ -15,6 +17,8 @@ public class PlayerLobby {
     public static int numPlayers(){
         return server.getPlayers().size();
     }
+
+    public static ArrayList<Player> getPlayers() { return server.getPlayers(); }
 
     public static boolean isPlayerOnline(String username) {
         for (Player player : server.getPlayers()) {

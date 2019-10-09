@@ -24,10 +24,8 @@
   <#if player??>
 
         <ul>
-        <#list lobby.getPlayers as otherPlayers>
-            <#if otherPlayers.getName != player.getName>
-                <li>$(otherPlayers.getName()</li>
-            </#if>
+        <#list playerList as item>
+            <li>$(item.getName())</li>
         </#list>
         </ul>
 

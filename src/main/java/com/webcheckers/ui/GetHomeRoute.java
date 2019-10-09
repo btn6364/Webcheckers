@@ -17,11 +17,14 @@ import com.webcheckers.util.Message;
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   private final TemplateEngine templateEngine;
-  static String PLAYERSERVICES_KEY = "playerServices";
 
-
+  // Strings and attributes
+  private static final String MESSAGE_ATTR = "message";
+  private static final String TITLE_ATTR = "title";
+  private static final String NUM_PLAYER_ATTR = "numPlayers";
+  private static final String PLAYER_LIST_ATTR = "playerList";
+  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -49,32 +52,20 @@ public class GetHomeRoute implements Route {
   @Override
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
-    //
+
     Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
 
-    // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
-    vm.put("numPlayers", PlayerLobby.numPlayers());
-    //vm.put("lobby", new PlayerLobby());
-
+    // Display a welcome message and stats
+    vm.put(TITLE_ATTR, "Welcome!");
+    vm.put(MESSAGE_ATTR, WELCOME_MSG);
+    vm.put(NUM_PLAYER_ATTR, PlayerLobby.numPlayers());
+    vm.put(PLAYER_LIST_ATTR, PlayerLobby.getPlayers());
 
     // retrieve the HTTP session
     final Session httpSession = request.session();
 
-    // if this is a brand new browser session or a session that timed out
-    if(httpSession.attribute(PLAYERSERVICES_KEY) == null) {
-      //vm.put(PLAYERSERVICES_KEY, new Player(PLAYERSERVICES_KEY));
-      // No one is logged in
-    }
-    else{
-      //someone is logged int
-    }
-
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
-
-
   }
 
   /**
