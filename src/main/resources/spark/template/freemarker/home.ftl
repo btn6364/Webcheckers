@@ -21,11 +21,11 @@
     <#include "message.ftl" />
 
 
-  <#if player??>
+  <#if currentUser??>
 
         <ul>
         <#list playerList as item>
-            <li>$(item.getName())</li>
+            <li>${item.getName()}</li>
         </#list>
         </ul>
 
