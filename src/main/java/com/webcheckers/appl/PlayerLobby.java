@@ -43,15 +43,23 @@ public class PlayerLobby {
         return null;
     }
 
+    public static Player getPlayerFromUsername(String username){
+        for (Player player : server.getPlayers()){
+            if (player.getName().equals(username)){
+                return player;
+            }
+        }
+        return null;
+    }
+
     public static void addPlayerToServer(String username, String sessionID){
         Player player = new Player(username, sessionID);
         server.addPlayer(player);
     }
 
-    public static Game newGame(Player player1, Player player2){
+    public static void newGame(Player player1, Player player2){
         Game g = new Game(player1, player2);
         server.addGame(g);
-        return g;
     }
 
     // check if the username is valid.
