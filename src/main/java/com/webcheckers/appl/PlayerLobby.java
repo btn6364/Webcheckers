@@ -48,6 +48,11 @@ public class PlayerLobby {
         server.addPlayer(player);
     }
 
+    public static Game newGame(Player player1, Player player2){
+        Game g = new Game(player1, player2);
+        server.addGame(g);
+        return g;
+    }
 
     // check if the username is valid.
     public static boolean isAlphaNumeric(String name){

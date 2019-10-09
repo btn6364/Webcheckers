@@ -35,16 +35,26 @@ public class GetGameRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
+
+        Player player1 = PlayerLobby.getPlayerFromSessionID(request.session().id());
+
+        if (PlayerLobby.getGameFromPlayer(player1) != null){
+            Game gameToRender = PlayerLobby.getGameFromPlayer(player1);
+            Player first = gameToRender.getPlayer1();
+            Player second = gameToRender.getPlayer2();
+            vm.put("currentUser", player1.getName());
+            vm.put("viewMode", "play");
+            vm.put("redPlayer", first.getName());
+            vm.put("whitePlayer", second.getName());
+            vm.put("activeColor", "RED");
+        }
+        else {
+            //TODO: move this to post route
+            //Player player2 =
+            //Game newGame = PlayerLobby.newGame(player1, player2);
+        }
+
         // render the view model
-        Player handler = PlayerLobby.getPlayerFromSessionID(request.session().id());
-        Game gameToRender = PlayerLobby.getGameFromPlayer(handler);
-        Player first = gameToRender.getPlayer1();
-        Player second = gameToRender.getPlayer2();
-        vm.put("currentUser", handler.getName());
-        vm.put("viewMode", "play");
-        vm.put("redPlayer", first.getName());
-        vm.put("whitePlayer", second.getName());
-        vm.put("activeColor", "RED");
 
         return templateEngine.render(new ModelAndView(vm , "game.ftl"));
 

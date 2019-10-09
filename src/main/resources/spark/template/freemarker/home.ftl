@@ -25,7 +25,11 @@
 
         <ul>
         <#list playerList as item>
-            <li>${item.getName()}</li>
+            <li>${item.getName()}
+                <form id="game" action="./game" method="POST">
+                <button type="submit">Start Game</button>
+                </form>
+            </li>
         </#list>
         </ul>
 

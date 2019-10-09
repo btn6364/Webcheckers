@@ -20,7 +20,7 @@ public class Game {
      * @param player1 the first player
      * @param player2 the second player
      */
-    private Game(Player player1, Player player2) {
+    public Game(Player player1, Player player2) {
         this.game = new CheckersGame();
         this.player1 = player1;
         this.player2 = player2;
