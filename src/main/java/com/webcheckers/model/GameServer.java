@@ -5,14 +5,38 @@ import java.util.ArrayList;
 /**
  * A backend-server which maintains a list of logged-in players and in-progress games.
  * @author Bao Nguyen
+ * @author Liam Obrochta
  */
 public class GameServer {
     //list of current players.
-    ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
 
     // list of in-progress games.
-    ArrayList inprogressGames = new ArrayList();
+    private ArrayList<Game> gamesInProgress = new ArrayList<>();
 
 
+    public boolean isPlayerOnline(String username){
+        for (Player player : players){
+            if (player.getName().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void addPlayers(Player player) {
+        this.players.add(player);
+    }
+
+    public ArrayList getGamesInProgress() {
+        return gamesInProgress;
+    }
+
+    public void addGame(Game game) {
+        this.gamesInProgress.add(game);
+    }
 }
