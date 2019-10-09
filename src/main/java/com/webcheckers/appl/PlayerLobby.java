@@ -48,8 +48,9 @@ public class PlayerLobby {
         server.addPlayer(player);
     }
 
+
     // check if the username is valid.
     public static boolean isAlphaNumeric(String name){
-        return (name!=null) && (name.matches("^[a-zA-Z0-9]*$") || name.contains(" "));
+        return (name!=null) && (name.matches("^[a-zA-Z0-9\\s]+$") && !name.matches("\\s+"));
     }
 }
