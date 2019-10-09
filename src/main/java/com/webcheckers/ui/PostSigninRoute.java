@@ -54,9 +54,6 @@ public class PostSigninRoute implements Route {
             //reserve the name of the user and return to the home page.
             playerLobby.addPlayerToServer(inputUsername, request.session().id());
 
-            //Create a new HashMap for the player lobby-related objects.
-            Map<String, Object> vm = new HashMap<>();
-
             //Place the key-val pair of Lobby and the playerLobby object
             vm.put("Lobby", playerLobby);
 
@@ -70,6 +67,10 @@ public class PostSigninRoute implements Route {
 
             //Render the list to the view.
             return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+
+            //End the else block as normal.
+            halt();
+            return null;
 
         }
 
