@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.GameServer;
 import com.webcheckers.model.Player;
+import com.webcheckers.model.PlayerLobby;
 import spark.*;
 
 import java.util.HashMap;
@@ -24,13 +25,14 @@ public class GetGameRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
+        //TODO: Make this throw an exception (if it needs to, otherwise remove that it can); fix NPE from getName()
         LOG.finer("GetHomeRoute is invoked.");
         //
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
         // render the View
-        Player handler = gameServer.getPlayerFromSessionID(request.session().id());
+        Player handler = PlayerLobby.getPlayerFromSessionID(request.session().id());
         Game gametoRender = gameServer.getGameFromPlayer(handler);
         Player first = gametoRender.getPlayer1();
         Player second = gametoRender.getPlayer2();

@@ -29,7 +29,7 @@ public class GameServer {
         this.gamesInProgress.add(game);
     }
   
-    public ArrayList<Player> getPlayers () {
-        return players;
-    }
+//    public ArrayList<Player> getPlayers () {
+//        return players;
+//    }
 }
