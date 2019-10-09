@@ -42,11 +42,16 @@ public class GameServer {
         return null;
     }
 
+    public void addPlayerToServer(String username, String sessionID){
+        Player player = new Player(username, sessionID);
+        addPlayer(player);
+    }
+
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    public void addPlayers(Player player) {
+    public void addPlayer(Player player) {
         this.players.add(player);
     }
 
