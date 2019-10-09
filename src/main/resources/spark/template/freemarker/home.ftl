@@ -20,11 +20,20 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
-    <!-- TODO: future content on the Home:
-            to start games,
-            spectating active games,
-            or replay archived games
-    -->
+
+  <#if player??>
+
+        <ul>
+        <#list lobby.getPlayers as otherPlayers>
+            <#if otherPlayers.getName != player.getName>
+                <li>$(otherPlayers.getName()</li>
+            <#/if>
+        </#list>
+        </ul>
+
+        <#else>
+            $(lobby.numPlayers()) Players Logged In
+        </#if>
 
   </div>
 
