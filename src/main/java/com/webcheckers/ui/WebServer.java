@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
-import com.webcheckers.model.GameServer;
+import com.webcheckers.appl.GameServer;
 import spark.TemplateEngine;
 
 
@@ -143,7 +143,7 @@ public class WebServer {
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(templateEngine));
     get(SIGNIN_URL, new GetSigninRoute(templateEngine));
-    get(GAME_URL, new GetGameRoute(templateEngine, server));
+    get(GAME_URL, new GetGameRoute(templateEngine));
     post(SIGNIN_URL, new PostSigninRoute(templateEngine));
 
     //

@@ -1,9 +1,12 @@
-package com.webcheckers.model;
+package com.webcheckers.appl;
+
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
 
 import java.util.ArrayList;
 
 /**
- * A backend-server which maintains a list of logged-in players and in-progress games.
+ * A server backend which maintains a list of logged-in players and in-progress games.
  * @author Bao Nguyen
  * @author Liam Obrochta
  */

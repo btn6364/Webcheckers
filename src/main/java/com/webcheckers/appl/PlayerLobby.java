@@ -1,4 +1,7 @@
-package com.webcheckers.model;
+package com.webcheckers.appl;
+
+import com.webcheckers.model.Game;
+import com.webcheckers.model.Player;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,8 @@ public class PlayerLobby {
     }
 
     public static ArrayList<Player> getPlayers() { return server.getPlayers(); }
+
+    public static Game getGameFromPlayer(Player p) { return server.getGameFromPlayer(p); }
 
     public static boolean isPlayerOnline(String username) {
         for (Player player : server.getPlayers()) {

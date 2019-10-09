@@ -7,6 +7,7 @@ package com.webcheckers.model;
 public class Player {
     /** The player's name **/
     private String name;
+    /** The session ID for the player **/
     private String sessionId;
 
     /**
@@ -26,8 +27,12 @@ public class Player {
         return this.name;
     }
 
-    public String getSessionId(){
-        return this.sessionId;
+    /**
+     * Get the session ID of the player
+     * @return the session ID of the player
+     */
+    public String getSessionId(){ // Gets the session ID of the player
+        return this.sessionId; // Writing docstrings for getters is very tedious. But I do it anyway. Out of love. <3
     }
 
 }

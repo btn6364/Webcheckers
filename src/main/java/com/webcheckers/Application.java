@@ -6,7 +6,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
-import com.webcheckers.model.GameServer;
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.ui.WebServer;
 
 import spark.TemplateEngine;

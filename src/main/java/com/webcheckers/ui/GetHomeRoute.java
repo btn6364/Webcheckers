@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import com.webcheckers.model.Player;
-import com.webcheckers.model.PlayerLobby;
+import com.webcheckers.appl.PlayerLobby;
 import spark.*;
 
 import com.webcheckers.util.Message;
