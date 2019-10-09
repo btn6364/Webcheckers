@@ -11,7 +11,8 @@ import java.util.ArrayList;
  */
 public class PlayerLobby {
 
-    private GameServer server; // the backend-server of the game to store user's data.
+    private GameServer server = new GameServer(); // the backend-server of the game to store user's data.
+
 
 
     public boolean isPlayerOnline(String username) {

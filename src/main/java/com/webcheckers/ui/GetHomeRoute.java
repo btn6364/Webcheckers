@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import com.webcheckers.model.Player;
+import com.webcheckers.model.PlayerLobby;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -22,7 +23,7 @@ public class GetHomeRoute implements Route {
 
   static String PLAYERSERVICES_KEY = "playerServices";
 
-  private PlayerLobby playerLobby;
+  private PlayerLobby playerLobby = new PlayerLobby();
 
 
   /**
