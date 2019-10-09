@@ -1,17 +1,12 @@
 package com.webcheckers.ui;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
+import com.webcheckers.model.GameServer;
 import com.webcheckers.model.Player;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.util.PlayerLobby;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -26,6 +21,11 @@ public class GetHomeRoute implements Route {
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
 
   private final TemplateEngine templateEngine;
+
+  static String PLAYERSERVICES_KEY = "playerServices";
+
+  private PlayerLobby playerLobby;
+
 
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -60,12 +60,41 @@ public class GetHomeRoute implements Route {
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
 
+
+    // retrieve the HTTP session
+    final Session httpSession = request.session();
+
+    // if this is a brand new browser session or a session that timed out
+    if(httpSession.attribute(PLAYERSERVICES_KEY) == null) {
+      vm.put(PLAYERSERVICES_KEY, new Player(PLAYERSERVICES_KEY));
+      vm.put("lobby", playerLobby);
+      // No one is logged in
+    }
+    else{
+      vm.put("lobby", playerLobby);
+      //someone is logged int
+    }
+
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+
+
   }
 
+  /**
+   * Provides player list to PostRoute component for displaying
+   * all players.
+   *
+   * @param players
+   *  the list of players that the function uses.
+   *
+   * */
   public void displayPlayers(List<Player> players){
     //functionality here
+    //function for displaying list of players
+    //Uses game.ftl's window.playerData
   }
+
+
 
 }

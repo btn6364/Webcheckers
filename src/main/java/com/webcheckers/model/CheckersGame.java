@@ -199,6 +199,17 @@ public class CheckersGame {
         return false;
     }
 
+    /**
+     * Allows a player to attempt a move given the coordinates of a position and
+     * uses the validateMove() function to check and see if the move input by
+     * the player is possible.
+     *
+     * @param xPos
+     *  The position on the x axis where the player's piece is located,.
+     * @param yPos
+     *  The position on the y axis where the player's piece is located.
+     *
+     * */
     public void attemptMove(int xPos, int yPos){
 
         //Print the label
