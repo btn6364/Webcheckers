@@ -23,8 +23,6 @@ import com.webcheckers.util.Message;
 public class GetSigninRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-    private static final Message WELCOME_MSG = Message.info("Enter a username to sign-in");
-
     private final String TITLE = "Sign in";
 
     private final TemplateEngine templateEngine;

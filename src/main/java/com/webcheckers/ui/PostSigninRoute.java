@@ -22,12 +22,12 @@ public class PostSigninRoute implements Route {
     private final PlayerLobby playerLobby; //object to handle sign-in actions.
     private final TemplateEngine templateEngine;
 
-    static String makeInvalidUserName(final String username){
+    protected static String makeInvalidUserName(final String username){
         return String.format("You entered %s; your username should contain at least one alphanumeric character.", username);
     }
 
 
-    PostSigninRoute(PlayerLobby playerLobby, TemplateEngine templateEngine){
+    protected PostSigninRoute(PlayerLobby playerLobby, TemplateEngine templateEngine){
         Objects.requireNonNull(playerLobby, "playerLobby must not be null!");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
