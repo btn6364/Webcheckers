@@ -19,12 +19,11 @@
 
     <h2>User Sign In</h2>
 
-    <form id="signin" action="/signin" method="post">
+    <form id="signin" action="./signin" method="POST">
       <input type="text" name="username" value="">
+      <br>
+      <input type="submit" value="Submit">
     </form>
-
-    <br>
-    <input type="submit" value="Submit">
 
     <p>Enter a username and click the "submit" button to sign in!</p>
 

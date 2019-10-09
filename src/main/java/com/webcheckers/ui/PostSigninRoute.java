@@ -13,11 +13,12 @@ import static spark.Spark.halt;
 /**
  * Handle Post Route
  * @author Bao Nguyen
+ * @author John Licitra
  */
 public class PostSigninRoute implements Route {
     private final String USERNAME_PARAM = "username";
 
-    private final PlayerLobby playerLobby; //object to handle sign-in actions.
+    private final PlayerLobby playerLobby = new PlayerLobby(); //object to handle sign-in actions.
     private final TemplateEngine templateEngine;
 
     protected static String makeInvalidUserName(final String username){
@@ -25,11 +26,10 @@ public class PostSigninRoute implements Route {
     }
 
 
-    protected PostSigninRoute(PlayerLobby playerLobby, TemplateEngine templateEngine){
+    protected PostSigninRoute(TemplateEngine templateEngine){
         Objects.requireNonNull(playerLobby, "playerLobby must not be null!");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
-        this.playerLobby = playerLobby;
     }
 
 
@@ -66,7 +66,7 @@ public class PostSigninRoute implements Route {
 
 
             //Render the list to the view.
-            templateEngine.render(new ModelAndView(vm, "home.ftl"));
+            response.redirect(WebServer.HOME_URL);
 
             //End the else block as normal.
             halt();
