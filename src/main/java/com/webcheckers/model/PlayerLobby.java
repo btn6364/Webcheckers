@@ -1,19 +1,20 @@
 package com.webcheckers.model;
 
-import java.util.ArrayList;
-
-
 /**
  * Keeps track of all online players and provides functions for accessing that information
  * Handling sign-in actions (checking existing users and add new users) using model.
+ *
  * @author Liam Obrochta
  * @author Bao Nguyen
+ * @author John Licitra
  */
 public class PlayerLobby {
 
-    private static GameServer server = new GameServer(); // the backend-server of the game to store user's data.
+    private static GameServer server = new GameServer();
 
-
+    public static int numPlayers(){
+        return server.getPlayers().size();
+    }
 
     public static boolean isPlayerOnline(String username) {
         for (Player player : server.getPlayers()) {
@@ -24,7 +25,6 @@ public class PlayerLobby {
         return false;
     }
 
-
     public static Player getPlayerFromSessionID(String sessionID){
         for (Player player : server.getPlayers()){
             if (player.getSessionId().equals(sessionID)){
@@ -34,18 +34,13 @@ public class PlayerLobby {
         return null;
     }
 
-    public GameServer getServer(){
-        return server;
-    }
-
-    public void addPlayerToServer(String username, String sessionID){
+    public static void addPlayerToServer(String username, String sessionID){
         Player player = new Player(username, sessionID);
         server.addPlayer(player);
     }
 
-
     // check if the username is valid.
-    public boolean isAlphaNumeric(String name){
+    public static boolean isAlphaNumeric(String name){
         return (name!=null) && (name.matches("^[a-zA-Z0-9]*$") || name.contains(" "));
     }
 }

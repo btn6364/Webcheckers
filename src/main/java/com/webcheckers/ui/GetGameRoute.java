@@ -21,6 +21,7 @@ public class GetGameRoute implements Route {
 
     public GetGameRoute(TemplateEngine engine, GameServer server){
         this.templateEngine = engine;
+        this.gameServer = server;
     }
 
     @Override

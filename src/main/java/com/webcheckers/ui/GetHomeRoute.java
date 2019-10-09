@@ -13,17 +13,14 @@ import com.webcheckers.util.Message;
  * The UI Controller to GET the Home page.
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author John Licitra
  */
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-
   private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-
   private final TemplateEngine templateEngine;
-
   static String PLAYERSERVICES_KEY = "playerServices";
 
-  private PlayerLobby playerLobby = new PlayerLobby();
 
 
   /**
@@ -58,6 +55,8 @@ public class GetHomeRoute implements Route {
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
+    vm.put("numPlayers", PlayerLobby.numPlayers());
+    //vm.put("lobby", new PlayerLobby());
 
 
     // retrieve the HTTP session
@@ -66,11 +65,9 @@ public class GetHomeRoute implements Route {
     // if this is a brand new browser session or a session that timed out
     if(httpSession.attribute(PLAYERSERVICES_KEY) == null) {
       //vm.put(PLAYERSERVICES_KEY, new Player(PLAYERSERVICES_KEY));
-      vm.put("lobby", playerLobby);
       // No one is logged in
     }
     else{
-      vm.put("lobby", playerLobby);
       //someone is logged int
     }
 

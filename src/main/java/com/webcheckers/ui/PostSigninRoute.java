@@ -66,7 +66,7 @@ public class PostSigninRoute implements Route {
 
 
             //Render the list to the view.
-            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+            templateEngine.render(new ModelAndView(vm, "home.ftl"));
 
             //End the else block as normal.
             halt();

@@ -27,12 +27,12 @@
         <#list lobby.getPlayers as otherPlayers>
             <#if otherPlayers.getName != player.getName>
                 <li>$(otherPlayers.getName()</li>
-            <#/if>
+            </#if>
         </#list>
         </ul>
 
         <#else>
-            $(lobby.numPlayers()) Players Logged In
+            ${numPlayers} Players Logged In
         </#if>
 
 
