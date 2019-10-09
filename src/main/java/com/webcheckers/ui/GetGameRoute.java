@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.model.Game;
 import com.webcheckers.model.GameServer;
 import com.webcheckers.model.Player;
 import spark.*;
@@ -29,12 +30,18 @@ public class GetGameRoute implements Route {
         vm.put("title", TITLE);
 
         // render the View
+        Player handler = gameServer.getPlayerFromSessionID(request.session().id());
+        Game gametoRender = gameServer.getGameFromPlayer(handler);
+        Player first = gametoRender.getPlayer1();
+        Player second = gametoRender.getPlayer2();
+        vm.put("currentUser", handler.getName());
+        vm.put("viewMode", "play");
+        vm.put("redPlayer", first.getName());
+        vm.put("whitePlayer", second.getName());
+        vm.put("activeColor", "RED");
+
         return templateEngine.render(new ModelAndView(vm , "game.ftl"));
 
-    }
-
-    private Map<String, Object> updateGameView(Player currentPlayer, Player redPlayer, Player whitePlayer, String activeColor, String viewMode){
-        return null;
     }
 
 
