@@ -4,9 +4,11 @@ import com.webcheckers.model.Game;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.model.Player;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.ui.board.BoardView;
 import spark.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -42,16 +44,12 @@ public class GetGameRoute implements Route {
             Game gameToRender = PlayerLobby.getGameFromPlayer(player1);
             Player first = gameToRender.getPlayer1();
             Player second = gameToRender.getPlayer2();
-            vm.put("currentUser", player1.getName());
+            vm.put("currentUser", player1);
             vm.put("viewMode", "play");
-            vm.put("redPlayer", first.getName());
-            vm.put("whitePlayer", second.getName());
+            vm.put("redPlayer", first);
+            vm.put("whitePlayer", second);
             vm.put("activeColor", "RED");
-        }
-        else {
-            //TODO: move this to post route
-            //Player player2 =
-            //Game newGame = PlayerLobby.newGame(player1, player2);
+            //TODO: vm.put("board", ADD game.getBoardView() HERE);
         }
 
         // render the view model
