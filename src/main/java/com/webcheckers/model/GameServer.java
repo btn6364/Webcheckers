@@ -28,4 +28,8 @@ public class GameServer {
     public void addGame(Game game) {
         this.gamesInProgress.add(game);
     }
+  
+    public ArrayList<Player> getPlayers () {
+        return players;
+    }
 }
