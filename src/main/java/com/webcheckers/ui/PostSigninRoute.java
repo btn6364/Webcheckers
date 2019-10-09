@@ -2,10 +2,7 @@ package com.webcheckers.ui;
 
 
 import com.webcheckers.model.PlayerLobby;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,13 +49,32 @@ public class PostSigninRoute implements Route {
             response.redirect(WebServer.SIGNIN_URL);
             halt();
             return null;
+           //If player has submitted a valid name
         } else {
             //reserve the name of the user and return to the home page.
             playerLobby.addPlayerToServer(inputUsername, request.session().id());
-            response.redirect(WebServer.HOME_URL);
+
+            //Place the key-val pair of Lobby and the playerLobby object
+            vm.put("Lobby", playerLobby);
+
+            //Place the key-val pair of "Player" and the player's session id
+            vm.put("Player", request.session().id());
+
+            //Create any new key-val pairs that you need
+            //vm.put(...)
+
+
+
+            //Render the list to the view.
+            return templateEngine.render(new ModelAndView(vm, "home.ftl"));
+
+            //End the else block as normal.
             halt();
             return null;
+
         }
+
+
 
     }
 
