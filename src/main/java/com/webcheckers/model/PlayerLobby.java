@@ -11,11 +11,11 @@ import java.util.ArrayList;
  */
 public class PlayerLobby {
 
-    private GameServer server = new GameServer(); // the backend-server of the game to store user's data.
+    private static GameServer server = new GameServer(); // the backend-server of the game to store user's data.
 
 
 
-    public boolean isPlayerOnline(String username) {
+    public static boolean isPlayerOnline(String username) {
         for (Player player : server.getPlayers()) {
             if (player.getName().equals(username)) {
                 return true;
@@ -25,7 +25,7 @@ public class PlayerLobby {
     }
 
 
-    public Player getPlayerFromSessionID(String sessionID){
+    public static Player getPlayerFromSessionID(String sessionID){
         for (Player player : server.getPlayers()){
             if (player.getSessionId().equals(sessionID)){
                 return player;
@@ -34,6 +34,9 @@ public class PlayerLobby {
         return null;
     }
 
+    public GameServer getServer(){
+        return server;
+    }
 
     public void addPlayerToServer(String username, String sessionID){
         Player player = new Player(username, sessionID);
