@@ -3,9 +3,7 @@ package com.webcheckers.ui;
 import java.util.*;
 import java.util.logging.Logger;
 
-import com.webcheckers.model.GameServer;
 import com.webcheckers.model.Player;
-import com.webcheckers.util.PlayerLobby;
 import spark.*;
 
 import com.webcheckers.util.Message;
@@ -81,8 +79,18 @@ public class GetHomeRoute implements Route {
 
   }
 
+  /**
+   * Provides player list to PostRoute component for displaying
+   * all players.
+   *
+   * @param players
+   *  the list of players that the function uses.
+   *
+   * */
   public void displayPlayers(List<Player> players){
     //functionality here
+    //function for displaying list of players
+    //Uses game.ftl's window.playerData
   }
 
 

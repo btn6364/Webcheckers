@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
 
-import com.webcheckers.util.PlayerLobby;
+import com.webcheckers.model.PlayerLobby;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -14,10 +14,11 @@ import java.util.Objects;
 import static spark.Spark.halt;
 
 /**
- * handle post
+ * Handle Post Route
  * @author Bao Nguyen
  */
 public class PostSigninRoute implements Route {
+    private final String USERNAME_PARAM = "username";
 
     private final PlayerLobby playerLobby; //object to handle sign-in actions.
     private final TemplateEngine templateEngine;
@@ -36,7 +37,7 @@ public class PostSigninRoute implements Route {
 
 
     /**
-     * handle route sign-in from here
+     * handle route sign-in
      * @param request
      * @param response
      * @return
@@ -44,7 +45,21 @@ public class PostSigninRoute implements Route {
     @Override
     public String handle(Request request, Response response){
         final Map<String, Object> vm = new HashMap<>();
-        return null;
+
+        String inputUsername = request.queryParams(USERNAME_PARAM);
+        if ((!playerLobby.isAlphaNumeric(inputUsername)) || playerLobby.isPlayerOnline(inputUsername)){
+            //redirect to the sign-in page again.
+            response.redirect(WebServer.SIGNIN_URL);
+            halt();
+            return null;
+        } else {
+            //reserve the name of the user and return to the home page.
+            playerLobby.addPlayerToServer(inputUsername, request.session().id());
+            response.redirect(WebServer.HOME_URL);
+            halt();
+            return null;
+        }
+
     }
 
 }

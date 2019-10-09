@@ -5,16 +5,18 @@ import java.util.ArrayList;
 
 /**
  * Keeps track of all online players and provides functions for accessing that information
- *
+ * Handling sign-in actions (checking existing users and add new users) using model.
  * @author Liam Obrochta
+ * @author Bao Nguyen
  */
 public class PlayerLobby {
 
-    private static ArrayList<Player> players = new ArrayList<>();
+    private GameServer server; // the backend-server of the game to store user's data.
 
-    public boolean isPlayerOnline(String username){
-        for (Player player : players){
-            if (player.getName().equals(username)){
+
+    public boolean isPlayerOnline(String username) {
+        for (Player player : server.getPlayers()) {
+            if (player.getName().equals(username)) {
                 return true;
             }
         }
@@ -22,8 +24,8 @@ public class PlayerLobby {
     }
 
 
-    public static Player getPlayerFromSessionID(String sessionID){
-        for (Player player : players){
+    public Player getPlayerFromSessionID(String sessionID){
+        for (Player player : server.getPlayers()){
             if (player.getSessionId().equals(sessionID)){
                 return player;
             }
@@ -34,14 +36,12 @@ public class PlayerLobby {
 
     public void addPlayerToServer(String username, String sessionID){
         Player player = new Player(username, sessionID);
-        addPlayer(player);
+        server.addPlayer(player);
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    // check if the username is valid.
+    public boolean isAlphaNumeric(String name){
+        return (name!=null) && (name.matches("^[a-zA-Z0-9]*$") || name.contains(" "));
     }
 }
