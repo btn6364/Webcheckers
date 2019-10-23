@@ -7,6 +7,11 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * The unit test suite for the PlayerLobby component.
+ *
+ * @author John Licitra
+ */
 public class PlayerLobbyTest {
 
     /**
