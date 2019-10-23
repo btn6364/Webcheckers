@@ -1,10 +1,13 @@
 package com.webcheckers.model;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
  * A class representing a model of a Checkers game
  * @author John Licitra
+ * @author Bao Nguyen
  */
 public class CheckersGame {
     /** 2D Piece array representing the board state **/
@@ -147,8 +150,8 @@ public class CheckersGame {
      */
     public boolean validateMove(int sx, int sy, int dx, int dy){
         // Validate coords on board
-        if (sx > this.board.length || sy > this.board.length || sx < 0 || sy < 0
-                || dx > this.board.length || dy > this.board.length || dx < 0 || dy < 0){
+        if (sx >= this.board.length || sy >= this.board.length || sx < 0 || sy < 0
+                || dx >= this.board.length || dy >= this.board.length || dx < 0 || dy < 0){
             // IntelliJ says this check can be simplified but it DOESN'T SAY HOW
             return false;
         }
@@ -330,18 +333,20 @@ public class CheckersGame {
      */
     public static void main(String[] args){
         CheckersGame checkers = new CheckersGame();
-        checkers.clearBoard();
-        checkers.assignToTile(1,4, Piece.RED_KING);
-        checkers.assignToTile(2,3, Piece.WHITE_KING);
-        checkers.assignToTile(2,5, Piece.WHITE);
-        checkers.assignToTile(5,6, Piece.RED_KING);
-        checkers.assignToTile(6,1, Piece.RED);
-        checkers.printValidMoves(1,4);
-        System.out.print("\n");
-        checkers.printValidMoves(5,6);
-        System.out.print("\n");
-        checkers.printValidMoves(6,1);
-        System.out.print("\n");
+//        checkers.clearBoard();
+//        checkers.assignToTile(1,4, Piece.RED_KING);
+//        checkers.assignToTile(2,3, Piece.WHITE_KING);
+//        checkers.assignToTile(2,5, Piece.WHITE);
+//        checkers.assignToTile(5,6, Piece.RED_KING);
+//        checkers.assignToTile(6,1, Piece.RED);
+//        checkers.printValidMoves(1,4);
+//        System.out.print("\n");
+//        checkers.printValidMoves(5,6);
+//        System.out.print("\n");
+//        checkers.printValidMoves(6,1);
+//        System.out.print("\n");
+//        checkers.printBoard();
         checkers.printBoard();
+        System.out.println(checkers.validateMove(7,2,8,3));
     }
 }
