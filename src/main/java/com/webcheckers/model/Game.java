@@ -59,8 +59,8 @@ public class Game {
         return gameID;
     }
 
-    public boolean contains(Player player){
-        if (this.player1.equals(player)|| (this.player2.equals(player))){
+    public boolean contains(Player player) {
+        if (this.player1.equals(player) || (this.player2.equals(player))) {
             return true;
         }
         return false;
