@@ -22,12 +22,14 @@ public class GetHomeRoute implements Route {
   private final TemplateEngine templateEngine;
 
   // Strings and attributes
-  private static final String MESSAGE_ATTR = "message";
-  private static final String TITLE_ATTR = "title";
-  private static final String NUM_PLAYER_ATTR = "numPlayers";
-  private static final String PLAYER_LIST_ATTR = "playerList";
-  private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
-
+  static final String TITLE_ATTR = "title";
+  static final String TITLE = "Welcome!";
+  static final String NUM_PLAYER_ATTR = "numPlayers";
+  static final String PLAYER_LIST_ATTR = "playerList";
+  static final String MESSAGE_ATTR = "message";
+  static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+  static final String NEW_USER_ATTR = "currentUser";
+  static final String VIEW_NAME = "home.ftl";
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
@@ -58,7 +60,7 @@ public class GetHomeRoute implements Route {
     Map<String, Object> vm = new HashMap<>();
 
     // Display a welcome message and stats
-    vm.put(TITLE_ATTR, "Welcome!");
+    vm.put(TITLE_ATTR, TITLE);
     vm.put(MESSAGE_ATTR, WELCOME_MSG);
     vm.put(NUM_PLAYER_ATTR, PlayerLobby.numPlayers());
     vm.put(PLAYER_LIST_ATTR, PlayerLobby.getPlayers());
@@ -66,7 +68,7 @@ public class GetHomeRoute implements Route {
     // Display Player info if signed in
     Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
     if (player != null){
-      vm.put("currentUser", player);
+      vm.put(NEW_USER_ATTR, player);
       if (PlayerLobby.getGameFromPlayer(player) != null){
         // Redirect player to their game
         response.redirect(WebServer.GAME_URL);
@@ -77,14 +79,9 @@ public class GetHomeRoute implements Route {
       }
     }
 
-    //if the player is in a game, redirect to game.
-    if (PlayerLobby.getGameFromPlayer(player) == null){
-      response.redirect(WebServer.GAME_URL);
-      halt();
-    }
 
     // render the View
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
   }
 
   /**

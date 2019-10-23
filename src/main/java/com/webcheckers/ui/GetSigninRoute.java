@@ -23,8 +23,8 @@ import com.webcheckers.util.Message;
 public class GetSigninRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-    private final String TITLE = "Sign in";
-
+    static final String TITLE = "Sign in";
+    static final String VIEW_NAME = "signin.ftl";
     private final TemplateEngine templateEngine;
 
     /**
@@ -48,7 +48,7 @@ public class GetSigninRoute implements Route {
         vm.put("title", TITLE);
 
         // render the View
-        return templateEngine.render(new ModelAndView(vm , "signin.ftl"));
+        return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
     }
 
 
