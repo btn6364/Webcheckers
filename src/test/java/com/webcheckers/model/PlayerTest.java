@@ -3,8 +3,6 @@ package com.webcheckers.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Scanner;
-
 /**
  * Test module for a Player object.
  * @author Sidney Mitchell <sm5069@rit.edu>

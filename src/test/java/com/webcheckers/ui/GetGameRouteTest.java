@@ -83,10 +83,8 @@ public class GetGameRouteTest {
         //Assert that all map values are correctly established
         helper.assertViewModelAttribute("title", GetGameRoute.TITLE);
         helper.assertViewModelAttribute("currentUser", player1);
-        helper.assertViewModelAttribute("viewMode", "play");
         helper.assertViewModelAttribute("redPlayer", player1);
         helper.assertViewModelAttribute("whitePlayer", player2);
-        helper.assertViewModelAttribute("activeColor", "RED");
         // *test view name
         helper.assertViewName(GetGameRoute.VIEW_NAME);
     }
