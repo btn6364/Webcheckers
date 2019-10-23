@@ -21,7 +21,8 @@ import java.util.logging.Logger;
 public class GetGameRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
-    private final String TITLE = "Game";
+    public static final String TITLE = "Game";
+    public static final String VIEW_NAME = "game.ftl";
 
     private TemplateEngine templateEngine;
 
@@ -30,7 +31,7 @@ public class GetGameRoute implements Route {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public Object handle(Request request, Response response){
         //TODO: Make this throw an exception (if it needs to, otherwise remove that it can); fix NPE from getName()
         LOG.finer("GetHomeRoute is invoked.");
         //
