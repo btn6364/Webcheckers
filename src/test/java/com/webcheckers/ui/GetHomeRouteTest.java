@@ -37,7 +37,9 @@ public class GetHomeRouteTest {
     private TemplateEngine engine;
     private Response response;
 
-
+    /**
+     * Set up new mock objects for each test.
+     */
     @BeforeEach
     public void setup(){
         request = mock(Request.class);
@@ -51,6 +53,9 @@ public class GetHomeRouteTest {
         CuT = new GetHomeRoute(engine);
     }
 
+    /**
+     * Test that CuT shows the Home View with all global stats when the session is brand new.
+     */
     @Test
     public void new_session(){
         final TemplateEngineTester helper = new TemplateEngineTester();
@@ -72,24 +77,5 @@ public class GetHomeRouteTest {
         helper.assertViewName(GetHomeRoute.VIEW_NAME);
     }
 
-//    /**
-//     * Test that CuT redirects to the Game view when a Player exists.
-//     */
-//    @Test
-//    public void old_session() {
-//        //Arrange the test scenario: There is an existing session with at least a Player.
-//        when(PlayerLobby.getPlayerFromSessionID(request.session().id()) != null). //TODO
-//                thenReturn(PlayerLobby.getGameFromPlayer(PlayerLobby.getPlayerFromSessionID(request.session().id())) != null);
-//        //Invoke the test
-//        try {
-//            CuT.handle(request, response);
-//            fail("Redirects invoke halt exceptions.");
-//        } catch (HaltException e) {
-//            //expected
-//        }
-//
-//        //Analyze the results
-//        // * redirect to the Game view.
-//        verify(response).redirect(WebServer.GAME_URL);
-//    }
+
 }

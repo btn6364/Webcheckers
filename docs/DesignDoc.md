@@ -9,16 +9,24 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: TEAM D - CodeLords
 * Team members
-  * MEMBER1
-  * MEMBER2
-  * MEMBER3
-  * MEMBER4
+  * Bao Nguyen
+  * Sidney Mitchell
+  * Liam Obrochta
+  * John Licitra
+  * Angela Hudak
 
 ## Executive Summary
 
-This is a summary of the project.
+A web application to play a checkers game.
+
+The application allows players to play checkers with other players who are currently signed-in. The game user interface (UI)
+will support a game experience using drag-and-drop browser capabilities for making moves.
+
+The application allows players to save their games in Replay Mode so that they could watch later on.
+
+The application allows other players to view on-going games that they are not playing through Spectator Mode.
 
 ### Purpose
 > _Provide a very brief statement about the project and the most
@@ -52,14 +60,9 @@ This section describes the features of the application.
 
 ## Application Domain
 
-This section describes the application domain.
+This following Domain-model describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
-
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
-
+![The WebCheckers Domain Model](domain-model.png)
 
 ## Architecture and Design
 
@@ -87,11 +90,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
-
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
-
+![The WebCheckers Web Interface Statechart](web-interface.png)
 
 ### UI Tier
 > _Provide a summary of the Server-side UI tier of your architecture.
