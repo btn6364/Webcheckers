@@ -47,8 +47,6 @@ public class PostHomeRoute implements Route {
         }
 
         Player secondPlayer = PlayerLobby.getPlayerFromUsername(input);
-        System.out.println(input);
-        System.out.println(secondPlayer);
 
         if (secondPlayer == null){
             return null; //player didn't exist
