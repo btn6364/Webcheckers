@@ -63,15 +63,12 @@ public class PostSigninRoute implements Route {
             //Create any new key-val pairs that you need
             //vm.put(...)
 
-
-
             //Render the list to the view.
             response.redirect(WebServer.HOME_URL);
 
             //End the else block as normal.
             halt();
             return null;
-
         }
 
 

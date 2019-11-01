@@ -21,7 +21,7 @@ import com.webcheckers.util.Message;
  * @author Liam Obrochta
  */
 public class GetSigninRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
+    private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
 
     static final String TITLE = "Sign in";
     static final String VIEW_NAME = "signin.ftl";
@@ -36,13 +36,13 @@ public class GetSigninRoute implements Route {
     public GetSigninRoute(final TemplateEngine templateEngine) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
-        LOG.config("GetHomeRoute is initialized.");
+        LOG.config("GetSigninRoute is initialized.");
     }
 
 
     @Override
     public Object handle(Request request, Response response) {
-        LOG.finer("GetHomeRoute is invoked.");
+        LOG.finer("GetSigninRoute is invoked.");
         //
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);

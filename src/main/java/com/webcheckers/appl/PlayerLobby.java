@@ -62,6 +62,13 @@ public class PlayerLobby {
         server.addGame(g);
     }
 
+    //resign a player from the game.
+    public static void resignGame(Player player){
+        Game g = getGameFromPlayer(player);
+        g.setResingn(true);
+        server.removeGame(g);
+    }
+
     // check if the username is valid.
     public static boolean isAlphaNumeric(String name){
         return (name!=null) && (name.matches("^[a-zA-Z0-9\\s]+$") && !name.matches("\\s+"));

@@ -4,6 +4,7 @@ package com.webcheckers.model;
  * A class representing a game (containing a game model, players, and game ID)
  *
  * @author Liam Obrochta
+ * @author Bao Nguyen
  */
 public class Game {
     /** The game model for the Game **/
@@ -14,7 +15,8 @@ public class Game {
     private Player player2; //TODO: Which is Red and which is White?
     /** The unique ID for the game **/
     private String gameID;
-
+    /** check if the game is resigned or not.**/
+    private boolean resigned;
     /**
      * Construct a new Game instance
      * @param player1 the first player
@@ -24,7 +26,15 @@ public class Game {
         this.game = new CheckersGame();
         this.player1 = player1;
         this.player2 = player2;
-        //this.gameID = gameID;
+        this.resigned = false;
+//        this.gameID = gameID;
+    }
+
+    public boolean getResign(){
+        return resigned;
+    }
+    public void setResingn(boolean resigned){
+        this.resigned = resigned;
     }
 
     /**

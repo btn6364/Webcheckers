@@ -51,12 +51,20 @@
               </table>
             </div>
           </fieldset>
-          
+
+<#--          Toolbars for controller-->
           <fieldset id="game-toolbar">
             <legend>Controls</legend>
-            <div class="toolbar"></div>
+            <div class="toolbar">
+              <button type="button" disabled>Backup</button>
+              <button type="button" disabled>Submit turn</button>
+              <button type="button" onclick="alert('You pressed the button!')">Resign</button>
+            </div>
           </fieldset>
-          
+
+
+
+
         </div>
   
         <div class="game-board">

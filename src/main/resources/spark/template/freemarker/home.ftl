@@ -20,9 +20,12 @@
     <!-- Provide a message to the user, if supplied. -->
     <#include "message.ftl" />
 
-
   <#if currentUser??>
+        <h2>Players Online</h2>
 
+        <#if playerList?size == 1>
+            <p>There are no other players available to play at the time.</p>
+        </#if>
         <ul>
         <#list playerList as item>
             <#if item != currentUser>
@@ -34,10 +37,9 @@
             </#if>
         </#list>
         </ul>
-
-        <#else>
-            ${numPlayers} Players Logged In
-        </#if>
+    <#else>
+        ${numPlayers} Players Logged In
+    </#if>
 
 
 

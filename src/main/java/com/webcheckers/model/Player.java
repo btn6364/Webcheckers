@@ -10,6 +10,7 @@ public class Player {
     /** The session ID for the player **/
     private String sessionId;
 
+
     /**
      * Construct a new player
      * @param name The name of the player

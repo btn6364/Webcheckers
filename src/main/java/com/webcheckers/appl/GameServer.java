@@ -42,6 +42,11 @@ public class GameServer {
     public void addGame(Game game) {
         this.gamesInProgress.add(game);
     }
-  
+
+
+    //remove a game from the gamesInProgress collection.
+    public void removeGame(Game game) {
+        this.gamesInProgress.remove(game);
+    }
 
 }
