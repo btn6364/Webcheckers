@@ -25,8 +25,11 @@ public class GameServer {
         this.players.add(player);
     }
 
-
-    public Game getGameFromPlayer(Player player){
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+    }
+    
+    public Game getGameFromPlayer(Player player) {
         for (Game game : gamesInProgress){
             if (game.contains(player)){
                 return game;

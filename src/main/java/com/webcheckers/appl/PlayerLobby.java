@@ -57,6 +57,11 @@ public class PlayerLobby {
         server.addPlayer(player);
     }
 
+    public static void removePlayerBySessionID(String sessionID){
+        Player player = PlayerLobby.getPlayerFromSessionID(sessionID);
+        server.removePlayer(player);
+    }
+    
     public static void newGame(Player player1, Player player2){
         Game g = new Game(player1, player2);
         server.addGame(g);
