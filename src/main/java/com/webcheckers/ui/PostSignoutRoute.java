@@ -11,6 +11,11 @@ import spark.TemplateEngine;
 
 import static spark.Spark.halt;
 
+/**
+ * Handle POST route for sign-out
+ * @author John Licitra
+ * @author Bao Nguyen
+ */
 public class PostSignoutRoute implements Route {
     private final TemplateEngine templateEngine;
     //private final PlayerLobby playerLobby = new PlayerLobby(); //object to handle sign-in actions.

@@ -11,7 +11,7 @@ import java.util.Objects;
 import static spark.Spark.halt;
 
 /**
- * Handle Post Route
+ * Handle POST route for sign-in
  * @author Bao Nguyen
  * @author John Licitra
  */

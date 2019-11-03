@@ -10,11 +10,10 @@ import spark.TemplateEngine;
 import java.util.Objects;
 
 /**
- * Handle Post resign route.
+ * Handle POST route for resignation
  *
  * @author Bao Nguyen
  */
-
 public class PostResignGameRoute implements Route {
     private final PlayerLobby playerLobby = new PlayerLobby();
     private final TemplateEngine templateEngine;
