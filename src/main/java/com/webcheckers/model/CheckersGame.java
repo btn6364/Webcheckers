@@ -214,6 +214,7 @@ public class CheckersGame {
      *
      * */
     public boolean attemptMove(int sx, int sy, int ex, int ey){
+        // This is stupid but apparently the x coords are indexed from 1
         if(validateMove(sx -1, sy, ex-1, ey)){
             Piece piece = this.board[sy][sx-1];
             this.board[ey][ex-1] = piece;

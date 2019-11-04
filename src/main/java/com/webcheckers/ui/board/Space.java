@@ -30,7 +30,7 @@ public class Space {
      * @return the column index
      */
     public int getIndex(){
-        return this.cellIdx;
+        return this.row; //TODO: spawn "cellIdx" variable name with "row"
     }
 
     /**
