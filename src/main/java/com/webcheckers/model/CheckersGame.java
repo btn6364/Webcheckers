@@ -31,16 +31,16 @@ public class CheckersGame {
         for (int y = 0; y < this.board.length; y++) {
             for (int x = 0; x < this.board.length; x++) {
                 if((y == 0 || y == 2) && x % 2 == 1){
-                    this.board[y][x] = Piece.RED;
+                    this.board[y][x] = Piece.WHITE;
                 }
                 else if(y == 1 && x % 2 == 0){
-                    this.board[y][x] = Piece.RED;
+                    this.board[y][x] = Piece.WHITE;
                 }
                 else if((y == 5 || y == 7) && x % 2 == 0){
-                    this.board[y][x] = Piece.WHITE;
+                    this.board[y][x] = Piece.RED;
                 }
                 else if(y == 6 && x % 2 == 1){
-                    this.board[y][x] = Piece.WHITE;
+                    this.board[y][x] = Piece.RED;
                 }
                 else{
                     this.board[y][x] = Piece.EMPTY;
@@ -214,10 +214,11 @@ public class CheckersGame {
      *
      * */
     public boolean attemptMove(int sx, int sy, int ex, int ey){
-        if(validateMove(sx, sy, ex, ey)){
-            Piece piece = this.board[sy][sx];
-            this.board[ey][ex] = piece;
-            this.board[sy][sx] = Piece.EMPTY;
+        if(validateMove(sx -1, sy, ex-1, ey)){
+            Piece piece = this.board[sy][sx-1];
+            this.board[ey][ex-1] = piece;
+            this.board[sy][sx-1] = Piece.EMPTY;
+            printBoard();
             return true;
         }
         return false;

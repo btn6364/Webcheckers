@@ -1,4 +1,4 @@
-package com.webcheckers.model.board;
+package com.webcheckers.ui.board;
 
 /**
  * A class representing a Piece in the UI BoardView model.

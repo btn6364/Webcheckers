@@ -1,4 +1,4 @@
-package com.webcheckers.model.board;
+package com.webcheckers.ui.board;
 
 import com.webcheckers.model.CheckersGame;
 
@@ -13,7 +13,6 @@ import java.util.Iterator;
 public class BoardView implements Iterable<Row> {
     /** A List containing the Rows of the game board **/
     private ArrayList<Row> rows;
-    private CheckersGame.Piece[][] boardArray;
 
     /**
      * Construct a new BoardView instance
@@ -31,7 +30,7 @@ public class BoardView implements Iterable<Row> {
         CheckersGame.Piece[][] board = model.getBoard();
         this.rows = new ArrayList<>();
         for (int y = 0; y < board.length; y++){
-            ArrayList<Space> spaces = new ArrayList<Space>();
+            ArrayList<Space> spaces = new ArrayList<>();
             for (int x = 0; x < board.length; x++){
                 CheckersGame.Piece cgPiece = board[y][x];
                 if(cgPiece == CheckersGame.Piece.RED){
@@ -51,7 +50,6 @@ public class BoardView implements Iterable<Row> {
                 }
             }
             rows.add(new Row(spaces, y));
-            this.boardArray = board;
         }
     }
 

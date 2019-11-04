@@ -4,27 +4,20 @@ public class Move {
 
     private Player player;
 
-    private Position initialPosition;
-    private Position finalPosition;
+    private Position start, end;
 
-    public Move(Position initialPosition, Position finalPosition ){
-        this.initialPosition = initialPosition;
-        this.finalPosition = finalPosition;
+    public Move(Position start, Position end){
+        this.start = start;
+        this.end = end;
     }
-
 
 
     public Position getInitialPosition() {
-        return initialPosition;
+        return start;
     }
 
     public Position getFinalPosition() {
-        return finalPosition;
+        return end;
     }
 
-
-
-    public boolean isMoveValid(){
-        return true;
-    }
 }

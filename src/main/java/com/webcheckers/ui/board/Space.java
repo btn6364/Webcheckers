@@ -1,4 +1,4 @@
-package com.webcheckers.model.board;
+package com.webcheckers.ui.board;
 
 /**
  * Represents a space in the UI BoardView model.
@@ -29,7 +29,7 @@ public class Space {
      * Get the column of the Space
      * @return the column index
      */
-    public int getCellIdx(){
+    public int getIndex(){
         return this.cellIdx;
     }
 
