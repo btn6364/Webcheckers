@@ -41,7 +41,7 @@ public class Game {
         return resigned;
     }
 
-    public void setResingn(boolean resigned){
+    public void setResign(boolean resigned){
         this.resigned = resigned;
     }
 

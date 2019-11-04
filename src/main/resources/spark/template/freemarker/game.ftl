@@ -56,11 +56,6 @@
           <fieldset id="game-toolbar">
             <legend>Controls</legend>
             <div class="toolbar">
-              <button type="button" disabled>Backup</button>
-              <button type="button" disabled>Submit turn</button>
-              <form id="resignGame" action="./resignGame" method="POST">
-                <button type="submit">Resign</button>
-              </form>
             </div>
           </fieldset>
 

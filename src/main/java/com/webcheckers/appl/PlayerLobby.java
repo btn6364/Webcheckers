@@ -70,7 +70,7 @@ public class PlayerLobby {
     //resign a player from the game.
     public static void resignGame(Player player){
         Game g = getGameFromPlayer(player);
-        g.setResingn(true);
+        g.setResign(true);
         server.removeGame(g);
     }
 
