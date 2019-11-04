@@ -1,6 +1,11 @@
 package com.webcheckers.model;
 
 import com.webcheckers.ui.board.BoardView;
+import com.webcheckers.util.Message;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * A class representing a game (containing a game model, players, and game ID)
@@ -21,6 +26,9 @@ public class Game {
     private boolean resigned;
 
 
+    private Player playerWithTurn;
+
+
     private BoardView boardView;
     /**
      * Construct a new Game instance
@@ -32,24 +40,20 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.resigned = false;
+        this.playerWithTurn = player1;
 
         this.boardView = new BoardView(game);
     }
 
 
-    public boolean validateMove(Move move){
-        int sx = move.getInitialPosition().getCell();
-        int sy = move.getInitialPosition().getRow();
-        int dx = move.getFinalPosition().getCell();
-        int dy = move.getFinalPosition().getRow();
-        if (game.validateMove(sx, sy, dx, dy)){
-            return true;
+    public Message submitMove(Player player){
+        if (player.equals(this.playerWithTurn)) {
+            game.submitMove();
+            changePlayerWithTurn();
+            this.boardView = new BoardView(game);
+            return Message.info("Move submitted successfully!");
         }
-        return false;
-    }
-
-    public boolean makeMove(Move move){
-        return false;
+        return Message.error("Error while submitting move!");
     }
 
     /**
@@ -94,6 +98,15 @@ public class Game {
 
     public BoardView getBoardView(){
         return this.boardView;
+    }
+
+    private void changePlayerWithTurn(){
+        Player active = this.playerWithTurn;
+        if (active.equals(player1)){
+            this.playerWithTurn = this.player2;
+        } else {
+            this.playerWithTurn = this.player1;
+        }
     }
 
 
