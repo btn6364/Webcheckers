@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.board.BoardView;
+
 /**
  * A class representing a game (containing a game model, players, and game ID)
  *
@@ -10,13 +12,15 @@ public class Game {
     /** The game model for the Game **/
     private CheckersGame game;
     /** The first player in the game **/
-    private Player player1;
+    private Player player1; //Player Color: RED
     /** The second player in the game **/
-    private Player player2; //TODO: Which is Red and which is White?
+    private Player player2; //Player Color: WHITE
     /** The unique ID for the game **/
     private String gameID;
     /** check if the game is resigned or not.**/
     private boolean resigned;
+
+    private BoardView boardView;
     /**
      * Construct a new Game instance
      * @param player1 the first player
@@ -27,12 +31,15 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.resigned = false;
+
+        this.boardView = new BoardView(game);
 //        this.gameID = gameID;
     }
 
     public boolean getResign(){
         return resigned;
     }
+
     public void setResingn(boolean resigned){
         this.resigned = resigned;
     }
@@ -59,6 +66,10 @@ public class Game {
      */
     public Player getPlayer2() {
         return player2;
+    }
+
+    public BoardView getBoardView(){
+        return this.boardView;
     }
 
     /**
