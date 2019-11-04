@@ -1,19 +1,17 @@
 package com.webcheckers.ui;
 
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.TemplateEngine;
 
-import com.webcheckers.util.Message;
 
 /**
  * The UI Controller to GET the Sign in page
@@ -39,11 +37,21 @@ public class GetSigninRoute implements Route {
         LOG.config("GetSigninRoute is initialized.");
     }
 
-
+    /**
+     * Render the WebCheckers SignIn page.
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   the rendered HTML for the Sign In page
+     */
     @Override
     public Object handle(Request request, Response response) {
         LOG.finer("GetSigninRoute is invoked.");
-        //
+
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 

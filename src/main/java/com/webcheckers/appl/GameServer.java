@@ -71,6 +71,11 @@ public class GameServer {
 
 
     //remove a game from the gamesInProgress collection.
+
+    /**
+     * Remove a game from the gameInProgress collection.
+     * @param game the game to remove.
+     */
     public void removeGame(Game game) {
         this.gamesInProgress.remove(game);
     }

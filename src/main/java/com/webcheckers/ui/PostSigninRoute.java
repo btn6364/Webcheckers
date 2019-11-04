@@ -25,7 +25,10 @@ public class PostSigninRoute implements Route {
         return String.format("You entered %s; your username should contain at least one alphanumeric character.", username);
     }
 
-
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
+     * @param templateEngine the HTML template rendering engine.
+     */
     protected PostSigninRoute(TemplateEngine templateEngine){
         Objects.requireNonNull(playerLobby, "playerLobby must not be null!");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
@@ -59,9 +62,6 @@ public class PostSigninRoute implements Route {
 
             //Place the key-val pair of "Player" and the player's session id
             vm.put("Player", request.session().id());
-
-            //Create any new key-val pairs that you need
-            //vm.put(...)
 
             //Render the list to the view.
             response.redirect(WebServer.HOME_URL);
