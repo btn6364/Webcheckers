@@ -1,8 +1,11 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Message;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * A class representing a model of a Checkers game
@@ -14,6 +17,8 @@ public class CheckersGame {
     private Piece[][] board;
     /** Whose turn is it? True = Red, False = White **/
     private boolean currentPlayer;
+
+    Stack<Move> moves = new Stack<>();
 
     /**
      * An enum representing the various things that can be on a tile
@@ -215,14 +220,29 @@ public class CheckersGame {
      * */
     public boolean attemptMove(int sx, int sy, int ex, int ey){
         // This is stupid but apparently the x coords are indexed from 1
-        if(validateMove(sx -1, sy, ex-1, ey)){
-            Piece piece = this.board[sy][sx-1];
-            this.board[ey][ex-1] = piece;
-            this.board[sy][sx-1] = Piece.EMPTY;
-            printBoard();
+        if(validateMove(sy, sx, ey, ex)){
+            Move move = new Move(new Position(sx, sy), new Position(ex, ey));
+            addMoveToStack(move);
             return true;
         }
         return false;
+    }
+
+
+    public void addMoveToStack(Move move){
+        this.moves.push(move);
+    }
+
+    public void submitMove(){
+        while (!moves.empty()) {
+            Move top = moves.pop();
+            Position i = top.getInitialPosition();
+            Position f = top.getFinalPosition();
+
+            CheckersGame.Piece piece = this.board[i.getRow()][i.getCell()];
+            this.board[f.getRow()][f.getCell()] = piece;
+            this.board[i.getRow()][i.getCell()] = CheckersGame.Piece.EMPTY;
+        }
     }
 
     /**
