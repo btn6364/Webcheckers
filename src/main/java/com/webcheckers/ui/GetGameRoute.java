@@ -1,14 +1,12 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.model.Game;
-import com.webcheckers.appl.GameServer;
 import com.webcheckers.model.Player;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.ui.board.BoardView;
+import com.webcheckers.model.board.BoardView;
 import spark.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -46,11 +44,11 @@ public class GetGameRoute implements Route {
             Player first = gameToRender.getPlayer1();
             Player second = gameToRender.getPlayer2();
             vm.put("currentUser", player1);
-            vm.put("viewMode", "play");
+            vm.put("viewMode", "PLAY");
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", "RED");
-            vm.put("board", new BoardView(gameToRender.getGame()));
+            vm.put("board", gameToRender.getBoardView());
         }
 
         // render the view model
