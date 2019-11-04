@@ -207,45 +207,20 @@ public class CheckersGame {
      * uses the validateMove() function to check and see if the move input by
      * the player is possible.
      *
-     * @param xPos
-     *  The position on the x axis where the player's piece is located,.
-     * @param yPos
-     *  The position on the y axis where the player's piece is located.
+     * @param sx The starting x position
+     * @param sy The starting y position
+     * @param ex The starting x position
+     * @param ey The starting y position
      *
      * */
-    public void attemptMove(int xPos, int yPos){
-
-        //Print the label
-        System.out.println("Enter coordinates for your move in a (x,y) format: ");
-
-        Scanner sc = new Scanner(System.in);
-
-        String move = sc.nextLine();
-
-        //Now that we have the line, we must split it in two at the comma
-        String[] list = move.split(",");
-
-
-        //Store the x coordinate and convert to int
-        String xCoordStr = list[0];
-        int xCoord = Integer.valueOf(xCoordStr);
-
-        //Store the y coordinate and convert to int
-        String yCoordStr = list[1];
-        int yCoord = Integer.valueOf(yCoordStr);
-
-        //Call validate move using your coords.
-        boolean moveValid = validateMove(xPos,yPos,xCoord,yCoord);
-
-        if(moveValid){
-            System.out.println("Valid move!");
-            //Actually make the move, to be implemented later.
+    public boolean attemptMove(int sx, int sy, int ex, int ey){
+        if(validateMove(sx, sy, ex, ey)){
+            Piece piece = this.board[sy][sx];
+            this.board[ey][ex] = piece;
+            this.board[sy][sx] = Piece.EMPTY;
+            return true;
         }
-        else{
-            System.out.println("Move is not valid!");
-            //Do not make the move
-        }
-
+        return false;
     }
 
     /**
