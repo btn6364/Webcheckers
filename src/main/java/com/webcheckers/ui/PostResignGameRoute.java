@@ -15,23 +15,14 @@ import java.util.Objects;
  * @author Bao Nguyen
  */
 public class PostResignGameRoute implements Route {
-    private final PlayerLobby playerLobby = new PlayerLobby();
     private final TemplateEngine templateEngine;
 
     protected PostResignGameRoute(TemplateEngine templateEngine){
-        Objects.requireNonNull(playerLobby, "playerLobby must not be null!");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
     }
     @Override
     public Object handle(Request request, Response response) throws Exception {
-
-        // if someone hit the resign button.
-        String input = request.queryParams("resign");
-        if (input == null) {
-            return input; // the button wasn't clicked, sth went wrong.
-        }
-
         //resign the player who clicked the resign button from the current game
         Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
         PlayerLobby.resignGame(player);

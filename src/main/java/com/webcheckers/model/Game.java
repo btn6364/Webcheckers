@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
-import com.webcheckers.model.board.BoardView;
+import com.webcheckers.ui.board.BoardView;
+import com.webcheckers.ui.board.BoardView;
 
 /**
  * A class representing a game (containing a game model, players, and game ID)

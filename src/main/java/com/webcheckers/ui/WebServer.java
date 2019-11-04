@@ -153,7 +153,7 @@ public class WebServer {
     post(HOME_URL, new PostHomeRoute(templateEngine));
     post(SIGNOUT_URL, new PostSignoutRoute(templateEngine));
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(templateEngine, server));
-
+    post(RESIGN_URL, new PostResignGameRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }

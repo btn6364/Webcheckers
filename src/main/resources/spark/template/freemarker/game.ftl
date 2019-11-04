@@ -58,7 +58,9 @@
             <div class="toolbar">
               <button type="button" disabled>Backup</button>
               <button type="button" disabled>Submit turn</button>
-              <button type="button" onclick="alert('You pressed the button!')">Resign</button>
+              <form id="resignGame" action="./resignGame" method="POST">
+                <button type="submit">Resign</button>
+              </form>
             </div>
           </fieldset>
 
