@@ -12,11 +12,6 @@ public class Move {
         this.finalPosition = finalPosition;
     }
 
-    public Move(Player player, Position initialPosition, Position finalPosition) {
-        this.player = player;
-        this.initialPosition = initialPosition;
-        this.finalPosition = finalPosition;
-    }
 
 
     public Position getInitialPosition() {

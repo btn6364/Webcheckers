@@ -1,7 +1,6 @@
 package com.webcheckers.model;
 
-import com.webcheckers.ui.board.BoardView;
-import com.webcheckers.ui.board.BoardView;
+import com.webcheckers.model.board.BoardView;
 
 /**
  * A class representing a game (containing a game model, players, and game ID)
@@ -21,6 +20,7 @@ public class Game {
     /** check if the game is resigned or not.**/
     private boolean resigned;
 
+
     private BoardView boardView;
     /**
      * Construct a new Game instance
@@ -34,7 +34,22 @@ public class Game {
         this.resigned = false;
 
         this.boardView = new BoardView(game);
-//        this.gameID = gameID;
+    }
+
+
+    public boolean validateMove(Move move){
+        int sx = move.getInitialPosition().getCell();
+        int sy = move.getInitialPosition().getRow();
+        int dx = move.getFinalPosition().getCell();
+        int dy = move.getFinalPosition().getRow();
+        if (game.validateMove(sx, sy, dx, dy)){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean makeMove(Move move){
+        return false;
     }
 
     public boolean getResign(){
@@ -73,13 +88,6 @@ public class Game {
         return this.boardView;
     }
 
-    /**
-     * Get the game ID
-     * @return game ID
-     */
-    public String getGameID() {
-        return gameID;
-    }
 
     public boolean contains(Player player) {
         if (this.player1.equals(player) || (this.player2.equals(player))) {

@@ -1,4 +1,4 @@
-package com.webcheckers.ui.board;
+package com.webcheckers.model.board;
 
 /**
  * Represents a space in the UI BoardView model.
@@ -38,7 +38,8 @@ public class Space {
      * @return true if the Space is empty and a dark tile, false otherwise
      */
     public boolean isValid(){
-        return (piece == null && (this.cellIdx + this.row % 2 == 0));
+        return piece == null && ((this.cellIdx + this.row) % 2 == 1);
+
     }
 
     /**

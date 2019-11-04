@@ -1,10 +1,9 @@
-package com.webcheckers.ui.board;
+package com.webcheckers.model.board;
 
 import com.webcheckers.model.CheckersGame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * A class representing the UI BoardView model for a game of Checkers
@@ -14,6 +13,7 @@ import java.util.List;
 public class BoardView implements Iterable<Row> {
     /** A List containing the Rows of the game board **/
     private ArrayList<Row> rows;
+    private CheckersGame.Piece[][] boardArray;
 
     /**
      * Construct a new BoardView instance
@@ -29,28 +29,29 @@ public class BoardView implements Iterable<Row> {
      */
     public BoardView(CheckersGame model){
         CheckersGame.Piece[][] board = model.getBoard();
-        this.rows = new ArrayList<Row>();
+        this.rows = new ArrayList<>();
         for (int y = 0; y < board.length; y++){
             ArrayList<Space> spaces = new ArrayList<Space>();
             for (int x = 0; x < board.length; x++){
-                CheckersGame.Piece cgPiece = board[x][y];
+                CheckersGame.Piece cgPiece = board[y][x];
                 if(cgPiece == CheckersGame.Piece.RED){
-                    spaces.add(new Space(x, y, new Piece(Piece.Type.SINGLE, Piece.Color.RED)));
+                    spaces.add(new Space(y, x, new Piece(Piece.Type.SINGLE, Piece.Color.RED)));
                 }
                 else if(cgPiece == CheckersGame.Piece.WHITE){
-                    spaces.add(new Space(x, y, new Piece(Piece.Type.SINGLE, Piece.Color.WHITE)));
+                    spaces.add(new Space(y, x, new Piece(Piece.Type.SINGLE, Piece.Color.WHITE)));
                 }
                 else if(cgPiece == CheckersGame.Piece.WHITE_KING){
-                    spaces.add(new Space(x, y, new Piece(Piece.Type.KING, Piece.Color.WHITE)));
+                    spaces.add(new Space(y, x, new Piece(Piece.Type.KING, Piece.Color.WHITE)));
                 }
                 else if(cgPiece == CheckersGame.Piece.RED_KING){
-                    spaces.add(new Space(x, y, new Piece(Piece.Type.KING, Piece.Color.RED)));
+                    spaces.add(new Space(y, x, new Piece(Piece.Type.KING, Piece.Color.RED)));
                 }
                 else{
-                    spaces.add(new Space(x, y, null));
+                    spaces.add(new Space(y, x, null));
                 }
             }
             rows.add(new Row(spaces, y));
+            this.boardArray = board;
         }
     }
 

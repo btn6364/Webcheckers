@@ -1,8 +1,7 @@
-package com.webcheckers.ui.board;
+package com.webcheckers.model.board;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Represents a Row in the UI BoardView model.

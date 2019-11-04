@@ -3,7 +3,6 @@ package com.webcheckers.ui;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.ui.board.BoardView;
 import spark.*;
 
 import java.util.HashMap;
