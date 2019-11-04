@@ -10,7 +10,6 @@ import spark.Route;
 import spark.TemplateEngine;
 
 import java.util.Objects;
-import static spark.Spark.halt;
 
 /**
  * Handle POST route for resignation
@@ -21,10 +20,22 @@ import static spark.Spark.halt;
 public class PostResignGameRoute implements Route {
     private final TemplateEngine templateEngine;
 
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
+     * @param templateEngine the HTML template rendering engine.
+     */
     protected PostResignGameRoute(TemplateEngine templateEngine){
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
     }
+
+    /**
+     * Handle Resign functionality when a player resigns from a game.
+     * @param request the HTTP request.
+     * @param response the HTTP response.
+     * @return
+     * @throws Exception
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         //resign the player who clicked the resign button from the current game

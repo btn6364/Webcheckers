@@ -4,8 +4,11 @@ Welcome to the PROJECT Project!
 
 ## Team
 
-* MEMBER1
-* MEMBER2
+* Bao Nguyen
+* Sidney Mitchell
+* Liam Obrochta
+* John Licitra
+* Angela Hudak
 
 ## [Design Documentation](DesignDoc)
 

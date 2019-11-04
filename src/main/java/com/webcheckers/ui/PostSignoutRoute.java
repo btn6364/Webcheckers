@@ -18,9 +18,11 @@ import static spark.Spark.halt;
  */
 public class PostSignoutRoute implements Route {
     private final TemplateEngine templateEngine;
-    //private final PlayerLobby playerLobby = new PlayerLobby(); //object to handle sign-in actions.
 
-
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
+     * @param templateEngine the HTML template rendering engine.
+     */
     protected PostSignoutRoute(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
@@ -29,25 +31,16 @@ public class PostSignoutRoute implements Route {
     /**
      * handle post route for signing out.
      *
-     * @param request
-     * @param response
+     * @param request the HTTP request.
+     * @param response the HTTP response.
      * @return
      */
     @Override
     public String handle(Request request, Response response) {
-        //final Map<String, Object> vm = new HashMap<>();
-
-        /*
-        String input = request.queryParams("button");
-        if (input == null){
-            return input; // the button wasn't clicked, sth went wrong.
-        }
-        */
         String sessionID = request.session().id();
         PlayerLobby.removePlayerBySessionID(sessionID);
 
-        //Place the key-val pair of Lobby and the playerLobby object
-        //vm.put("Lobby", playerLobby);
+        //redirect to the signout page.
         response.redirect(WebServer.SIGNOUT_URL);
 
         //End the else block as normal.

@@ -1,15 +1,10 @@
 package com.webcheckers.ui;
 
 
-import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 import static spark.Spark.halt;
 
@@ -24,17 +19,20 @@ public class PostHomeRoute implements Route {
 
     private final TemplateEngine templateEngine;
 
-
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
+     * @param templateEngine the HTML template rendering engine.
+     */
     protected PostHomeRoute(TemplateEngine templateEngine) {
         this.templateEngine = templateEngine;
     }
 
 
     /**
-     * handle post route for joining a game
+     * Handle post route for joining a game.
      *
-     * @param request
-     * @param response
+     * @param request HTTP request.
+     * @param response HTTP response.
      * @return
      */
     @Override

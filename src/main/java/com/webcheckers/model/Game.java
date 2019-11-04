@@ -52,10 +52,18 @@ public class Game {
         return false;
     }
 
+    /**
+     * Get the current state of the game.
+     * @return true if the game has been resigned and false otherwise.
+     */
     public boolean getResign(){
         return resigned;
     }
 
+    /**
+     * Set the resignation state of the game.
+     * @param resigned the resignation state of the game.
+     */
     public void setResign(boolean resigned){
         this.resigned = resigned;
     }
@@ -89,6 +97,11 @@ public class Game {
     }
 
 
+    /**
+     * check if a player is in a game.
+     * @param player the player to check.
+     * @return true if this player is in the game and false otherwise.
+     */
     public boolean contains(Player player) {
         if (this.player1.equals(player) || (this.player2.equals(player))) {
             return true;
