@@ -59,6 +59,7 @@ public class WebServer {
   public static final String SIGNOUT_URL = "/signout";
   public static final String VALIDATE_MOVE_URL = "/validateMove";
   public static final String RESIGN_URL = "/resignGame";
+  public static final String SUBMIT_MOVE_URL = "/submitTurn";
 
 
   //
@@ -153,6 +154,7 @@ public class WebServer {
     post(SIGNOUT_URL, new PostSignoutRoute(templateEngine));
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(templateEngine));
     post(RESIGN_URL, new PostResignGameRoute(templateEngine));
+    post(SUBMIT_MOVE_URL, new PostSubmitTurnRoute(templateEngine));
 
     LOG.config("WebServer is initialized.");
   }
