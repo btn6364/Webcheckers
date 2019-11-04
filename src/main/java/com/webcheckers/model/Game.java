@@ -109,6 +109,10 @@ public class Game {
         }
     }
 
+    public Player getPlayerWithTurn(){
+        return this.playerWithTurn;
+    }
+
 
     /**
      * check if a player is in a game.
