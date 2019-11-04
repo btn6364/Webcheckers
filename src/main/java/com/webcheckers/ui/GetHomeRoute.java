@@ -84,19 +84,6 @@ public class GetHomeRoute implements Route {
     return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
   }
 
-  /**
-   * Provides player list to PostRoute component for displaying
-   * all players.
-   *
-   * @param players
-   *  the list of players that the function uses.
-   *
-   * */
-  public void displayPlayers(List<Player> players){
-    //functionality here
-    //function for displaying list of players
-    //Uses game.ftl's window.playerData
-  }
 
 
 

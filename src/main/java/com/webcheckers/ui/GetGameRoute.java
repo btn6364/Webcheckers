@@ -24,10 +24,28 @@ public class GetGameRoute implements Route {
 
     private TemplateEngine templateEngine;
 
+    /**
+     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
+     *
+     * @param engine
+     *   the HTML template rendering engine
+     */
     public GetGameRoute(TemplateEngine engine){
         this.templateEngine = engine;
     }
 
+
+    /**
+     * Render the WebCheckers Game page.
+     *
+     * @param request
+     *   the HTTP request
+     * @param response
+     *   the HTTP response
+     *
+     * @return
+     *   the rendered HTML for the Game page
+     */
     @Override
     public Object handle(Request request, Response response){
         //TODO: Make this throw an exception (if it needs to, otherwise remove that it can); fix NPE from getName()
