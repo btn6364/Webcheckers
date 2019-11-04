@@ -36,7 +36,8 @@ public class PostResignGameRoute implements Route {
         Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
         PlayerLobby.resignGame(player);
 
-        //TODO for the other player, handle the resign by check if resigned is True or False in the PostBackUpMoveRoute and PostSubmitTurnRoute
+        //TODO: for the other player, handle the resign by check if resigned is True or False in the PostBackUpMoveRoute and PostSubmitTurnRoute
+        //TODO: Also modify window.GameData so that modeOptions array reads that the game was resigned
 
         response.redirect(WebServer.HOME_URL);
 
