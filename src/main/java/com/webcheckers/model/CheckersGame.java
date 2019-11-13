@@ -173,7 +173,7 @@ public class CheckersGame {
             return false;
         }
         // Validate moving piece is owned (red player)
-        else if (this.currentPlayer && (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
+        else if (!this.currentPlayer && (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
             return false;
         }
         // Validate moving piece is owned (white player)
