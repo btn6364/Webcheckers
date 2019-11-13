@@ -25,6 +25,8 @@ public class Game {
     /** check if the game is resigned or not.**/
     private boolean resigned;
 
+    private String activeColor;
+
 
     private Player playerWithTurn;
 
@@ -41,6 +43,7 @@ public class Game {
         this.player2 = player2;
         this.resigned = false;
         this.playerWithTurn = player1;
+        this.activeColor = "RED";
 
         this.boardView = new BoardView(game);
     }
@@ -103,14 +106,20 @@ public class Game {
     private void changePlayerWithTurn(){
         Player active = this.playerWithTurn;
         if (active.equals(player1)){
+            this.activeColor = "WHITE";
             this.playerWithTurn = this.player2;
         } else {
+            this.activeColor = "RED";
             this.playerWithTurn = this.player1;
         }
     }
 
     public Player getPlayerWithTurn(){
         return this.playerWithTurn;
+    }
+
+    public String getActiveColor(){
+        return this.activeColor;
     }
 
 
