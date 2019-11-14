@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -14,19 +15,25 @@ import java.util.Objects;
 /**
  * Handle POST route for resignation
  *
+ * @author Liam Obrochta
  * @author John Licitra
  * @author Bao Nguyen
  */
 public class PostResignGameRoute implements Route {
+
     private final TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine.
      */
-    protected PostResignGameRoute(TemplateEngine templateEngine){
+    protected PostResignGameRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer){
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
     }
 
     /**
@@ -39,8 +46,8 @@ public class PostResignGameRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         //resign the player who clicked the resign button from the current game
-        Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
-        PlayerLobby.resignGame(player);
+        Player player = playerLobby.getPlayer(request.session().id());
+        gameServer.resignGame(player);
 
         //TODO: for the other player, handle the resign by check if resigned is True or False in the PostBackUpMoveRoute and PostSubmitTurnRoute
         //TODO: Also modify window.GameData so that modeOptions array reads that the game was resigned

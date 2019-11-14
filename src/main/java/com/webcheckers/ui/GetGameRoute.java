@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import com.webcheckers.appl.PlayerLobby;
@@ -20,8 +21,12 @@ public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
     public static final String TITLE = "Game";
     public static final String VIEW_NAME = "game.ftl";
+    public static final String MODE_PLAY = "PLAY";
+    public static final String SPECTATE_MODE = "SPECTATOR";
 
     private TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -29,8 +34,10 @@ public class GetGameRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetGameRoute(TemplateEngine engine){
+    public GetGameRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
         this.templateEngine = engine;
+        this.gameServer = gameServer;
+        this.playerLobby = playerLobby;
     }
 
 
@@ -50,22 +57,22 @@ public class GetGameRoute implements Route {
         //TODO: Make this throw an exception (if it needs to, otherwise remove that it can); fix NPE from getName()
         LOG.finer("GetGameRoute is invoked.");
         //
+
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
+        Player player1 = playerLobby.getPlayer(request.session().id());
+        Game game = gameServer.getGame(player1);
 
-        Player player1 = PlayerLobby.getPlayerFromSessionID(request.session().id());
-
-        if (PlayerLobby.getGameFromPlayer(player1) != null){
-            Game gameToRender = PlayerLobby.getGameFromPlayer(player1);
-            Player first = gameToRender.getPlayer1();
-            Player second = gameToRender.getPlayer2();
+        if (game != null){
+            Player first = game.getPlayer1();
+            Player second = game.getPlayer2();
             vm.put("currentUser", player1);
             vm.put("viewMode", "PLAY");
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
-            vm.put("activeColor", gameToRender.getActiveColor());
-            vm.put("board", gameToRender.getBoardView());
+            vm.put("activeColor", game.getActiveColor());
+            vm.put("board", game.getBoardView());
         }
 
         // render the view model

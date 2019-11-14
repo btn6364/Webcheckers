@@ -1,7 +1,9 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.util.NameUtils;
 import spark.*;
 
 import java.util.HashMap;
@@ -18,8 +20,9 @@ import static spark.Spark.halt;
 public class PostSigninRoute implements Route {
     private final String USERNAME_PARAM = "username";
 
-    private final PlayerLobby playerLobby = new PlayerLobby(); //object to handle sign-in actions.
     private final TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
 
     protected static String makeInvalidUserName(final String username){
         return String.format("You entered %s; your username should contain at least one alphanumeric character.", username);
@@ -29,10 +32,12 @@ public class PostSigninRoute implements Route {
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine.
      */
-    protected PostSigninRoute(TemplateEngine templateEngine){
+    protected PostSigninRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer){
         Objects.requireNonNull(playerLobby, "playerLobby must not be null!");
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
     }
 
 
@@ -47,7 +52,7 @@ public class PostSigninRoute implements Route {
         final Map<String, Object> vm = new HashMap<>();
 
         String inputUsername = request.queryParams(USERNAME_PARAM);
-        if ((!PlayerLobby.isAlphaNumeric(inputUsername)) || PlayerLobby.isPlayerOnline(inputUsername)){
+        if ((!NameUtils.isAlphaNumeric(inputUsername)) || playerLobby.isPlayerOnline(inputUsername)){
             //redirect to the sign-in page again.
             response.redirect(WebServer.SIGNIN_URL);
             halt();
@@ -55,7 +60,7 @@ public class PostSigninRoute implements Route {
            //If player has submitted a valid name
         } else {
             //reserve the name of the user and return to the home page.
-            PlayerLobby.addPlayerToServer(inputUsername, request.session().id());
+            playerLobby.addPlayerToLobby(inputUsername, request.session().id());
 
             //Place the key-val pair of Lobby and the playerLobby object
             vm.put("Lobby", playerLobby);

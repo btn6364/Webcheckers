@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import java.util.*;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.model.Player;
 import com.webcheckers.appl.PlayerLobby;
 import spark.*;
@@ -30,14 +31,23 @@ public class GetHomeRoute implements Route {
   static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   static final String NEW_USER_ATTR = "currentUser";
   static final String VIEW_NAME = "home.ftl";
+
+  private PlayerLobby playerLobby;
+  private GameServer gameServer;
+
+
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer) {
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+
+    this.playerLobby = playerLobby;
+    this.gameServer = gameServer;
+
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -62,14 +72,14 @@ public class GetHomeRoute implements Route {
     // Display a welcome message and stats
     vm.put(TITLE_ATTR, TITLE);
     vm.put(MESSAGE_ATTR, WELCOME_MSG);
-    vm.put(NUM_PLAYER_ATTR, PlayerLobby.numPlayers());
-    vm.put(PLAYER_LIST_ATTR, PlayerLobby.getPlayers());
+    vm.put(NUM_PLAYER_ATTR, playerLobby.numPlayers());
+    vm.put(PLAYER_LIST_ATTR, playerLobby.numPlayers());
 
     // Display Player info if signed in
-    Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
+    Player player = playerLobby.getPlayer(request.session().id());
     if (player != null){
       vm.put(NEW_USER_ATTR, player);
-      if (PlayerLobby.getGameFromPlayer(player) != null){
+      if (gameServer.getGame(player) != null){
         // Redirect player to their game
         response.redirect(WebServer.GAME_URL);
 

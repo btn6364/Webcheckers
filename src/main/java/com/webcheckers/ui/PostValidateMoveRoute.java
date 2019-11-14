@@ -20,18 +20,23 @@ public class PostValidateMoveRoute implements Route {
 
 
     private static final Logger LOG = Logger.getLogger(GetSigninRoute.class.getName());
-    private Gson gson = new Gson();
     private TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
+    private Gson gson;
 
-    public PostValidateMoveRoute(TemplateEngine templateEngine){
+    public PostValidateMoveRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer, Gson gson){
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
+        this.gson = gson;
     }
 
 
     @Override
     public Object handle(Request request, Response response){
-        Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
-        Game game = PlayerLobby.getGameFromPlayer(player);
+        Player player = playerLobby.getPlayer(request.session().id());
+        Game game = gameServer.getGame(player);
         String actionData = request.queryParams("actionData");
         Move move = gson.fromJson(actionData, Move.class);
         Position initial = move.getInitialPosition();

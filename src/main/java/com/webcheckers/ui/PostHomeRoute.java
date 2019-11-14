@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
@@ -11,6 +12,7 @@ import static spark.Spark.halt;
 /**
  * Handle POST route for home (ie joining a game)
  *
+ * @author Liam Obrochta
  * @author Bao Nguyen
  * @author John Licitra
  */
@@ -18,13 +20,18 @@ public class PostHomeRoute implements Route {
 
 
     private final TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
+    
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine.
      */
-    protected PostHomeRoute(TemplateEngine templateEngine) {
+    protected PostHomeRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer) {
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
     }
 
 
@@ -38,22 +45,22 @@ public class PostHomeRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
 
-        Player firstPlayer = PlayerLobby.getPlayerFromSessionID(request.session().id());
+        Player firstPlayer = playerLobby.getPlayer(request.session().id());
         String input = request.queryParams("button");
         if (input == null){
             return input; // button wasn't clicked.. something went wrong
         }
 
-        Player secondPlayer = PlayerLobby.getPlayerFromUsername(input);
+        Player secondPlayer = playerLobby.getPlayer(input);
 
         if (secondPlayer == null){
             return null; //player didn't exist
         }
-        else if (PlayerLobby.getGameFromPlayer(secondPlayer) != null){
+        else if (gameServer.getGame(secondPlayer) != null){
             return null; //player already in a game
         }
 
-        PlayerLobby.newGame(firstPlayer, secondPlayer);
+        gameServer.newGame(firstPlayer, secondPlayer);
 
         response.redirect(WebServer.GAME_URL);
 

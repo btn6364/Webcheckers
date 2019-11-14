@@ -15,15 +15,19 @@ import spark.TemplateEngine;
 public class PostSubmitTurnRoute implements Route {
 
     private TemplateEngine templateEngine;
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
 
-    public PostSubmitTurnRoute(TemplateEngine engine){
-        this.templateEngine = engine;
+    public PostSubmitTurnRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer){
+        this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
     }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        Player player = PlayerLobby.getPlayerFromSessionID(request.session().id());
-        Game game = PlayerLobby.getGameFromPlayer(player);
+        Player player = playerLobby.getPlayer(request.session().id());
+        Game game = gameServer.getGame(player);
         Gson gson = new Gson();
 
         return gson.toJson(game.submitMove(player));
