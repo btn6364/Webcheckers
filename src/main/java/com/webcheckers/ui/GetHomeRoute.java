@@ -73,7 +73,7 @@ public class GetHomeRoute implements Route {
     vm.put(TITLE_ATTR, TITLE);
     vm.put(MESSAGE_ATTR, WELCOME_MSG);
     vm.put(NUM_PLAYER_ATTR, playerLobby.numPlayers());
-    vm.put(PLAYER_LIST_ATTR, playerLobby.numPlayers());
+    vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
 
     // Display Player info if signed in
     Player player = playerLobby.getPlayer(request.session().id());
