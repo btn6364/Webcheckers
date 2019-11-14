@@ -15,6 +15,16 @@ public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
 
     /**
+     * Create a new game for 2 players.
+     * @param player1 player 1.
+     * @param player2 player 2.
+     */
+    public void newGame(Player player1, Player player2){
+        Game g = new Game(player1, player2);
+        addGame(g);
+    }
+
+    /**
      * Add a new Game to the list of games being played
      * @param game the game to add
      */
