@@ -63,6 +63,7 @@ public class WebServer {
   public static final String RESIGN_URL = "/resignGame";
   public static final String SUBMIT_MOVE_URL = "/submitTurn";
   public static final String CHECK_TURN_URL = "/checkTurn";
+  public static final String BACKUP_MOVE_URL = "/backupMove";
 
   //
   // Singletons
@@ -168,6 +169,7 @@ public class WebServer {
     post(RESIGN_URL, new PostResignGameRoute(templateEngine, playerLobby, gameServer));
     post(SUBMIT_MOVE_URL, new PostSubmitTurnRoute(templateEngine, playerLobby, gameServer));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(templateEngine, playerLobby, gameServer));
+    post(BACKUP_MOVE_URL, new PostBackupMoveRoute(templateEngine, playerLobby, gameServer, gson));
 
     LOG.config("WebServer is initialized.");
   }

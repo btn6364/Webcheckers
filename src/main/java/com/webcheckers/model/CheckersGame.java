@@ -18,7 +18,7 @@ public class CheckersGame {
     /** Whose turn is it? True = Red, False = White **/
     private boolean currentPlayer;
 
-    Stack<Move> moves = new Stack<>();
+    private Stack<Move> moves = new Stack<>();
 
     /**
      * An enum representing the various things that can be on a tile
@@ -219,7 +219,6 @@ public class CheckersGame {
      *
      * */
     public boolean attemptMove(int sx, int sy, int ex, int ey){
-        // This is stupid but apparently the x coords are indexed from 1
         if(validateMove(sy, sx, ey, ex)){
             Move move = new Move(new Position(sx, sy), new Position(ex, ey));
             addMoveToStack(move);
@@ -322,6 +321,10 @@ public class CheckersGame {
             }
             System.out.print("\n");
         }
+    }
+
+    public Stack<Move> getMoves(){
+        return this.moves;
     }
 
     /**

@@ -48,6 +48,14 @@ public class Game {
         this.boardView = new BoardView(game);
     }
 
+    public boolean backupMove(Player player){
+        if (game.getMoves() != null){
+            game.getMoves().pop();
+            return true;
+        }
+        return false;
+    }
+
 
     public Message submitMove(Player player){
         if (player.equals(this.playerWithTurn)) {
