@@ -1,5 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameServer;
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.*;
@@ -21,6 +24,9 @@ public class PostSigninRouteTest {
     private TemplateEngine engine;
     private Response response;
 
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
+
     /**
      * Set up mock request, session, response, and engine to test route with
      */
@@ -31,10 +37,11 @@ public class PostSigninRouteTest {
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
-
+        playerLobby = mock(PlayerLobby.class);
+        gameServer = mock(GameServer.class);
 
         // Create CuT for the test
-        CuT = new PostSigninRoute(engine);
+        CuT = new PostSigninRoute(engine, playerLobby, gameServer);
     }
 
     /**

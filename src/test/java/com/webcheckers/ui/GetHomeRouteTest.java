@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,9 @@ public class GetHomeRouteTest {
     private TemplateEngine engine;
     private Response response;
 
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
+
     /**
      * Set up new mock objects for each test.
      */
@@ -47,10 +51,11 @@ public class GetHomeRouteTest {
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
-
+        playerLobby = mock(PlayerLobby.class);
+        gameServer = mock(GameServer.class);
 
         //Create a unique CuT for each test.
-        CuT = new GetHomeRoute(engine);
+        CuT = new GetHomeRoute(engine, playerLobby, gameServer);
     }
 
     /**
@@ -70,9 +75,9 @@ public class GetHomeRouteTest {
         // *model contains all the necessary View-Model data
         helper.assertViewModelAttribute(GetHomeRoute.TITLE_ATTR, GetHomeRoute.TITLE);
         helper.assertViewModelAttribute(GetHomeRoute.MESSAGE_ATTR, GetHomeRoute.WELCOME_MSG);
-        helper.assertViewModelAttribute(GetHomeRoute.NUM_PLAYER_ATTR, PlayerLobby.numPlayers());
-        helper.assertViewModelAttribute(GetHomeRoute.PLAYER_LIST_ATTR, PlayerLobby.getPlayers());
-        helper.assertViewModelAttribute(GetHomeRoute.NEW_USER_ATTR, PlayerLobby.getPlayerFromSessionID(request.session().id()));
+        helper.assertViewModelAttribute(GetHomeRoute.NUM_PLAYER_ATTR, playerLobby.numPlayers());
+        helper.assertViewModelAttribute(GetHomeRoute.PLAYER_LIST_ATTR, playerLobby.getPlayers());
+        helper.assertViewModelAttribute(GetHomeRoute.NEW_USER_ATTR, playerLobby.getPlayer(request.session().id()));
         // *test view name
         helper.assertViewName(GetHomeRoute.VIEW_NAME);
     }

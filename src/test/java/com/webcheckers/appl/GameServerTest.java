@@ -18,13 +18,6 @@ public class GameServerTest {
         this.CuT = new GameServer();
     }
 
-    @Test
-    public void addPlayerCorrectly(){
-        int size = CuT.getPlayers().size();
-        Player player = new Player("Test", "Test");
-        CuT.addPlayer(player);
-        assertEquals(size + 1, CuT.getPlayers().size());
-    }
 
     @Test
     public void addGameCorrectly(){
@@ -37,10 +30,6 @@ public class GameServerTest {
         assertEquals(size + 1, CuT.getGamesInProgress().size());
     }
 
-    @Test
-    public void playerListNotNull(){
-        assertNotNull(CuT.getPlayers());
-    }
 
     @Test
     public void gameListNotNull(){
@@ -54,7 +43,7 @@ public class GameServerTest {
         Game game = new Game(player1, player2);
         CuT.addGame(game);
 
-        assertEquals(game, CuT.getGameFromPlayer(player1));
+        assertEquals(game, CuT.getGame(player1));
     }
 
 }

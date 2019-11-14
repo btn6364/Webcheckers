@@ -46,6 +46,9 @@ public class GetGameRouteTest {
     private TemplateEngine engine;
     private Response response;
 
+    private PlayerLobby playerLobby;
+    private GameServer gameServer;
+
 
     @BeforeEach
     public void setup(){
@@ -57,9 +60,11 @@ public class GetGameRouteTest {
         when(request2.session()).thenReturn(session2);
         response = mock(Response.class);
         engine = mock(TemplateEngine.class);
+        playerLobby = mock(PlayerLobby.class);
+        gameServer = mock(GameServer.class);
 
         //Create a unique CuT for each test.
-        CuT = new GetGameRoute(engine);
+        CuT = new GetGameRoute(engine, playerLobby, gameServer);
     }
 
     @Test
@@ -73,8 +78,8 @@ public class GetGameRouteTest {
         // *model is a non-null Map
 
         //Create player objects with mock session ID's
-        Player player1 = PlayerLobby.getPlayerFromSessionID(session1.id());
-        Player player2 = PlayerLobby.getPlayerFromSessionID(session2.id());
+        Player player1 = playerLobby.getPlayer(session1.id());
+        Player player2 = playerLobby.getPlayer(session2.id());
 
         //Assert model exists & is a map
         helper.assertViewModelExists();

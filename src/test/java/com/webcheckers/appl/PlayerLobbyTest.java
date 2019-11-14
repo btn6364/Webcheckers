@@ -14,14 +14,35 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PlayerLobbyTest {
 
+
+    private PlayerLobby CuT;
+
+    public PlayerLobbyTest(){
+        this.CuT = new PlayerLobby();
+    }
+
+
+    @Test
+    public void playerListNotNull(){
+        assertNotNull(CuT.getPlayers());
+    }
+
     /**
      * Verify that PlayerLobby.numPlayers() does not fail and returns the same size as list.size()
      */
     @Test
     public void numPlayersWorks(){
-        int num = PlayerLobby.numPlayers();
-        ArrayList list = PlayerLobby.getPlayers();
+        int num = CuT.numPlayers();
+        ArrayList list = CuT.getPlayers();
         assertEquals(num, list.size());
+    }
+
+    @Test
+    public void addPlayerCorrectly(){
+        int size = CuT.getPlayers().size();
+        Player player = new Player("Test", "Test");
+        CuT.addPlayer(player);
+        assertEquals(size + 1, CuT.getPlayers().size());
     }
 
     /**
@@ -29,7 +50,7 @@ public class PlayerLobbyTest {
      */
     @Test
     public void getPlayersWorks(){
-        Object list = PlayerLobby.getPlayers();
+        Object list = CuT.getPlayers();
         assertTrue(list instanceof ArrayList);
     }
 
@@ -40,19 +61,19 @@ public class PlayerLobbyTest {
     @Test
     public void testPlayerFuncs(){
         // Before adding player
-        assertNull(PlayerLobby.getPlayerFromUsername("Bob"));
-        assertNull(PlayerLobby.getPlayerFromSessionID("h"));
-        assertFalse(PlayerLobby.isPlayerOnline("Bob"));
-        assertEquals(PlayerLobby.numPlayers(), 0);
+        assertNull(CuT.getPlayer("Bob"));
+        assertNull(CuT.getPlayer("h"));
+        assertFalse(CuT.isPlayerOnline("Bob"));
+        assertEquals(CuT.numPlayers(), 0);
 
         // After adding player
-        PlayerLobby.addPlayerToServer("Bob", "h");
-        Player bob = PlayerLobby.getPlayerFromUsername("Bob");
-        assertNotNull(PlayerLobby.getPlayerFromUsername("Bob"));
-        assertNotNull(PlayerLobby.getPlayerFromSessionID("h"));
+        CuT.addPlayerToLobby("Bob", "h");
+        Player bob = CuT.getPlayer("Bob");
+        assertNotNull(CuT.getPlayer("Bob"));
+        assertNotNull(CuT.getPlayer("h"));
         assertEquals(bob.getName(), "Bob");
         assertEquals(bob.getSessionId(), "h");
-        assertTrue(PlayerLobby.isPlayerOnline("Bob"));
-        assertEquals(PlayerLobby.numPlayers(), 1);
+        assertTrue(CuT.isPlayerOnline("Bob"));
+        assertEquals(CuT.numPlayers(), 1);
     }
 }
