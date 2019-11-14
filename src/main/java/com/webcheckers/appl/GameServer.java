@@ -13,38 +13,29 @@ import java.util.ArrayList;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
-    private ArrayList<Player> players = new ArrayList<>();
 
     /**
-     * Get the ArrayList of players currently connected to the server
-     * @return players list
+     * Add a new Game to the list of games being played
+     * @param game the game to add
      */
-    public ArrayList<Player> getPlayers () {
-        return players;
+    public void addGame(Game game) {
+        this.gamesInProgress.add(game);
     }
 
     /**
-     * Add a Player object to the server
-     * @param player the player to add
+     * Remove a game from the gameInProgress collection.
+     * @param game the game to remove.
      */
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public void removeGame(Game game) {
+        this.gamesInProgress.remove(game);
     }
 
-    /**
-     * Remove a Player object from the server
-     * @param player the player to remove
-     */
-    public void removePlayer(Player player) {
-        this.players.remove(player);
-    }
-    
     /**
      * Get the Game that a Player is playing
      * @param player the player whose game will be returned
      * @return null if the player is not in a game, otherwise, their game
      */
-    public Game getGameFromPlayer(Player player) {
+    public Game getGame(Player player) {
         for (Game game : gamesInProgress){
             if (game.contains(player)){
                 return game;
@@ -62,22 +53,15 @@ public class GameServer {
     }
 
     /**
-     * Add a new Game to the list of games being played
-     * @param game the game to add 
+     * Resign a player from the game.
+     * @param player the player in the game.
      */
-    public void addGame(Game game) {
-        this.gamesInProgress.add(game);
+    public void resignGame(Player player){
+        Game g = getGame(player);
+        g.setResign(true);
+        removeGame(g);
     }
 
 
-    //remove a game from the gamesInProgress collection.
-
-    /**
-     * Remove a game from the gameInProgress collection.
-     * @param game the game to remove.
-     */
-    public void removeGame(Game game) {
-        this.gamesInProgress.remove(game);
-    }
 
 }
