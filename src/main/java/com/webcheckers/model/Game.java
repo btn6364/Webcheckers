@@ -32,6 +32,9 @@ public class Game {
 
 
     private BoardView boardView;
+
+
+
     /**
      * Construct a new Game instance
      * @param player1 the first player

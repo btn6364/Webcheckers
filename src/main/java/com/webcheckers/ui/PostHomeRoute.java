@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -61,6 +62,11 @@ public class PostHomeRoute implements Route {
         }
 
         gameServer.newGame(firstPlayer, secondPlayer);
+        //add a new game to both player 1 and player 2
+        Game game = gameServer.getGame(firstPlayer);
+        firstPlayer.addPlayedGames(game);
+        secondPlayer.addPlayedGames(game);
+
 
         response.redirect(WebServer.GAME_URL);
 
