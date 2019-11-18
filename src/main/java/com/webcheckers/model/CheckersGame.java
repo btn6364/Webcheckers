@@ -81,7 +81,7 @@ public class CheckersGame {
         boolean isKing = (this.board[y][x] == Piece.WHITE_KING || this.board[y][x] == Piece.RED_KING);
         boolean isRed = (this.board[y][x] == Piece.RED || this.board[y][x] == Piece.RED_KING);
 
-        if (isRed || isKing){
+        if (!isRed || isKing){
             //higher y
             if (y < 6){
                 if (x > 1){
@@ -110,7 +110,7 @@ public class CheckersGame {
                 }
             }
         }
-        if (!isRed || isKing){
+        if (isRed || isKing){
             //lower y
             if (y > 1){
                 if (x > 1){
@@ -333,20 +333,16 @@ public class CheckersGame {
      */
     public static void main(String[] args){
         CheckersGame checkers = new CheckersGame();
-//        checkers.clearBoard();
-//        checkers.assignToTile(1,4, Piece.RED_KING);
-//        checkers.assignToTile(2,3, Piece.WHITE_KING);
-//        checkers.assignToTile(2,5, Piece.WHITE);
-//        checkers.assignToTile(5,6, Piece.RED_KING);
-//        checkers.assignToTile(6,1, Piece.RED);
-//        checkers.printValidMoves(1,4);
-//        System.out.print("\n");
-//        checkers.printValidMoves(5,6);
-//        System.out.print("\n");
-//        checkers.printValidMoves(6,1);
-//        System.out.print("\n");
-//        checkers.printBoard();
         checkers.printBoard();
-        System.out.println(checkers.validateMove(7,2,8,3));
+        checkers.assignToTile(4,5,Piece.EMPTY);
+        checkers.assignToTile(3,4,Piece.RED);
+        checkers.assignToTile(2,3,Piece.WHITE);
+        checkers.printBoard();
+        System.out.println("Valid Moves:\n");
+        checkers.printValidMoves(2,3);
+        boolean[] jumps = checkers.jumpExists(2,3);
+        for( boolean b : jumps){
+            System.out.println(b);
+        }
     }
 }
