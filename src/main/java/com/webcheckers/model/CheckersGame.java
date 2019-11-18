@@ -216,18 +216,35 @@ public class CheckersGame {
      * @param sy The starting y position
      * @param ex The starting x position
      * @param ey The starting y position
-     *
+     * @return true if move added, false otherwise
      * */
     public boolean attemptMove(int sx, int sy, int ex, int ey){
-        if(validateMove(sy, sx, ey, ex)){
-            Move move = new Move(new Position(sx, sy), new Position(ex, ey));
-            addMoveToStack(move);
-            return true;
+        // If stack is empty: just validate move
+        if(this.moves.empty()){
+            if(validateMove(sy, sx, ey, ex)){
+                Move move = new Move(new Position(sx, sy), new Position(ex, ey));
+                addMoveToStack(move);
+                return true;
+            }
+        }
+        // If stack has moves in it: make sure move is a valid multijump
+        else{
+            if(validateMultiJump(sx, sy, ex, ey)){
+                Move move = new Move(new Position(sx, sy), new Position(ex, ey));
+                addMoveToStack(move);
+                return true;
+            }
         }
         return false;
     }
-
-
+    
+    private boolean validateMultiJump(int sx, int sy, int ex, int ey){
+        // Check if move on top of stack moves a piece to sx, sy
+        // If not, return false
+        // If so, return whether the move is a valid jump
+        return false;
+    }
+    
     public void addMoveToStack(Move move){
         this.moves.push(move);
     }
@@ -237,7 +254,7 @@ public class CheckersGame {
             Move top = moves.pop();
             Position i = top.getInitialPosition();
             Position f = top.getFinalPosition();
-
+            // TODO: make jumps remove pieces
             CheckersGame.Piece piece = this.board[i.getRow()][i.getCell()];
             this.board[f.getRow()][f.getCell()] = piece;
             this.board[i.getRow()][i.getCell()] = CheckersGame.Piece.EMPTY;
