@@ -39,8 +39,8 @@ public class PostValidateMoveRoute implements Route {
         Game game = gameServer.getGame(player);
         String actionData = request.queryParams("actionData");
         Move move = gson.fromJson(actionData, Move.class);
-        Position initial = move.getInitialPosition();
-        Position fin = move.getFinalPosition();
+        Position initial = move.getStart();
+        Position fin = move.getEnd();
         Message message;
 
 

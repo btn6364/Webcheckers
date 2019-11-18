@@ -1,10 +1,4 @@
 package com.webcheckers.model;
-
-import com.webcheckers.util.Message;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.Stack;
 
 /**
@@ -222,15 +216,16 @@ public class CheckersGame {
         // If stack is empty: just validate move
         if(this.moves.empty()){
             if(validateMove(sy, sx, ey, ex)){
-                Move move = new Move(new Position(sx, sy), new Position(ex, ey));
+                Move move = new Move(new Position(sx, sy), new Position(ex, ey), this.board[sy][sx]);
                 addMoveToStack(move);
                 return true;
             }
         }
         // If stack has moves in it: make sure move is a valid multijump
         else{
+            Piece type = this.moves.peek().getType();
             if(validateMultiJump(sx, sy, ex, ey)){
-                Move move = new Move(new Position(sx, sy), new Position(ex, ey));
+                Move move = new Move(new Position(sx, sy), new Position(ex, ey), type);
                 addMoveToStack(move);
                 return true;
             }
@@ -240,8 +235,14 @@ public class CheckersGame {
     
     private boolean validateMultiJump(int sx, int sy, int ex, int ey){
         // Check if move on top of stack moves a piece to sx, sy
+        Move top = this.moves.peek();
+        if(top.getEnd().getRow() == sx && top.getEnd().getCell() == sy){
+            // If so, return whether the move is a valid jump
+            // Check if the destination is empty
+            // If it is, check if piece type is allowed to jump in this direction
+            // Finally, check if the piece it's jumping is of the other color
+        }
         // If not, return false
-        // If so, return whether the move is a valid jump
         return false;
     }
     
@@ -252,8 +253,8 @@ public class CheckersGame {
     public void submitMove(){
         while (!moves.empty()) {
             Move top = moves.pop();
-            Position i = top.getInitialPosition();
-            Position f = top.getFinalPosition();
+            Position i = top.getStart();
+            Position f = top.getEnd();
             // TODO: make jumps remove pieces
             CheckersGame.Piece piece = this.board[i.getRow()][i.getCell()];
             this.board[f.getRow()][f.getCell()] = piece;
