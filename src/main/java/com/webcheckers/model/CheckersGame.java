@@ -139,6 +139,36 @@ public class CheckersGame {
         return jumps;
     }
 
+    private boolean playerHasJumps(){
+        if(this.currentPlayer){
+            // Red
+            // Iterate over the entire board, looking for red pieces
+            for (int y = 0; y < this.board.length; y++){
+                for (int x = 0; x < this.board.length; x++){
+                    // If the piece is red, check if it can jump
+                    if(this.board[y][x] == Piece.RED 
+                            || this.board[y][x] == Piece.RED_KING){
+                        // If it can jump, the player has a jump!
+                        if(jumpExists(x,y)[4]){ return true; }
+                    }
+                }
+            }
+        }
+        else{
+            // White
+            // Same as red, but... white
+            for (int y = 0; y < this.board.length; y++){
+                for (int x = 0; x < this.board.length; x++){
+                    if(this.board[y][x] == Piece.WHITE
+                            || this.board[y][x] == Piece.WHITE_KING){
+                        if(jumpExists(x,y)[4]){ return true; }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
     /**
      * Validate the given move
      * @param sx X position of the piece to move
@@ -167,7 +197,7 @@ public class CheckersGame {
             return false;
         }
         // Validate moving piece is owned (red player)
-        else if (!this.currentPlayer && 
+        else if (this.currentPlayer && 
                 (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
             return false;
         }
@@ -187,7 +217,7 @@ public class CheckersGame {
         }        
         // Validate that destination is a valid move
         boolean[] jumps = jumpExists(sx, sy);
-        if (jumps[4]){
+        if(playerHasJumps()){
             // If there is a valid jump, only moves which jump are valid
             if(dy == sy-2 && dx == sx-2){
                 return jumps[0];
@@ -351,6 +381,8 @@ public class CheckersGame {
         // If the piece is in place to be kinged, king it!
         if(ey == 0 && piece == Piece.RED){ this.board[ey][ex] = Piece.RED_KING; }
         if(ey == 7 && piece == Piece.WHITE){ this.board[ey][ex] = Piece.WHITE_KING; }
+        // Update current player
+        this.currentPlayer = !this.currentPlayer;
     }
 
     /**
