@@ -167,13 +167,24 @@ public class CheckersGame {
             return false;
         }
         // Validate moving piece is owned (red player)
-        else if (!this.currentPlayer && (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
+        else if (!this.currentPlayer && 
+                (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
             return false;
         }
         // Validate moving piece is owned (white player)
-        else if (!this.currentPlayer && (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
+        else if (!this.currentPlayer && 
+                (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
             return false;
         }
+        // If the piece isn't a king, validate the move is in the correct direction
+        if(this.board[sy][sx] == Piece.RED){
+            // Red can move to lower y values
+            if(sy < dy){ return false; }
+        }
+        else if(this.board[sy][sx] == Piece.WHITE){
+            // White can move to higher y values
+            if(sy > dy){ return false; }
+        }        
         // Validate that destination is a valid move
         boolean[] jumps = jumpExists(sx, sy);
         if (jumps[4]){
