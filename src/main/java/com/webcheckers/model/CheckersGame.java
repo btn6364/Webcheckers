@@ -244,13 +244,11 @@ public class CheckersGame {
         Piece jumper = top.getType();
         Piece target;
         // Check if move on top of stack moves a piece to sx, sy
-        if(top.getEnd().getRow() == sx && top.getEnd().getCell() == sy){
+        if(top.getEnd().getRow() == sy && top.getEnd().getCell() == sx){
             // If so, return whether the move is a valid jump
             // Check if the destination is empty
-            System.out.printf("%d %d %d %d\n", sy, sx, ey, ex); // 2 5 4 7
             if(this.board[ey][ex] != Piece.EMPTY){ return false; }
             // Check if the move a proper diagonal jump
-            System.out.println("Check 2");
             if(ey == sy-2 && ex == sx-2){
                 target = this.board[sy-1][sx-1];
             }
@@ -267,7 +265,6 @@ public class CheckersGame {
                 // Not a jump
                 return false;
             }
-            System.out.println("Check 3");
             // Check if the move is jumping a piece of the opposite color
             if((jumper == Piece.RED || jumper == Piece.RED_KING) 
                     && !(target == Piece.WHITE || target == Piece.WHITE_KING)){
@@ -281,7 +278,6 @@ public class CheckersGame {
             }
             // Check if piece type is allowed to jump in this direction
             // Kings can jump in every direction, so we don't check for those
-            System.out.printf("%d %d %d %d\n", sy, ey, sx, ex);
             if(jumper == Piece.RED){
                 // Red can jump to lower y values
                 if(sy < ey){ return false; }
@@ -332,8 +328,8 @@ public class CheckersGame {
             // If this is a jump, remove the jumped piece
             if(iy % 2 == fy % 2){
                 int tx, ty;
-                if(ix > fx){tx = ix+1;}else{tx = ix-1;}
-                if(iy > fy){ty = iy+1;}else{ty = iy-1;}
+                if(ix > fx){tx = ix-1;}else{tx = ix+1;}
+                if(iy > fy){ty = iy-1;}else{ty = iy+1;}
                 this.board[ty][tx] = Piece.EMPTY;
             }
         }
