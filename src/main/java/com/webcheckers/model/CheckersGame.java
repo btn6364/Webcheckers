@@ -344,9 +344,13 @@ public class CheckersGame {
                 this.board[ty][tx] = Piece.EMPTY;
             }
         }
+        // Update the piece position
         Piece piece = this.board[sy][sx];
         this.board[ey][ex] = piece;
         this.board[sy][sx] = Piece.EMPTY;
+        // If the piece is in place to be kinged, king it!
+        if(ey == 0 && piece == Piece.RED){ this.board[ey][ex] = Piece.RED_KING; }
+        if(ey == 7 && piece == Piece.WHITE){ this.board[ey][ex] = Piece.WHITE_KING; }
     }
 
     /**
