@@ -13,6 +13,7 @@ import java.util.Iterator;
 public class BoardView implements Iterable<Row> {
     /** A List containing the Rows of the game board **/
     private ArrayList<Row> rows;
+    private CheckersGame game;
 
     /**
      * Construct a new BoardView instance
@@ -27,6 +28,7 @@ public class BoardView implements Iterable<Row> {
      * @param model the model to turn into a BoardView
      */
     public BoardView(CheckersGame model){
+        this.game = model;
         CheckersGame.Piece[][] board = model.getBoard();
         this.rows = new ArrayList<>();
         for (int y = 0; y < board.length; y++){
@@ -51,6 +53,15 @@ public class BoardView implements Iterable<Row> {
             }
             rows.add(new Row(spaces, y));
         }
+    }
+
+    public BoardView getReverseBoard(){
+        BoardView bView = new BoardView(game);
+        bView.rows.clear();
+        for (int x = 0; x < 8; x++) {
+            bView.rows.add(x, rows.get(7 -x).getReverseRow(7- x));
+        }
+        return bView;
     }
 
     /**
