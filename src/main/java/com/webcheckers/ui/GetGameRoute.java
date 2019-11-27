@@ -61,18 +61,23 @@ public class GetGameRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
-        Player player1 = playerLobby.getPlayer(request.session().id());
-        Game game = gameServer.getGame(player1);
+        Player currentPlayer = playerLobby.getPlayer(request.session().id());
+        Game game = gameServer.getGame(currentPlayer);
 
         if (game != null){
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
-            vm.put("currentUser", player1);
+            vm.put("currentUser", currentPlayer);
             vm.put("viewMode", "PLAY");
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
-            vm.put("board", game.getBoardView());
+            if (currentPlayer.equals(game.getPlayer1())){
+                vm.put("board", game.getBoardView());
+            } else {
+                vm.put("board", game.getBoardView().getReverseBoard());
+            }
+
         }
 
         // render the view model
