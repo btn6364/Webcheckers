@@ -1,29 +1,19 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.appl.GameServer;
+import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import com.webcheckers.appl.PlayerLobby;
 import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-/**
- * The UI Controller to GET the Game page.
- *
- * @author Liam Obrochta
- * @author John Licitra
- */
-public class GetGameRoute implements Route {
-
-    private static final Logger LOG = Logger.getLogger(GetGameRoute.class.getName());
-    public static final String TITLE = "Game";
+public class GetSpectatorRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
+    public static final String TITLE = "Spectator";
     public static final String VIEW_NAME = "game.ftl";
-    public static final String MODE_PLAY = "PLAY";
-    public static final String SPECTATE_MODE = "SPECTATOR";
-
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private GameServer gameServer;
@@ -34,10 +24,8 @@ public class GetGameRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetGameRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
+    public GetSpectatorRoute(TemplateEngine engine){
         this.templateEngine = engine;
-        this.gameServer = gameServer;
-        this.playerLobby = playerLobby;
     }
 
 
@@ -54,29 +42,27 @@ public class GetGameRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response){
-        //TODO: Make this throw an exception (if it needs to, otherwise remove that it can); fix NPE from getName()
-        LOG.finer("GetGameRoute is invoked.");
+        LOG.finer("GetSpectatorRoute is invoked.");
         //
 
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
-        Player player1 = playerLobby.getPlayer(request.session().id());
-        Game game = gameServer.getGame(player1);
-
-        if (game != null){
+        Player playerWatching = playerLobby.getPlayer(request.session().id());
+        // TODO: get the Game from gameID.
+        String gameID = request.queryParams("gameID");
+        Game game = gameServer.getGameFromGameID(gameID);
+        if (game != null) {
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
-            vm.put("currentUser", player1);
-            vm.put("viewMode", "PLAY");
+            vm.put("currentUser", playerWatching);
+            vm.put("viewMode", "SPECTATOR");
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
             vm.put("board", game.getBoardView());
         }
-
         // render the view model
-
         return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
 
     }

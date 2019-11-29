@@ -51,6 +51,18 @@ public class Game {
         this.boardView = new BoardView(game);
     }
 
+    /**
+     * Get game ID.
+     * @return the game ID.
+     */
+    public String getGameID(){
+        return this.gameID;
+    }
+
+    public void setGameID(String gameID){
+        this.gameID = gameID;
+    }
+
     public boolean backupMove(Player player){
         if (game.getMoves() != null){
             game.getMoves().pop();

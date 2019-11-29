@@ -72,6 +72,19 @@ public class GameServer {
         removeGame(g);
     }
 
+    /**
+     * Game the game from the game ID>
+     * @param gameID the unique ID of a game.
+     * @return the game with an associated game id.
+     */
+    public Game getGameFromGameID(String gameID){
+        for (Game game: gamesInProgress){
+            if (game.getGameID().equals(gameID)){
+                return game;
+            }
+        }
+        return null;
+    }
 
 
 }
