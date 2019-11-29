@@ -1,10 +1,4 @@
 package com.webcheckers.model;
-
-import com.webcheckers.util.Message;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.Stack;
 
 /**
@@ -81,7 +75,7 @@ public class CheckersGame {
         boolean isKing = (this.board[y][x] == Piece.WHITE_KING || this.board[y][x] == Piece.RED_KING);
         boolean isRed = (this.board[y][x] == Piece.RED || this.board[y][x] == Piece.RED_KING);
 
-        if (isRed || isKing){
+        if (!isRed || isKing){
             //higher y
             if (y < 6){
                 if (x > 1){
@@ -110,7 +104,7 @@ public class CheckersGame {
                 }
             }
         }
-        if (!isRed || isKing){
+        if (isRed || isKing){
             //lower y
             if (y > 1){
                 if (x > 1){
@@ -145,6 +139,36 @@ public class CheckersGame {
         return jumps;
     }
 
+    private boolean playerHasJumps(){
+        if(this.currentPlayer){
+            // Red
+            // Iterate over the entire board, looking for red pieces
+            for (int y = 0; y < this.board.length; y++){
+                for (int x = 0; x < this.board.length; x++){
+                    // If the piece is red, check if it can jump
+                    if(this.board[y][x] == Piece.RED 
+                            || this.board[y][x] == Piece.RED_KING){
+                        // If it can jump, the player has a jump!
+                        if(jumpExists(x,y)[4]){ return true; }
+                    }
+                }
+            }
+        }
+        else{
+            // White
+            // Same as red, but... white
+            for (int y = 0; y < this.board.length; y++){
+                for (int x = 0; x < this.board.length; x++){
+                    if(this.board[y][x] == Piece.WHITE
+                            || this.board[y][x] == Piece.WHITE_KING){
+                        if(jumpExists(x,y)[4]){ return true; }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
     /**
      * Validate the given move
      * @param sx X position of the piece to move
@@ -173,16 +197,27 @@ public class CheckersGame {
             return false;
         }
         // Validate moving piece is owned (red player)
-        else if (!this.currentPlayer && (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
+        else if (this.currentPlayer && 
+                (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
             return false;
         }
         // Validate moving piece is owned (white player)
-        else if (!this.currentPlayer && (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
+        else if (!this.currentPlayer && 
+                (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
             return false;
         }
+        // If the piece isn't a king, validate the move is in the correct direction
+        if(this.board[sy][sx] == Piece.RED){
+            // Red can move to lower y values
+            if(sy < dy){ return false; }
+        }
+        else if(this.board[sy][sx] == Piece.WHITE){
+            // White can move to higher y values
+            if(sy > dy){ return false; }
+        }        
         // Validate that destination is a valid move
         boolean[] jumps = jumpExists(sx, sy);
-        if (jumps[4]){
+        if(playerHasJumps()){
             // If there is a valid jump, only moves which jump are valid
             if(dy == sy-2 && dx == sx-2){
                 return jumps[0];
@@ -216,32 +251,138 @@ public class CheckersGame {
      * @param sy The starting y position
      * @param ex The starting x position
      * @param ey The starting y position
-     *
+     * @return true if move added, false otherwise
      * */
-    public boolean attemptMove(int sx, int sy, int ex, int ey){
-        if(validateMove(sy, sx, ey, ex)){
-            Move move = new Move(new Position(sx, sy), new Position(ex, ey));
-            addMoveToStack(move);
-            return true;
+    public boolean attemptMove(int sy, int sx, int ey, int ex){
+        // If stack is empty: just validate move
+        if(this.moves.empty()){
+            if(validateMove(sx, sy, ex, ey)){
+                Move move = new Move(new Position(sy, sx), new Position(ey, ex), this.board[sy][sx]);
+                addMoveToStack(move);
+                return true;
+            }
+        }
+        // If stack has moves in it: make sure move is a valid multijump
+        else{
+            Piece type = this.moves.peek().getType();
+            if(validateMultiJump(sx, sy, ex, ey)){
+                Move move = new Move(new Position(sy, sx), new Position(ey, ex), type);
+                addMoveToStack(move);
+                return true;
+            }
         }
         return false;
     }
-
-
+    
+    private boolean validateMultiJump(int sx, int sy, int ex, int ey){
+        // Note: This function is separate from the usual validation functions
+        // because it has to consider in-progress moves, while the other
+        // functions simply consider the current board state (and are thus only
+        // useful when no moves are in progress). Although this logic could be
+        // fused into those, the added complexity would make already logic-dense
+        // code completely unintelligible.
+        Move top = this.moves.peek();
+        Piece jumper = top.getType();
+        Piece target;
+        // Check if move on top of stack moves a piece to sx, sy
+        if(top.getEnd().getRow() == sy && top.getEnd().getCell() == sx){
+            // If so, return whether the move is a valid jump
+            // Check if the destination is empty
+            if(this.board[ey][ex] != Piece.EMPTY){ return false; }
+            // Check if the move a proper diagonal jump
+            if(ey == sy-2 && ex == sx-2){
+                target = this.board[sy-1][sx-1];
+            }
+            else if(ey == sy-2 && ex == sx+2){
+                target = this.board[sy-1][sx+1];
+            }
+            else if(ey == sy+2 && ex == sx+2){
+                target = this.board[sy+1][sx+1];
+            }
+            else if(ey == sy+2 && ex == sx-2){
+                target = this.board[sy+1][sx-1];
+            }
+            else{
+                // Not a jump
+                return false;
+            }
+            // Check if the move is jumping a piece of the opposite color
+            if((jumper == Piece.RED || jumper == Piece.RED_KING) 
+                    && !(target == Piece.WHITE || target == Piece.WHITE_KING)){
+                // Red piece trying to jump red or empty
+                return false;
+            }
+            else if((jumper == Piece.WHITE || jumper == Piece.WHITE_KING) 
+                    && !(target == Piece.RED || target == Piece.RED_KING)){
+                // White piece trying to jump white or empty
+                return false;
+            }
+            // Check if piece type is allowed to jump in this direction
+            // Kings can jump in every direction, so we don't check for those
+            if(jumper == Piece.RED){
+                // Red can jump to lower y values
+                if(sy < ey){ return false; }
+            }
+            else if(jumper == Piece.WHITE){
+                // White can jump to higher y values
+                if(sy > ey){ return false; }
+            }
+            // If we reach this point, the jump must be valid!
+            return true;
+        }
+        // If the move on top of the stack does not move a piece to sx, sy,
+        // then this move can't possibly be valid
+        return false;
+    }
+    
     public void addMoveToStack(Move move){
         this.moves.push(move);
     }
 
     public void submitMove(){
-        while (!moves.empty()) {
+        // If no move is being made, return without doing anything
+        if(moves.empty()){ return; }
+        // Start and end pos of the piece to move
+        // Java isn't smart enough to tell that these will always be initialized
+        int sx = 0, sy = 0, ex = 0, ey = 0;
+        boolean first = true;
+        // Handle each move
+        while(!moves.empty()) {
+            // Get move info
             Move top = moves.pop();
-            Position i = top.getInitialPosition();
-            Position f = top.getFinalPosition();
-
-            CheckersGame.Piece piece = this.board[i.getRow()][i.getCell()];
-            this.board[f.getRow()][f.getCell()] = piece;
-            this.board[i.getRow()][i.getCell()] = CheckersGame.Piece.EMPTY;
+            int ix = top.getStart().getCell();
+            int iy = top.getStart().getRow();
+            int fx = top.getEnd().getCell();
+            int fy = top.getEnd().getRow();
+                
+            // If this is the first move, update ex and ey
+            if(first){
+                ex = fx;
+                ey = fy;
+                first = false;
+            }
+            // If this is the last move, update sx and sy
+            if(moves.empty()){
+                sx = ix;
+                sy = iy;
+            }
+            // If this is a jump, remove the jumped piece
+            if(iy % 2 == fy % 2){
+                int tx, ty;
+                if(ix > fx){tx = ix-1;}else{tx = ix+1;}
+                if(iy > fy){ty = iy-1;}else{ty = iy+1;}
+                this.board[ty][tx] = Piece.EMPTY;
+            }
         }
+        // Update the piece position
+        Piece piece = this.board[sy][sx];
+        this.board[ey][ex] = piece;
+        this.board[sy][sx] = Piece.EMPTY;
+        // If the piece is in place to be kinged, king it!
+        if(ey == 0 && piece == Piece.RED){ this.board[ey][ex] = Piece.RED_KING; }
+        if(ey == 7 && piece == Piece.WHITE){ this.board[ey][ex] = Piece.WHITE_KING; }
+        // Update current player
+        this.currentPlayer = !this.currentPlayer;
     }
 
     /**
@@ -333,20 +474,16 @@ public class CheckersGame {
      */
     public static void main(String[] args){
         CheckersGame checkers = new CheckersGame();
-//        checkers.clearBoard();
-//        checkers.assignToTile(1,4, Piece.RED_KING);
-//        checkers.assignToTile(2,3, Piece.WHITE_KING);
-//        checkers.assignToTile(2,5, Piece.WHITE);
-//        checkers.assignToTile(5,6, Piece.RED_KING);
-//        checkers.assignToTile(6,1, Piece.RED);
-//        checkers.printValidMoves(1,4);
-//        System.out.print("\n");
-//        checkers.printValidMoves(5,6);
-//        System.out.print("\n");
-//        checkers.printValidMoves(6,1);
-//        System.out.print("\n");
-//        checkers.printBoard();
         checkers.printBoard();
-        System.out.println(checkers.validateMove(7,2,8,3));
+        checkers.assignToTile(4,5,Piece.EMPTY);
+        checkers.assignToTile(3,4,Piece.RED);
+        checkers.assignToTile(2,3,Piece.WHITE);
+        checkers.printBoard();
+        System.out.println("Valid Moves:\n");
+        checkers.printValidMoves(2,3);
+        boolean[] jumps = checkers.jumpExists(2,3);
+        for( boolean b : jumps){
+            System.out.println(b);
+        }
     }
 }

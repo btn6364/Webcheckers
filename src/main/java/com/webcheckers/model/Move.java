@@ -2,22 +2,25 @@ package com.webcheckers.model;
 
 public class Move {
 
-    private Player player;
-
-    private Position start, end;
-
-    public Move(Position start, Position end){
+    private final Position start, end;
+    private final CheckersGame.Piece type;
+    
+    public Move(Position start, Position end, CheckersGame.Piece type){
         this.start = start;
         this.end = end;
+        this.type = type;
     }
 
 
-    public Position getInitialPosition() {
+    public Position getStart() {
         return start;
     }
 
-    public Position getFinalPosition() {
+    public Position getEnd() {
         return end;
     }
 
+    public CheckersGame.Piece getType() {
+        return type;
+    }
 }
