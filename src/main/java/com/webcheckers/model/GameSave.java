@@ -25,4 +25,7 @@ public class GameSave {
         return this.game.getGameID();
     }
 
+    public ArrayList<BoardView> getViewSaves(){
+        return this.viewSaves;
+    }
 }

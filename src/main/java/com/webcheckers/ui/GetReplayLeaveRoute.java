@@ -13,6 +13,10 @@ import java.util.logging.Logger;
 
 import static spark.Spark.halt;
 
+/**
+ * Handle Get replay/stopWatching URL
+ * @author Bao Nguyen
+ */
 public class GetReplayLeaveRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetReplayLeaveRoute.class.getName());
     private TemplateEngine templateEngine;
@@ -39,12 +43,11 @@ public class GetReplayLeaveRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response) {
-        Player player = playerLobby.getPlayer(request.session().id());
+        Player replayer = playerLobby.getPlayer(request.session().id());
         Game game = gameServer.getGameFromGameID(request.queryParams("gameID"));
-        game.removeSpectator(player);
+        game.removeReplayer(replayer);
         response.redirect(WebServer.HOME_URL);
         halt();
-
         return null;
     }
 

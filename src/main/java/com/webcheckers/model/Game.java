@@ -37,13 +37,13 @@ public class Game {
 
     private String name;
 
-    private ArrayList<Player> spectators = new ArrayList<>();
+    private ArrayList<Player> spectators;
 
     private boolean unseenTurn;
 
     private ArrayList<BoardView> gameSave = new ArrayList<>();
 
-
+    private ArrayList<Player> replayers;
 
     /**
      * Construct a new Game instance
@@ -61,6 +61,8 @@ public class Game {
         this.boardView = new BoardView(game);
         this.gameID = String.valueOf(id);
         this.unseenTurn = false;
+        this.spectators = new ArrayList<Player>();
+        this.replayers = new ArrayList<Player>();
     }
 
 
@@ -170,6 +172,30 @@ public class Game {
             this.activeColor = "RED";
             this.playerWithTurn = this.player1;
         }
+    }
+
+    /**
+     * Get the list of all replayers
+     * @return the list of people who are replaying this game.
+     */
+    public ArrayList<Player> getReplayers(){
+        return this.replayers;
+    }
+
+    /**
+     * Add a new replayer into the game.
+     * @param replayer the replayer
+     */
+    public void addReplayer(Player replayer){
+        this.replayers.add(replayer);
+    }
+
+    /**
+     * Remove a replayer out of the game.
+     * @param replayer the replayer.
+     */
+    public void removeReplayer(Player replayer){
+        this.replayers.remove(replayer);
     }
 
     public void addSpectator(Player spectator){
