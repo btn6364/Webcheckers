@@ -10,4 +10,8 @@ public class NameUtils {
     public static boolean isAlphaNumeric(String name){
         return (name!=null) && (name.matches("^[a-zA-Z0-9\\s]+$") && !name.matches("\\s+"));
     }
+
+    public static boolean isNumeric(String name) {
+        return name.matches("-?\\d+(\\.\\d+)?");
+    }
 }

@@ -32,6 +32,15 @@ public class Row implements Iterable<Space> {
         return this.spaces.iterator();
     }
 
+    public Row getReverseRow(int index) {
+        ArrayList<Space> newS = new ArrayList<>();
+        Row r = new Row(newS, index);
+        for (int x = 0; x < 8; x++) {
+            r.spaces.add(spaces.get(7 - x));
+        }
+        return r;
+    }
+
     /**
      * Get the index of the row
      * @return the index of the row

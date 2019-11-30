@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.board.BoardView;
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -25,27 +26,55 @@ public class Game {
     /** check if the game is resigned or not.**/
     private boolean resigned;
 
-    private String activeColor;
+    private boolean gameEnded;
 
+    private String activeColor;
 
     private Player playerWithTurn;
 
+    private Player winner;
+
+    private Player loser;
 
     private BoardView boardView;
+
+    private String name;
+
+    private ArrayList<Player> spectators = new ArrayList<>();
+
+    private boolean unseenTurn;
+
+
+
     /**
      * Construct a new Game instance
      * @param player1 the first player
      * @param player2 the second player
      */
-    public Game(Player player1, Player player2) {
+    public Game(Player player1, Player player2, int id) {
         this.game = new CheckersGame();
         this.player1 = player1;
         this.player2 = player2;
         this.resigned = false;
         this.playerWithTurn = player1;
         this.activeColor = "RED";
-
+        this.name = player1.getName() + " vs " + player2.getName();
         this.boardView = new BoardView(game);
+        this.gameID = String.valueOf(id);
+        this.unseenTurn = false;
+    }
+
+
+    /**
+     * Get game ID.
+     * @return the game ID.
+     */
+    public String getGameID(){
+        return this.gameID;
+    }
+
+    public void setGameID(String gameID){
+        this.gameID = gameID;
     }
 
     public boolean backupMove(Player player){
@@ -61,10 +90,17 @@ public class Game {
         if (player.equals(this.playerWithTurn)) {
             game.submitMove();
             changePlayerWithTurn();
+            this.unseenTurn = true;
             this.boardView = new BoardView(game);
             return Message.info("Move submitted successfully!");
         }
         return Message.error("Error while submitting move!");
+    }
+
+    public void endGame(Player winner, Player loser){
+        this.gameEnded = true;
+        this.winner = winner;
+        this.loser = loser;
     }
 
     /**
@@ -77,10 +113,21 @@ public class Game {
 
     /**
      * Set the resignation state of the game.
-     * @param resigned the resignation state of the game.
+     * @param resigner the resignation state of the game.
      */
-    public void setResign(boolean resigned){
-        this.resigned = resigned;
+    public boolean setResign(Player resigner){
+        this.resigned = true;
+        Player winner;
+        if (resigner.equals(player1)){
+            winner = player2;
+        } else {
+            winner = player1;
+        }
+        Player loser = resigner;
+
+
+        endGame(winner, loser);
+        return true;
     }
 
     /**
@@ -107,6 +154,10 @@ public class Game {
         return player2;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public BoardView getBoardView(){
         return this.boardView;
     }
@@ -122,6 +173,26 @@ public class Game {
         }
     }
 
+    public void addSpectator(Player spectator){
+        this.spectators.add(spectator);
+    }
+
+    public void removeSpectator(Player spectator){
+        this.spectators.remove(spectator);
+    }
+
+    public ArrayList<Player> getSpectators(){
+        return this.spectators;
+    }
+
+    public Player getWinner(){
+        return this.winner;
+    }
+
+    public Player getLoser(){
+        return this.loser;
+    }
+
     public Player getPlayerWithTurn(){
         return this.playerWithTurn;
     }
@@ -130,6 +201,13 @@ public class Game {
         return this.activeColor;
     }
 
+    public boolean isGameEnded(){
+        return this.gameEnded;
+    }
+
+    public boolean isUnseenTurn(){
+        return this.unseenTurn;
+    }
 
     /**
      * check if a player is in a game.

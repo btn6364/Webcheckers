@@ -10,7 +10,11 @@ import spark.Response;
 import spark.Route;
 import spark.TemplateEngine;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+
+import static spark.Spark.halt;
 
 /**
  * Handle POST route for resignation
@@ -24,16 +28,18 @@ public class PostResignGameRoute implements Route {
     private final TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private GameServer gameServer;
+    private Gson gson;
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code POST /} HTTP requests.
      * @param templateEngine the HTML template rendering engine.
      */
-    protected PostResignGameRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer){
+    protected PostResignGameRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer, Gson gson){
         Objects.requireNonNull(templateEngine, "templateEngine must not be null!");
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;
         this.gameServer = gameServer;
+        this.gson = gson;
     }
 
     /**
@@ -47,12 +53,16 @@ public class PostResignGameRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         //resign the player who clicked the resign button from the current game
         Player player = playerLobby.getPlayer(request.session().id());
-        gameServer.resignGame(player);
+        boolean success = gameServer.resignGame(player);
+
+        if (success){
+            return gson.toJson(Message.info("Resign"));
+        } else {
+            return gson.toJson(Message.error("You can only resign on your turn!"));
+        }
 
         //TODO: for the other player, handle the resign by check if resigned is True or False in the PostBackUpMoveRoute and PostSubmitTurnRoute
-        //TODO: Also modify window.GameData so that modeOptions array reads that the game was resigned
 
-        //response.redirect(WebServer.HOME_URL);
-        return new Gson().toJson(Message.info("Message"));
+
     }
 }
