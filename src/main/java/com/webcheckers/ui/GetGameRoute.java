@@ -104,8 +104,7 @@ public class GetGameRoute implements Route {
             }
 
             // render the view model
-
-            return templateEngine.render(new ModelAndView(vm , "game.ftl"));
+            return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
 
         }
         return null;

@@ -36,6 +36,9 @@ public class Game {
     private Player loser;
 
     private BoardView boardView;
+
+
+
     /**
      * Construct a new Game instance
      * @param player1 the first player
@@ -50,6 +53,18 @@ public class Game {
         this.activeColor = "RED";
 
         this.boardView = new BoardView(game);
+    }
+
+    /**
+     * Get game ID.
+     * @return the game ID.
+     */
+    public String getGameID(){
+        return this.gameID;
+    }
+
+    public void setGameID(String gameID){
+        this.gameID = gameID;
     }
 
     public boolean backupMove(Player player){

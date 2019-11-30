@@ -64,6 +64,7 @@ public class WebServer {
   public static final String SUBMIT_MOVE_URL = "/submitTurn";
   public static final String CHECK_TURN_URL = "/checkTurn";
   public static final String BACKUP_MOVE_URL = "/backupMove";
+  public static final String SPECTATOR_GAME_URL = "/spectator/game";
 
   //
   // Singletons
@@ -162,6 +163,7 @@ public class WebServer {
     get(SIGNIN_URL, new GetSigninRoute(templateEngine));
     get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameServer, gson));
     get(SIGNOUT_URL, new GetSignoutRoute(templateEngine));
+    get(SPECTATOR_GAME_URL, new GetSpectatorRoute(templateEngine));
     post(SIGNIN_URL, new PostSigninRoute(templateEngine, playerLobby, gameServer));
     post(HOME_URL, new PostHomeRoute(templateEngine, playerLobby, gameServer));
     post(SIGNOUT_URL, new PostSignoutRoute(templateEngine, playerLobby, gameServer));
