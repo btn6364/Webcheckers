@@ -77,6 +77,7 @@ public class GameServer {
         Game g = getGame(player);
         return g.setResign(player);
 
+    }
     /**
      * Game the game from the game ID>
      * @param gameID the unique ID of a game.
