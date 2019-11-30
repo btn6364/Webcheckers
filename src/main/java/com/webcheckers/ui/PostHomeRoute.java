@@ -5,7 +5,10 @@ import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.NameUtils;
+import org.eclipse.jetty.util.StringUtil;
 import spark.*;
+import spark.utils.StringUtils;
 
 
 import static spark.Spark.halt;
@@ -52,7 +55,7 @@ public class PostHomeRoute implements Route {
             return input; // button wasn't clicked.. something went wrong
         }
 
-        if (playerLobby.getPlayers().contains(currentPlayer)) {
+        if (!NameUtils.isNumeric(input)) {
 
             Player secondPlayer = playerLobby.getPlayer(input);
 
@@ -75,13 +78,11 @@ public class PostHomeRoute implements Route {
             halt();
             return null;
 
-        } else if (input.contains(" vs ")) { //Check if the player is trying to spectate (might have to change this logic)
+        } else {
             Game game = gameServer.getGameFromGameID(input);
             game.addSpectator(currentPlayer);
-            response.redirect(WebServer.SPECTATOR_GAME_URL);
+            response.redirect(WebServer.SPECTATOR_GAME_URL + "?gameID=" + game.getGameID());
             halt();
-            return null;
-        } else {
             return null;
         }
 
