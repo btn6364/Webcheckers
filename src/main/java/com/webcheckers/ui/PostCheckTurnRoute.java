@@ -26,7 +26,7 @@ public class PostCheckTurnRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-         Player player = playerLobby.getPlayer(request.session().id());
+        Player player = playerLobby.getPlayer(request.session().id());
         Game game = gameServer.getGame(player);
 
         if (game.getResign()){

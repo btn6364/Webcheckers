@@ -79,7 +79,7 @@ public class GetHomeRoute implements Route {
     Player player = playerLobby.getPlayer(request.session().id());
     if (player != null){
       vm.put(NEW_USER_ATTR, player);
-      if (gameServer.getGame(player) != null){
+      if (gameServer.getGame(player) != null && !gameServer.getGame(player).isGameEnded()){
         // Redirect player to their game
         response.redirect(WebServer.GAME_URL);
 

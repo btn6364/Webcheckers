@@ -161,14 +161,14 @@ public class WebServer {
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(templateEngine, playerLobby, gameServer));
     get(SIGNIN_URL, new GetSigninRoute(templateEngine));
-    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameServer));
+    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameServer, gson));
     get(SIGNOUT_URL, new GetSignoutRoute(templateEngine));
     get(SPECTATOR_GAME_URL, new GetSpectatorRoute(templateEngine));
     post(SIGNIN_URL, new PostSigninRoute(templateEngine, playerLobby, gameServer));
     post(HOME_URL, new PostHomeRoute(templateEngine, playerLobby, gameServer));
     post(SIGNOUT_URL, new PostSignoutRoute(templateEngine, playerLobby, gameServer));
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(templateEngine, playerLobby, gameServer, gson));
-    post(RESIGN_URL, new PostResignGameRoute(templateEngine, playerLobby, gameServer));
+    post(RESIGN_URL, new PostResignGameRoute(templateEngine, playerLobby, gameServer, gson));
     post(SUBMIT_MOVE_URL, new PostSubmitTurnRoute(templateEngine, playerLobby, gameServer));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(templateEngine, playerLobby, gameServer));
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(templateEngine, playerLobby, gameServer, gson));

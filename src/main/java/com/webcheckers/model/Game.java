@@ -25,11 +25,15 @@ public class Game {
     /** check if the game is resigned or not.**/
     private boolean resigned;
 
-    private String activeColor;
+    private boolean gameEnded;
 
+    private String activeColor;
 
     private Player playerWithTurn;
 
+    private Player winner;
+
+    private Player loser;
 
     private BoardView boardView;
 
@@ -82,6 +86,12 @@ public class Game {
         return Message.error("Error while submitting move!");
     }
 
+    public void endGame(Player winner, Player loser){
+        this.gameEnded = true;
+        this.winner = winner;
+        this.loser = loser;
+    }
+
     /**
      * Get the current state of the game.
      * @return true if the game has been resigned and false otherwise.
@@ -94,8 +104,19 @@ public class Game {
      * Set the resignation state of the game.
      * @param resigned the resignation state of the game.
      */
-    public void setResign(boolean resigned){
-        this.resigned = resigned;
+    public boolean setResign(Player resigner){
+        this.resigned = true;
+        Player winner;
+        if (resigner.equals(player1)){
+            winner = player2;
+        } else {
+            winner = player1;
+        }
+        Player loser = resigner;
+
+
+        endGame(winner, loser);
+        return true;
     }
 
     /**
@@ -137,12 +158,24 @@ public class Game {
         }
     }
 
+    public Player getWinner(){
+        return this.winner;
+    }
+
+    public Player getLoser(){
+        return this.loser;
+    }
+
     public Player getPlayerWithTurn(){
         return this.playerWithTurn;
     }
 
     public String getActiveColor(){
         return this.activeColor;
+    }
+
+    public boolean isGameEnded(){
+        return this.gameEnded;
     }
 
 
