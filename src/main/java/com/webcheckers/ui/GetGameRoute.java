@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
@@ -27,6 +28,7 @@ public class GetGameRoute implements Route {
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private GameServer gameServer;
+    private Gson gson;
 
     /**
      * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -34,10 +36,11 @@ public class GetGameRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetGameRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
+    public GetGameRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer, Gson gson){
         this.templateEngine = engine;
         this.gameServer = gameServer;
         this.playerLobby = playerLobby;
+        this.gson = gson;
     }
 
 
@@ -64,11 +67,29 @@ public class GetGameRoute implements Route {
         Player currentPlayer = playerLobby.getPlayer(request.session().id());
         Game game = gameServer.getGame(currentPlayer);
 
-        if (game != null){
+        if (game != null){ //This should never happen. Possibly remove?
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
             vm.put("currentUser", currentPlayer);
             vm.put("viewMode", "PLAY");
+
+            if (game.isGameEnded()){
+
+                final Map<String, Object> modeOptions = new HashMap<>(2);
+                modeOptions.put("isGameOver", true);
+                if (game.getResign()){
+                    modeOptions.put("gameOverMessage", game.getLoser().getName() + " has resigned! The game has ended.");
+                } else {
+                    if (game.getWinner().equals(currentPlayer)){
+                        modeOptions.put("gameOverMessage", "You won by capturing all pieces!");
+                    } else {
+                        modeOptions.put("gameOverMessage", game.getWinner().getName() + " won by capturing all pieces!");
+                    }
+
+                }
+                vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+            }
+
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
@@ -78,11 +99,16 @@ public class GetGameRoute implements Route {
                 vm.put("board", game.getBoardView().getReverseBoard());
             }
 
+            if (game.isGameEnded()){
+                gameServer.removeGame(game);
+            }
+
+            // render the view model
+
+            return templateEngine.render(new ModelAndView(vm , "game.ftl"));
+
         }
-
-        // render the view model
-
-        return templateEngine.render(new ModelAndView(vm , "game.ftl"));
+        return null;
 
     }
 
