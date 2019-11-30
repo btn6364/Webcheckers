@@ -15,7 +15,6 @@ import java.util.ArrayList;
  */
 public class PlayerLobby {
 
-    private static GameServer server = new GameServer();
     private ArrayList<Player> players = new ArrayList<>();
 
 
