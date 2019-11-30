@@ -24,8 +24,10 @@ public class GetSpectatorRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetSpectatorRoute(TemplateEngine engine){
+    public GetSpectatorRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
         this.templateEngine = engine;
+        this.playerLobby = playerLobby;
+        this.gameServer = gameServer;
     }
 
 
@@ -51,9 +53,7 @@ public class GetSpectatorRoute implements Route {
         Player spectator = playerLobby.getPlayer(request.session().id());
         // TODO: get the Game from gameID.
         String gameID = request.queryParams("gameID");
-        //Bao - I modified getGame so that it can find games from spectators.
-        // Take a look at the code and you'll see what I mean.
-        Game game = gameServer.getGame(spectator);
+        Game game = gameServer.getGameFromGameID(gameID);
         if (game != null) {
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
