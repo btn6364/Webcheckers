@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
+    private int gameCounter = 1;
 
     /**
      * Create a new game for 2 players.
@@ -22,7 +23,8 @@ public class GameServer {
      * @param player2 player 2.
      */
     public void newGame(Player player1, Player player2) {
-        Game g = new Game(player1, player2);
+        Game g = new Game(player1, player2, gameCounter);
+        gameCounter++;
         addGame(g);
     }
 
@@ -52,7 +54,16 @@ public class GameServer {
      */
     public Game getGame(Player player) {
         for (Game game : gamesInProgress) {
-            if (game.contains(player)) {
+            if (game.contains(player) || game.getSpectators().contains(player)) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+    public Game getGameByName(String name){
+        for (Game game : gamesInProgress){
+            if (game.getName().equals(name)){
                 return game;
             }
         }
@@ -64,7 +75,7 @@ public class GameServer {
      *
      * @return gamesInProgress
      */
-    public ArrayList getGamesInProgress() {
+    public ArrayList<Game> getGamesInProgress() {
         return gamesInProgress;
     }
 

@@ -3,6 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.board.BoardView;
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -37,6 +38,10 @@ public class Game {
 
     private BoardView boardView;
 
+    private String name;
+
+    private ArrayList<Player> spectators = new ArrayList<>();
+
 
 
     /**
@@ -44,16 +49,17 @@ public class Game {
      * @param player1 the first player
      * @param player2 the second player
      */
-    public Game(Player player1, Player player2) {
+    public Game(Player player1, Player player2, int id) {
         this.game = new CheckersGame();
         this.player1 = player1;
         this.player2 = player2;
         this.resigned = false;
         this.playerWithTurn = player1;
         this.activeColor = "RED";
-
+        this.name = player1 + " vs " + player2;
         this.boardView = new BoardView(game);
     }
+
 
     /**
      * Get game ID.
@@ -143,6 +149,10 @@ public class Game {
         return player2;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public BoardView getBoardView(){
         return this.boardView;
     }
@@ -156,6 +166,14 @@ public class Game {
             this.activeColor = "RED";
             this.playerWithTurn = this.player1;
         }
+    }
+
+    public void addSpectator(Player player){
+        this.spectators.add(player);
+    }
+
+    public ArrayList<Player> getSpectators(){
+        return this.spectators;
     }
 
     public Player getWinner(){
