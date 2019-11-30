@@ -67,7 +67,8 @@ public class WebServer {
   public static final String SPECTATOR_GAME_URL = "/spectator/game";
   public static final String SPECTATOR_LEAVE_GAME_URL = "/spectator/stopWatching";
   public static final String SPECTATOR_CHECK_TURN_URL = "/spectator/checkTurn";
-
+  public static final String REPLAY_GAME_URL = "replay/game";
+  public static final String REPLAY_LEAVE_GAME_URL = "replay/stopWatching";
   //
   // Singletons
   //
@@ -167,6 +168,8 @@ public class WebServer {
     get(SIGNOUT_URL, new GetSignoutRoute(templateEngine));
     get(SPECTATOR_GAME_URL, new GetSpectatorRoute(templateEngine, playerLobby, gameServer));
     get(SPECTATOR_LEAVE_GAME_URL, new GetSpectatorLeaveRoute(templateEngine, playerLobby, gameServer));
+    get(REPLAY_GAME_URL, new GetReplayRoute(templateEngine, playerLobby, gameServer));
+    get(REPLAY_LEAVE_GAME_URL, new GetReplayLeaveRoute(templateEngine, playerLobby, gameServer));
     post(SIGNIN_URL, new PostSigninRoute(templateEngine, playerLobby, gameServer));
     post(HOME_URL, new PostHomeRoute(templateEngine, playerLobby, gameServer));
     post(SIGNOUT_URL, new PostSignoutRoute(templateEngine, playerLobby, gameServer));

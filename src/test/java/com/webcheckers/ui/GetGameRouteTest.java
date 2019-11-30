@@ -64,7 +64,7 @@ public class GetGameRouteTest {
         gameServer = mock(GameServer.class);
 
         //Create a unique CuT for each test.
-        CuT = new GetGameRoute(engine, playerLobby, gameServer);
+//        CuT = new GetGameRoute(engine, playerLobby, gameServer);
     }
 
     @Test
