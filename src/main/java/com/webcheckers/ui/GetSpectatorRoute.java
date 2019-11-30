@@ -48,14 +48,16 @@ public class GetSpectatorRoute implements Route {
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
-        Player playerWatching = playerLobby.getPlayer(request.session().id());
+        Player spectator = playerLobby.getPlayer(request.session().id());
         // TODO: get the Game from gameID.
         String gameID = request.queryParams("gameID");
-        Game game = gameServer.getGameFromGameID(gameID);
+        //Bao - I modified getGame so that it can find games from spectators.
+        // Take a look at the code and you'll see what I mean.
+        Game game = gameServer.getGame(spectator);
         if (game != null) {
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
-            vm.put("currentUser", playerWatching);
+            vm.put("currentUser", spectator);
             vm.put("viewMode", "SPECTATOR");
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);

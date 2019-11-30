@@ -46,36 +46,45 @@ public class PostHomeRoute implements Route {
     @Override
     public String handle(Request request, Response response) {
 
-        Player firstPlayer = playerLobby.getPlayer(request.session().id());
+        Player currentPlayer = playerLobby.getPlayer(request.session().id());
         String input = request.queryParams("button");
-        if (input == null){
+        if (input == null) {
             return input; // button wasn't clicked.. something went wrong
         }
 
-        Player secondPlayer = playerLobby.getPlayer(input);
+        if (playerLobby.getPlayers().contains(currentPlayer)) {
 
-        if (secondPlayer == null){
-            return null; //player didn't exist
+            Player secondPlayer = playerLobby.getPlayer(input);
+
+            if (secondPlayer == null) {
+                return null; //player didn't exist
+            } else if (gameServer.getGame(secondPlayer) != null) {
+                return null; //player already in a game
+            }
+
+            gameServer.newGame(currentPlayer, secondPlayer);
+            //add a new game to both player 1 and player 2
+            Game game = gameServer.getGame(currentPlayer);
+            currentPlayer.addPlayedGames(game);
+            secondPlayer.addPlayedGames(game);
+
+
+            response.redirect(WebServer.GAME_URL);
+
+            //End the else block as normal.
+            halt();
+            return null;
+
+        } else if (input.contains(" vs ")) { //Check if the player is trying to spectate (might have to change this logic)
+            Game game = gameServer.getGameFromGameID(input);
+            game.addSpectator(currentPlayer);
+            response.redirect(WebServer.SPECTATOR_GAME_URL);
+            halt();
+            return null;
+        } else {
+            return null;
         }
-        else if (gameServer.getGame(secondPlayer) != null){
-            return null; //player already in a game
-        }
-
-        gameServer.newGame(firstPlayer, secondPlayer);
-        //add a new game to both player 1 and player 2
-        Game game = gameServer.getGame(firstPlayer);
-        firstPlayer.addPlayedGames(game);
-        secondPlayer.addPlayedGames(game);
-
-
-        response.redirect(WebServer.GAME_URL);
-
-        //End the else block as normal.
-        halt();
-        return null;
 
     }
-
-
 }
 

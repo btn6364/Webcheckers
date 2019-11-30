@@ -31,6 +31,7 @@ public class GetHomeRoute implements Route {
   static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
   static final String NEW_USER_ATTR = "currentUser";
   static final String VIEW_NAME = "home.ftl";
+  static final String GAME_LIST_ATTR = "gameList";
 
   private PlayerLobby playerLobby;
   private GameServer gameServer;
@@ -74,6 +75,7 @@ public class GetHomeRoute implements Route {
     vm.put(MESSAGE_ATTR, WELCOME_MSG);
     vm.put(NUM_PLAYER_ATTR, playerLobby.numPlayers());
     vm.put(PLAYER_LIST_ATTR, playerLobby.getPlayers());
+    vm.put(GAME_LIST_ATTR, gameServer.getGamesInProgress());
 
     // Display Player info if signed in
     Player player = playerLobby.getPlayer(request.session().id());
