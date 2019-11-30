@@ -1,9 +1,13 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameSave;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.board.BoardView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
 
 /**
  * A server backend which maintains a list of logged-in players and in-progress games.
@@ -14,6 +18,7 @@ import java.util.ArrayList;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
+    private HashMap<Player, GameSave> savedGames = new HashMap<>();
     private int gameCounter = 1;
 
     /**
@@ -89,6 +94,25 @@ public class GameServer {
         return g.setResign(player);
 
     }
+
+    public void saveGame(Player saver, Game game){
+        GameSave save = new GameSave(saver, game, game.getGameSave());
+        this.savedGames.put(saver, save);
+    }
+
+    public ArrayList<GameSave> getSavesForPlayer(Player player){
+        ArrayList<GameSave> games = new ArrayList<>();
+        for (Player p: savedGames.keySet()){
+            if (player.equals(p)){
+                games.add(savedGames.get(player));
+            }
+
+        }
+        return games;
+    }
+
+
+
     /**
      * Game the game from the game ID>
      * @param gameID the unique ID of a game.
