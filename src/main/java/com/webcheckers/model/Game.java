@@ -3,10 +3,7 @@ package com.webcheckers.model;
 import com.webcheckers.ui.board.BoardView;
 import com.webcheckers.util.Message;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * A class representing a game (containing a game model, players, and game ID)
@@ -43,6 +40,8 @@ public class Game {
     private ArrayList<Player> spectators = new ArrayList<>();
 
     private boolean unseenTurn;
+
+    private ArrayList<BoardView> gameSave = new ArrayList<>();
 
 
 
@@ -88,9 +87,9 @@ public class Game {
 
     public Message submitMove(Player player){
         if (player.equals(this.playerWithTurn)) {
-            game.submitMove();
             changePlayerWithTurn();
             this.unseenTurn = true;
+            this.gameSave.add(boardView);
             this.boardView = new BoardView(game);
             return Message.info("Move submitted successfully!");
         }
@@ -207,6 +206,12 @@ public class Game {
 
     public boolean isUnseenTurn(){
         return this.unseenTurn;
+    }
+
+    public ArrayList<BoardView> getGameSave(){
+        Object tmp = this.gameSave.clone();
+        Collections.reverse((ArrayList<BoardView>) tmp);
+        return (ArrayList<BoardView>)tmp;
     }
 
     /**
