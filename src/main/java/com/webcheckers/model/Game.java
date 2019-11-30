@@ -42,6 +42,8 @@ public class Game {
 
     private ArrayList<Player> spectators = new ArrayList<>();
 
+    private boolean unseenTurn;
+
 
 
     /**
@@ -56,8 +58,10 @@ public class Game {
         this.resigned = false;
         this.playerWithTurn = player1;
         this.activeColor = "RED";
-        this.name = player1 + " vs " + player2;
+        this.name = player1.getName() + " vs " + player2.getName();
         this.boardView = new BoardView(game);
+        this.gameID = String.valueOf(id);
+        this.unseenTurn = false;
     }
 
 
@@ -86,6 +90,7 @@ public class Game {
         if (player.equals(this.playerWithTurn)) {
             game.submitMove();
             changePlayerWithTurn();
+            this.unseenTurn = true;
             this.boardView = new BoardView(game);
             return Message.info("Move submitted successfully!");
         }
@@ -108,7 +113,7 @@ public class Game {
 
     /**
      * Set the resignation state of the game.
-     * @param resigned the resignation state of the game.
+     * @param resigner the resignation state of the game.
      */
     public boolean setResign(Player resigner){
         this.resigned = true;
@@ -168,8 +173,12 @@ public class Game {
         }
     }
 
-    public void addSpectator(Player player){
-        this.spectators.add(player);
+    public void addSpectator(Player spectator){
+        this.spectators.add(spectator);
+    }
+
+    public void removeSpectator(Player spectator){
+        this.spectators.remove(spectator);
     }
 
     public ArrayList<Player> getSpectators(){
@@ -196,6 +205,9 @@ public class Game {
         return this.gameEnded;
     }
 
+    public boolean isUnseenTurn(){
+        return this.unseenTurn;
+    }
 
     /**
      * check if a player is in a game.

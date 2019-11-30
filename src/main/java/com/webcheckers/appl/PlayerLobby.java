@@ -66,6 +66,7 @@ public class PlayerLobby {
         return players.size();
     }
 
+
     /**
      * Check if the player is online.
      * @param username the username of the player.
