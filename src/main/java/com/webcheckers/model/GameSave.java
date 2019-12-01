@@ -3,15 +3,14 @@ package com.webcheckers.model;
 import com.webcheckers.ui.board.BoardView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GameSave {
 
-    private Player player;
     private Game game;
     private ArrayList<BoardView> viewSaves;
 
-    public GameSave(Player player, Game game, ArrayList<BoardView> saves){
-        this.player = player;
+    public GameSave(Game game, ArrayList<BoardView> saves){
         this.game = game;
         this.viewSaves = saves;
     }
@@ -25,4 +24,7 @@ public class GameSave {
         return this.game.getGameID();
     }
 
+    public ArrayList<BoardView> getViewSaves(){
+        return this.viewSaves;
+    }
 }

@@ -18,9 +18,13 @@ import java.util.Queue;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
-    private HashMap<Player, GameSave> savedGames = new HashMap<>();
+    private static HashMap<Player, GameSave> savedGames = new HashMap<>();
     private int gameCounter = 1;
 
+
+    public HashMap<Player, GameSave> getSavedGames(){
+        return this.savedGames;
+    }
     /**
      * Create a new game for 2 players.
      *
@@ -59,7 +63,7 @@ public class GameServer {
      */
     public Game getGame(Player player) {
         for (Game game : gamesInProgress) {
-            if (game.contains(player) || game.getSpectators().contains(player)) {
+            if (game.contains(player) || game.getSpectators().contains(player) || game.getReplayers().contains(player)) {
                 return game;
             }
         }
@@ -95,9 +99,12 @@ public class GameServer {
 
     }
 
-    public void saveGame(Player saver, Game game){
-        GameSave save = new GameSave(saver, game, game.getGameSave());
-        this.savedGames.put(saver, save);
+    public static void saveGame(Game game){
+        Player saver1 = game.getPlayer1();
+        Player saver2 = game.getPlayer2();
+        GameSave save = new GameSave(game, game.getGameSave());
+        savedGames.put(saver1, save);
+        savedGames.put(saver2, save);
     }
 
     public ArrayList<GameSave> getSavesForPlayer(Player player){
@@ -110,7 +117,6 @@ public class GameServer {
         }
         return games;
     }
-
 
 
     /**
