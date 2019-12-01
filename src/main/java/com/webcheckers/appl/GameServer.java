@@ -21,6 +21,10 @@ public class GameServer {
     private HashMap<Player, GameSave> savedGames = new HashMap<>();
     private int gameCounter = 1;
 
+
+    public HashMap<Player, GameSave> getSavedGames(){
+        return this.savedGames;
+    }
     /**
      * Create a new game for 2 players.
      *
