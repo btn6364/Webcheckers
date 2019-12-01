@@ -18,7 +18,7 @@ import java.util.Queue;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
-    private static HashMap<Player, ArrayList<GameSave>> savedGames = new HashMap<>();
+    private static HashMap<Player, ArrayList<GameSave>> savedGames = new HashMap<Player, ArrayList<GameSave>>();
     private int gameCounter = 1;
 
 

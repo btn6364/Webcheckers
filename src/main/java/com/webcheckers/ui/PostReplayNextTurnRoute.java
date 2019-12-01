@@ -15,43 +15,40 @@ import spark.TemplateEngine;
 
 import java.util.ArrayList;
 
+/**
+ * Handle Post request for /replay/nextTurn
+ * @author Bao Nguyen
+ */
 public class PostReplayNextTurnRoute implements Route {
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private GameServer gameServer;
+    private Gson gson;
 
-    public PostReplayNextTurnRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer){
+    public PostReplayNextTurnRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby, GameServer gameServer, Gson gson){
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;
         this.gameServer = gameServer;
+        this.gson = gson;
     }
 
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
         Player player = playerLobby.getPlayer(request.session().id());
-        Game game = gameServer.getGame(player);
-        //TODO: need to check this
-        GameSave gameSave = gameServer.getSavedGames().get(player);
-        ArrayList<BoardView> viewSaves = gameSave.getViewSaves();
-        if (viewSaves != null){
-            //TODO don't know how to increment count and save count.
-            BoardView boardView = viewSaves.get(0);
-            if (boardView != null){
-                return new Gson().toJson(Message.info("true"));
+        //TODO: need some reviews.
+        GameSave gameSave = playerLobby.getGameSaveFromPlayer(player);
+        if (gameSave != null){
+            ArrayList<BoardView> viewSaves = gameSave.getViewSaves();
+            if (viewSaves != null){
+                //TODO Don't know how to increment and save count index.
+                BoardView boardView = viewSaves.get(0);
+                if (boardView!= null){
+                    return gson.toJson(Message.info("true"));
+                }
             }
         }
-        return new Gson().toJson(Message.info("false"));
-//
-//        if (game.getResign()){
-//            return new Gson().toJson(Message.info("true"));
-//        } else {
-//            if (game.getPlayerWithTurn().equals(player)){
-//                return new Gson().toJson(Message.info("true"));
-//            } else {
-//                return new Gson().toJson(Message.info("false"));
-//            }
-//        }
+        return gson.toJson(Message.info("false"));
 
     }
 

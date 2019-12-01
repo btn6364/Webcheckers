@@ -46,7 +46,6 @@ public class GetReplayRoute implements Route {
     @Override
     public Object handle(Request request, Response response){
         LOG.finer("GetReplayRoute is invoked.");
-        //
 
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);

@@ -15,6 +15,9 @@ public class GameSave {
         this.viewSaves = saves;
     }
 
+    public Game getGame(){
+        return this.game;
+    }
 
     public String getName(){
         return this.game.getName();

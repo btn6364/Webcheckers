@@ -1,9 +1,12 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameSave;
 import com.webcheckers.model.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Keeps track of all online players and provides functions for accessing that information
@@ -15,8 +18,10 @@ import java.util.ArrayList;
  */
 public class PlayerLobby {
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<Player> players = new ArrayList<Player>();
 
+    // one player can only replay one game at a time, so don't need a list.
+    private HashMap<Player, GameSave> replayings = new HashMap<Player, GameSave>();
 
     /**
      * Retrieves a player based on the supplied UUID or Player name
@@ -99,5 +104,27 @@ public class PlayerLobby {
     public void removePlayer(String identifier){
         removePlayer(getPlayer(identifier));
     }
+
+    /**
+     * Add replaying games
+     * @param replayer
+     * @param gameSave
+     */
+    public void addReplaying(Player replayer, GameSave gameSave){
+        replayings.put(replayer, gameSave);
+    }
+
+    /**
+     * Remove replaying games from a player.
+     * @param replayer
+     */
+    public void removeReplaying(Player replayer){
+        replayings.remove(replayer);
+    }
+
+    public GameSave getGameSaveFromPlayer(Player replayer){
+        return this.replayings.get(replayer);
+    }
+
 
 }

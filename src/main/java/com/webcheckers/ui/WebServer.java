@@ -69,6 +69,8 @@ public class WebServer {
   public static final String SPECTATOR_CHECK_TURN_URL = "/spectator/checkTurn";
   public static final String REPLAY_GAME_URL = "replay/game";
   public static final String REPLAY_LEAVE_GAME_URL = "replay/stopWatching";
+  public static final String REPLAY_NEXT_TURN_URL = "/replay/nextTurn";
+  public static final String REPLAY_PREVIOUS_TURN_URL = "/replay/previousTurn";
   //
   // Singletons
   //
@@ -179,6 +181,8 @@ public class WebServer {
     post(CHECK_TURN_URL, new PostCheckTurnRoute(templateEngine, playerLobby, gameServer));
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(templateEngine, playerLobby, gameServer, gson));
     post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurn(templateEngine, playerLobby, gameServer, gson));
+    post(REPLAY_NEXT_TURN_URL, new PostReplayNextTurnRoute(templateEngine, playerLobby, gameServer, gson));
+    post(REPLAY_PREVIOUS_TURN_URL, new PostReplayPreviousTurnRoute(templateEngine, playerLobby, gameServer, gson));
 
     LOG.config("WebServer is initialized.");
   }
