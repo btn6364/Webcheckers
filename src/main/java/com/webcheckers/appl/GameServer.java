@@ -18,13 +18,13 @@ import java.util.Queue;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
-    private static HashMap<Player, GameSave> savedGames = new HashMap<>();
+    private static HashMap<Player, ArrayList<GameSave>> savedGames = new HashMap<>();
     private int gameCounter = 1;
 
 
-    public HashMap<Player, GameSave> getSavedGames(){
-        return this.savedGames;
-    }
+//    public HashMap<Player, GameSave> getSavedGames(){
+//        return this.savedGames;
+//    }
     /**
      * Create a new game for 2 players.
      *
@@ -63,7 +63,7 @@ public class GameServer {
      */
     public Game getGame(Player player) {
         for (Game game : gamesInProgress) {
-            if (game.contains(player) || game.getSpectators().contains(player) || game.getReplayers().contains(player)) {
+            if (game.contains(player) || game.getSpectators().contains(player)) {
                 return game;
             }
         }
@@ -99,23 +99,32 @@ public class GameServer {
 
     }
 
+    /**
+     * Save the game for each player.
+     * @param game
+     */
     public static void saveGame(Game game){
         Player saver1 = game.getPlayer1();
         Player saver2 = game.getPlayer2();
         GameSave save = new GameSave(game, game.getGameSave());
-        savedGames.put(saver1, save);
-        savedGames.put(saver2, save);
+        ArrayList<GameSave> gameSaves1 = savedGames.get(saver1);
+        ArrayList<GameSave> gameSaves2 = savedGames.get(saver2);
+        gameSaves1.add(save);
+        gameSaves2.add(save);
+        savedGames.put(saver1, gameSaves1);
+        savedGames.put(saver2, gameSaves2);
     }
 
     public ArrayList<GameSave> getSavesForPlayer(Player player){
-        ArrayList<GameSave> games = new ArrayList<>();
-        for (Player p: savedGames.keySet()){
-            if (player.equals(p)){
-                games.add(savedGames.get(player));
-            }
-
-        }
-        return games;
+//        ArrayList<GameSave> games = new ArrayList<>();
+//        for (Player p: savedGames.keySet()){
+//            if (player.equals(p)){
+//                games.add(savedGames.get(player));
+//            }
+//
+//        }
+//        return games;
+        return this.savedGames.get(player);
     }
 
 

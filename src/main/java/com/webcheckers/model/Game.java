@@ -44,7 +44,7 @@ public class Game {
 
     private ArrayList<BoardView> gameSave = new ArrayList<>();
 
-    private ArrayList<Player> replayers;
+//    private ArrayList<Player> replayers;
 
     /**
      * Construct a new Game instance
@@ -63,7 +63,7 @@ public class Game {
         this.gameID = String.valueOf(id);
         this.unseenTurn = false;
         this.spectators = new ArrayList<Player>();
-        this.replayers = new ArrayList<Player>();
+//        this.replayers = new ArrayList<Player>();
     }
 
 
@@ -178,29 +178,29 @@ public class Game {
         }
     }
 
-    /**
-     * Get the list of all replayers
-     * @return the list of people who are replaying this game.
-     */
-    public ArrayList<Player> getReplayers(){
-        return this.replayers;
-    }
-
-    /**
-     * Add a new replayer into the game.
-     * @param replayer the replayer
-     */
-    public void addReplayer(Player replayer){
-        this.replayers.add(replayer);
-    }
-
-    /**
-     * Remove a replayer out of the game.
-     * @param replayer the replayer.
-     */
-    public void removeReplayer(Player replayer){
-        this.replayers.remove(replayer);
-    }
+//    /**
+//     * Get the list of all replayers
+//     * @return the list of people who are replaying this game.
+//     */
+//    public ArrayList<Player> getReplayers(){
+//        return this.replayers;
+//    }
+//
+//    /**
+//     * Add a new replayer into the game.
+//     * @param replayer the replayer
+//     */
+//    public void addReplayer(Player replayer){
+//        this.replayers.add(replayer);
+//    }
+//
+//    /**
+//     * Remove a replayer out of the game.
+//     * @param replayer the replayer.
+//     */
+//    public void removeReplayer(Player replayer){
+//        this.replayers.remove(replayer);
+//    }
 
     public void addSpectator(Player spectator){
         this.spectators.add(spectator);
