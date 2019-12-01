@@ -24,7 +24,7 @@ public class GameServerTest {
         int size = CuT.getGamesInProgress().size();
         Player player1 = new Player("Test", "Test");
         Player player2 = new Player("Test1", "Test1");
-        Game game = new Game(player1, player2);
+        Game game = new Game(player1, player2, 0);
         CuT.addGame(game);
 
         assertEquals(size + 1, CuT.getGamesInProgress().size());
@@ -40,7 +40,7 @@ public class GameServerTest {
     public void getsCorrectGameByPlayer(){
         Player player1 = new Player("Test", "Test");
         Player player2 = new Player("Test1", "Test1");
-        Game game = new Game(player1, player2);
+        Game game = new Game(player1, player2, 0);
         CuT.addGame(game);
 
         assertEquals(game, CuT.getGame(player1));
