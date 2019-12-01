@@ -11,7 +11,9 @@ public class CheckersGame {
     private Piece[][] board;
     /** Whose turn is it? True = Red, False = White **/
     private boolean currentPlayer;
-
+    /** Has the game been won? **/
+    private boolean gameWon;
+    /** Unpushed moves **/
     private Stack<Move> moves = new Stack<>();
 
     /**
@@ -20,12 +22,13 @@ public class CheckersGame {
     public enum Piece {
         EMPTY, RED, WHITE, RED_KING, WHITE_KING
     }
-
+    
     /**
      * Generate new CheckersGame with starting board position and red to move
      */
     public CheckersGame() {
         this.currentPlayer = true;
+        this.gameWon = false;
         this.board = new Piece[8][8];
         for (int y = 0; y < this.board.length; y++) {
             for (int x = 0; x < this.board.length; x++) {
@@ -48,6 +51,38 @@ public class CheckersGame {
         }
     }
 
+    /**
+     * Getter for whether the game is won
+     * @return is the game won?
+     */
+    public boolean isGameWon(){
+        return this.gameWon;
+    }
+    
+    private void checkGameWon(){
+        boolean whiteFound = false;
+        boolean redFound = false;
+        for (int y = 0; y < this.board.length; y++){
+            for (int x = 0; x < this.board.length; x++){
+                // Check if there's a piece
+                if( this.board[y][x] != Piece.EMPTY ){
+                    // If there's a piece, figure out what type of piece it is
+                    if( this.board[y][x] == Piece.RED 
+                            || this.board[y][x] == Piece.RED_KING){
+                        redFound = true;
+                    }
+                    else{ whiteFound = true; }
+                }
+                // If both players have a piece, end early
+                if( whiteFound && redFound ){ break; }
+            }
+            if( whiteFound && redFound ){ break; }
+        }
+        if( whiteFound && redFound ){ return; }
+        // If we haven't exited yet, the game has been won!
+        this.gameWon = true;
+    }
+    
     /**
      * Get the current board state
      * @return 2D array of Pieces representing the board
@@ -139,6 +174,10 @@ public class CheckersGame {
         return jumps;
     }
 
+    /**
+     * Determine whether the current player has any jumps available
+     * @return true if the player has a jump, false otherwise
+     */
     private boolean playerHasJumps(){
         if(this.currentPlayer){
             // Red
@@ -274,6 +313,14 @@ public class CheckersGame {
         return false;
     }
     
+    /**
+     * Checks whether a multijump is valid
+     * @param sx Source tile x position
+     * @param sy Source tile y position
+     * @param ex Destination tile x position
+     * @param ey Destination tile y position
+     * @return True if the move is a valid multijump, else false
+     */
     private boolean validateMultiJump(int sx, int sy, int ex, int ey){
         // Note: This function is separate from the usual validation functions
         // because it has to consider in-progress moves, while the other
@@ -335,13 +382,20 @@ public class CheckersGame {
         return false;
     }
     
+    /**
+     * Add a move to the pending moves stack
+     * @param move the move to add
+     */
     public void addMoveToStack(Move move){
         this.moves.push(move);
     }
 
+    /**
+     * Submit all moves that are on the stack
+     */
     public void submitMove(){
         // If no move is being made, return without doing anything
-        if(moves.empty()){ return; }
+        if(this.moves.empty()){ return; }
         // Start and end pos of the piece to move
         // Java isn't smart enough to tell that these will always be initialized
         int sx = 0, sy = 0, ex = 0, ey = 0;
@@ -381,7 +435,8 @@ public class CheckersGame {
         // If the piece is in place to be kinged, king it!
         if(ey == 0 && piece == Piece.RED){ this.board[ey][ex] = Piece.RED_KING; }
         if(ey == 7 && piece == Piece.WHITE){ this.board[ey][ex] = Piece.WHITE_KING; }
-        // Update current player
+        // Check if game is won and update current player
+        checkGameWon();
         this.currentPlayer = !this.currentPlayer;
     }
 
@@ -464,6 +519,10 @@ public class CheckersGame {
         }
     }
 
+    /**
+     * Get the stack of unpushed moves
+     * @return the stack of moves
+     */
     public Stack<Move> getMoves(){
         return this.moves;
     }
