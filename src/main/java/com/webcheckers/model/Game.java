@@ -96,10 +96,14 @@ public class Game {
             this.unseenTurn = true;
             this.boardView = new BoardView(this.game);
             // Check if game is over
-            if (this.game.isGameWon()){
-                Player otherPlayer = (this.playerWithTurn == this.player1 
-                        ? this.player2 : this.player1);
-                endGame(this.playerWithTurn, otherPlayer);
+            if (this.game.getWinner() != null){
+                // Check who winner is
+                if(this.game.getWinner() == CheckersGame.Piece.RED){
+                    endGame(this.player1, this.player2);
+                }
+                else{
+                    endGame(this.player2, this.player1);
+                }
                 return Message.info("Game over!");
             }
             return Message.info("Move submitted successfully!");
