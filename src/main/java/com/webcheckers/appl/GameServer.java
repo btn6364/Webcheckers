@@ -116,15 +116,24 @@ public class GameServer {
     }
 
     public ArrayList<GameSave> getSavesForPlayer(Player player){
-//        ArrayList<GameSave> games = new ArrayList<>();
-//        for (Player p: savedGames.keySet()){
-//            if (player.equals(p)){
-//                games.add(savedGames.get(player));
-//            }
-//
-//        }
-//        return games;
-        return this.savedGames.get(player);
+
+        if (savedGames.containsKey(player)){
+            return savedGames.get(player);
+        } else {
+            savedGames.put(player, new ArrayList<>());
+            return savedGames.get(player);
+        }
+
+    }
+
+    public GameSave getSaveFromID(String id, Player player){
+        ArrayList<GameSave> saves = getSavesForPlayer(player);
+        for (GameSave save : saves){
+            if (save.getGameID().equals(id)){
+                return save;
+            }
+        }
+        return null;
     }
 
 
