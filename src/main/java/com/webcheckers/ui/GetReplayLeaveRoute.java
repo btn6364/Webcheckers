@@ -44,8 +44,7 @@ public class GetReplayLeaveRoute implements Route {
     @Override
     public Object handle(Request request, Response response) {
         Player replayer = playerLobby.getPlayer(request.session().id());
-//        Game game = gameServer.getGameFromGameID(request.queryParams("gameID"));
-        playerLobby.removeReplaying(replayer);
+        playerLobby.removeReplayer(replayer);
         response.redirect(WebServer.HOME_URL);
         halt();
         return null;

@@ -35,17 +35,11 @@ public class PostReplayPreviousTurnRoute implements Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         Player player = playerLobby.getPlayer(request.session().id());
-        //TODO: need some reviews.
-        GameSave gameSave = playerLobby.getGameSaveFromPlayer(player);
+        String input = request.queryParams("gameID");
+        GameSave gameSave = gameServer.getSaveFromID(input, player);
         if (gameSave != null){
-            ArrayList<BoardView> viewSaves = gameSave.getViewSaves();
-            if (viewSaves != null){
-                //TODO Don't know how to decrement and save count index.
-                BoardView boardView = viewSaves.get(viewSaves.size() - 1);
-                if (boardView!= null){
-                    return gson.toJson(Message.info("true"));
-                }
-            }
+            gameSave.previous();
+            return gson.toJson(Message.info("true"));
         }
         return gson.toJson(Message.info("false"));
 

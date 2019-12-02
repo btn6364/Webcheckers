@@ -42,6 +42,7 @@ public class Game {
 
     private boolean unseenTurn;
 
+
     private ArrayList<BoardView> gameSave = new ArrayList<>();
 
 //    private ArrayList<Player> replayers;
@@ -63,6 +64,7 @@ public class Game {
         this.gameID = String.valueOf(id);
         this.unseenTurn = false;
         this.spectators = new ArrayList<Player>();
+        this.gameSave.add(this.boardView);
 //        this.replayers = new ArrayList<Player>();
     }
 
@@ -93,8 +95,8 @@ public class Game {
             game.submitMove();
             changePlayerWithTurn();
             this.unseenTurn = true;
-            this.gameSave.add(boardView);
             this.boardView = new BoardView(game);
+            this.gameSave.add(boardView);
             return Message.info("Move submitted successfully!");
         }
         return Message.error("Error while submitting move!");
@@ -239,9 +241,7 @@ public class Game {
     }
 
     public ArrayList<BoardView> getGameSave(){
-        Object tmp = this.gameSave.clone();
-        Collections.reverse((ArrayList<BoardView>) tmp);
-        return (ArrayList<BoardView>)tmp;
+        return gameSave;
     }
 
     /**

@@ -107,6 +107,7 @@ public class GetGameRoute implements Route {
             return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
 
         }
+        response.redirect(WebServer.HOME_URL);
         return null;
 
     }

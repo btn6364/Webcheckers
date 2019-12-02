@@ -1,8 +1,10 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameSave;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -53,16 +55,33 @@ public class GetReplayRoute implements Route {
         Player replayer = playerLobby.getPlayer(request.session().id());
 
         String gameID = request.queryParams("gameID");
-        Game game = gameServer.getGameFromGameID(gameID);
-        if (game != null) {
+        GameSave gameSave = gameServer.getSaveFromID(gameID, replayer);
+        if (gameSave != null) {
+            Game game = gameSave.getGame();
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
             vm.put("currentUser", replayer);
             vm.put("viewMode", "REPLAY");
+
+            HashMap<String, Object> replayAtt = new HashMap<>();
+            if (gameSave.hasNext()){
+                replayAtt.put("hasNext", true);
+            } else {
+                replayAtt.put("hasNext", false);
+            }
+
+            if (gameSave.hasPrevious()){
+                replayAtt.put("hasPrevious", true);
+            } else {
+                replayAtt.put("hasPrevious", false);
+            }
+
+            vm.put("modeOptionsAsJSON", new Gson().toJson(replayAtt));
+
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
-            vm.put("board", game.getBoardView());
+            vm.put("board", gameSave.getCurrent());
         }
         // render the view model
         return templateEngine.render(new ModelAndView(vm , VIEW_NAME));

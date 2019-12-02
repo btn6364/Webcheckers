@@ -38,6 +38,7 @@ public class GetSpectatorLeaveRoute implements Route {
         Player player = playerLobby.getPlayer(request.session().id());
         Game game = gameServer.getGameFromGameID(request.queryParams("gameID"));
         game.removeSpectator(player);
+        playerLobby.removeSpectator(player);
         response.redirect(WebServer.HOME_URL);
         halt();
 
