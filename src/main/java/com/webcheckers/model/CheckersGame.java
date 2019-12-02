@@ -402,6 +402,7 @@ public class CheckersGame {
         Stack<Move> cloneStack = (Stack<Move>)this.moves.clone();
         // Update our clone board with our clone moves
         boolean first = true;
+        boolean noJumps = false;
         int sx = 0, sy = 0, ex = 0, ey = 0;
         while(!cloneStack.empty()){
             Move top = cloneStack.pop();
@@ -409,17 +410,20 @@ public class CheckersGame {
             int iy = top.getStart().getRow();
             int fx = top.getEnd().getCell();
             int fy = top.getEnd().getRow();
+            // If this is the last move, update sx and sy
+            if(cloneStack.empty()){
+                sx = ix;
+                sy = iy;
+                // If this is the first AND last move, update noJumps
+                if(first){ noJumps = true; }
+            }
             // If this is the first move, update ex and ey
             if(first){
                 ex = fx;
                 ey = fy;
                 first = false;
             }
-            // If this is the last move, update sx and sy
-            if(cloneStack.empty()){
-                sx = ix;
-                sy = iy;
-            }
+
             // If this is a jump, remove the jumped piece
             if(iy % 2 == fy % 2){
                 int tx, ty;
@@ -428,7 +432,7 @@ public class CheckersGame {
                 cloneBoard[ty][tx] = Piece.EMPTY;
             }
         }
-                // Update the piece position
+        // Update the piece position
         Piece piece = cloneBoard[sy][sx];
         cloneBoard[ey][ex] = piece;
         cloneBoard[sy][sx] = Piece.EMPTY;
@@ -437,18 +441,22 @@ public class CheckersGame {
         if(ey == 7 && piece == Piece.WHITE){ cloneBoard[ey][ex] = Piece.WHITE_KING; }
         // Check if move is valid (ie, has no remaining jumps)
         // We do this by calling validateMultiJump on all tiles in jump range
+        // If noJumps is true, then we can skip this -- we can't be missing
+        // multijumps if we didn't make a jump in the first place!
         boolean hasJump = false;
-        if(ex<6 && ey>1){ // Northeast
-            hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey-2); 
-        }
-        if(ex<6 && ey<6 && !hasJump){ // Southeast 
-            hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey+2); 
-        }
-        if(ex>1 && ey<6 && !hasJump){ // Southwest
-            hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey+2); 
-        }
-        if(ex>1 && ey>1 && !hasJump){ // Northwest 
-            hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey-2); 
+        if(!noJumps){
+            if(ex<6 && ey>1){ // Northeast
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey-2); 
+            }
+            if(ex<6 && ey<6 && !hasJump){ // Southeast 
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey+2); 
+            }
+            if(ex>1 && ey<6 && !hasJump){ // Southwest
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey+2); 
+            }
+            if(ex>1 && ey>1 && !hasJump){ // Northwest 
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey-2); 
+            }
         }
         if(!hasJump){ return cloneBoard; }
         // Return null if the move is invalid
