@@ -1,8 +1,10 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameSave;
 import com.webcheckers.model.Player;
 import spark.*;
 
@@ -11,13 +13,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Handle GET spectator/game URL
- * @author Bao Nguyen
+ * Handle GET replay/game URL
  * @author Liam Obrochta
  */
-public class GetSpectatorRoute implements Route {
+public class GetReplayRoute implements Route {
+
     private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
-    public static final String TITLE = "Spectator";
+    public static final String TITLE = "Replay Game";
     public static final String VIEW_NAME = "game.ftl";
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
@@ -29,7 +31,7 @@ public class GetSpectatorRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetSpectatorRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
+    public GetReplayRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
         this.templateEngine = engine;
         this.playerLobby = playerLobby;
         this.gameServer = gameServer;
@@ -49,28 +51,44 @@ public class GetSpectatorRoute implements Route {
      */
     @Override
     public Object handle(Request request, Response response){
-        LOG.finer("GetSpectatorRoute is invoked.");
+        LOG.finer("GetReplayRoute is invoked.");
 
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
-        Player spectator = playerLobby.getPlayer(request.session().id());
+        Player replayer = playerLobby.getPlayer(request.session().id());
+
         String gameID = request.queryParams("gameID");
-        Game game = gameServer.getGameFromGameID(gameID);
-        if (game != null) {
+        GameSave gameSave = gameServer.getSaveFromID(gameID, replayer);
+        if (gameSave != null) {
+            Game game = gameSave.getGame();
             Player first = game.getPlayer1();
             Player second = game.getPlayer2();
-            vm.put("currentUser", spectator);
-            vm.put("viewMode", "SPECTATOR");
+            vm.put("currentUser", replayer);
+            vm.put("viewMode", "REPLAY");
+
+            HashMap<String, Object> replayAtt = new HashMap<>();
+            if (gameSave.hasNext()){
+                replayAtt.put("hasNext", true);
+            } else {
+                replayAtt.put("hasNext", false);
+            }
+
+            if (gameSave.hasPrevious()){
+                replayAtt.put("hasPrevious", true);
+            } else {
+                replayAtt.put("hasPrevious", false);
+            }
+
+            vm.put("modeOptionsAsJSON", new Gson().toJson(replayAtt));
+
             vm.put("redPlayer", first);
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
-            vm.put("board", game.getBoardView());
+            vm.put("board", gameSave.getCurrent());
         }
         // render the view model
         return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
 
     }
-
-
 }

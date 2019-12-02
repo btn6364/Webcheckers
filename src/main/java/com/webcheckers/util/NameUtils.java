@@ -1,5 +1,10 @@
 package com.webcheckers.util;
 
+/**
+ * Utility to check valid username.
+ * @author Bao Nguyen
+ * @author Liam Obrochta
+ */
 public class NameUtils {
 
     /**
@@ -11,6 +16,11 @@ public class NameUtils {
         return (name!=null) && (name.matches("^[a-zA-Z0-9\\s]+$") && !name.matches("\\s+"));
     }
 
+    /**
+     * Check whether or not the username is numeric.
+     * @param name the username passed in.
+     * @return true if it is numeric and false otherwise.
+     */
     public static boolean isNumeric(String name) {
         return name.matches("-?\\d+(\\.\\d+)?");
     }

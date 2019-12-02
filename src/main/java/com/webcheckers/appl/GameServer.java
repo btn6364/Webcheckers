@@ -1,9 +1,13 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Game;
+import com.webcheckers.model.GameSave;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.board.BoardView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
 
 /**
  * A server backend which maintains a list of logged-in players and in-progress games.
@@ -14,6 +18,7 @@ import java.util.ArrayList;
  */
 public class GameServer {
     private ArrayList<Game> gamesInProgress = new ArrayList<>();
+    private static HashMap<Player, ArrayList<GameSave>> savedGames = new HashMap<Player, ArrayList<GameSave>>();
     private int gameCounter = 1;
 
     /**
@@ -61,6 +66,11 @@ public class GameServer {
         return null;
     }
 
+    /**
+     * Get the game playing by name.
+     * @param name the name of the game.
+     * @return the game with a match name.
+     */
     public Game getGameByName(String name){
         for (Game game : gamesInProgress){
             if (game.getName().equals(name)){
@@ -89,6 +99,56 @@ public class GameServer {
         return g.setResign(player);
 
     }
+
+    /**
+     * Save the game for each player.
+     * @param game
+     */
+    public static void saveGame(Game game){
+        Player saver1 = game.getPlayer1();
+        Player saver2 = game.getPlayer2();
+        GameSave save = new GameSave(game, game.getGameSave());
+        ArrayList<GameSave> gameSaves1 = savedGames.get(saver1);
+        ArrayList<GameSave> gameSaves2 = savedGames.get(saver2);
+        gameSaves1.add(save);
+        gameSaves2.add(save);
+        savedGames.put(saver1, gameSaves1);
+        savedGames.put(saver2, gameSaves2);
+    }
+
+    /**
+     * Get the save game for the player
+     * @param player the player
+     * @return the list of game that the player has played.
+     */
+    public ArrayList<GameSave> getSavesForPlayer(Player player){
+
+        if (savedGames.containsKey(player)){
+            return savedGames.get(player);
+        } else {
+            savedGames.put(player, new ArrayList<>());
+            return savedGames.get(player);
+        }
+
+    }
+
+    /**
+     * Get save game from gameID.
+     * @param id the game id.
+     * @param player the player played that game.
+     * @return the game.
+     */
+    public GameSave getSaveFromID(String id, Player player){
+        ArrayList<GameSave> saves = getSavesForPlayer(player);
+        for (GameSave save : saves){
+            if (save.getGameID().equals(id)){
+                return save;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * Game the game from the game ID>
      * @param gameID the unique ID of a game.

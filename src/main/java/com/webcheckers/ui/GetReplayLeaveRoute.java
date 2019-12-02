@@ -14,13 +14,11 @@ import java.util.logging.Logger;
 import static spark.Spark.halt;
 
 /**
- * Handle GET spectator/stopWatching URL
- * @author Liam Obrochta
+ * Handle Get replay/stopWatching URL
  * @author Bao Nguyen
  */
-public class GetSpectatorLeaveRoute implements Route {
-
-    private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
+public class GetReplayLeaveRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(GetReplayLeaveRoute.class.getName());
     private TemplateEngine templateEngine;
     private PlayerLobby playerLobby;
     private GameServer gameServer;
@@ -31,27 +29,24 @@ public class GetSpectatorLeaveRoute implements Route {
      * @param engine
      *   the HTML template rendering engine
      */
-    public GetSpectatorLeaveRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
+    public GetReplayLeaveRoute(TemplateEngine engine, PlayerLobby playerLobby, GameServer gameServer){
         this.templateEngine = engine;
         this.playerLobby = playerLobby;
         this.gameServer = gameServer;
     }
 
     /**
-     * Remove the spectator and redirect the spectator to the Home page.
-     * @param request the HTTP request
-     * @param response the HTTP response
+     * Remove the replayer and redirect the player to the homepage.
+     * @param request HTTP request
+     * @param response HTTP response
      */
     @Override
     public Object handle(Request request, Response response) {
-
-        Player player = playerLobby.getPlayer(request.session().id());
-        Game game = gameServer.getGameFromGameID(request.queryParams("gameID"));
-        game.removeSpectator(player);
-        playerLobby.removeSpectator(player);
+        Player replayer = playerLobby.getPlayer(request.session().id());
+        playerLobby.removeReplayer(replayer);
         response.redirect(WebServer.HOME_URL);
         halt();
-
         return null;
     }
+
 }

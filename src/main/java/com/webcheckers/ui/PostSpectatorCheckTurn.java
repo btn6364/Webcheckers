@@ -16,6 +16,10 @@ import java.util.logging.Logger;
 
 import static spark.Spark.halt;
 
+/**
+ * Handle Post spectator/checkturn URL
+ * @author Liam Obrochta
+ */
 public class PostSpectatorCheckTurn implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
@@ -39,6 +43,12 @@ public class PostSpectatorCheckTurn implements Route {
         this.gson = gson;
     }
 
+    /**
+     * Check if the game has ended or there is unseen turn.
+     * @param request the HTTP request
+     * @param response the HTTP response.
+     * @return the Json object with a message of true or false.
+     */
     @Override
     public Object handle(Request request, Response response) {
         Game game = gameServer.getGameFromGameID(request.queryParams("gameID"));

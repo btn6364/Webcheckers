@@ -32,6 +32,7 @@ public class GetHomeRoute implements Route {
   static final String NEW_USER_ATTR = "currentUser";
   static final String VIEW_NAME = "home.ftl";
   static final String GAME_LIST_ATTR = "gameList";
+  static final String GAME_SAVE_ATTR = "gameSaves";
 
   private PlayerLobby playerLobby;
   private GameServer gameServer;
@@ -89,6 +90,8 @@ public class GetHomeRoute implements Route {
         halt();
         return null;
       }
+
+      vm.put(GAME_SAVE_ATTR, gameServer.getSavesForPlayer(player));
     }
 
 

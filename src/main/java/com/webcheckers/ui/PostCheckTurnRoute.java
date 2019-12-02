@@ -11,6 +11,10 @@ import spark.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Handle POST check turn.
+ * @author Liam Obrochta
+ */
 public class PostCheckTurnRoute implements Route {
 
     private TemplateEngine templateEngine;
@@ -23,7 +27,13 @@ public class PostCheckTurnRoute implements Route {
         this.gameServer = gameServer;
     }
 
-
+    /**
+     *
+     * @param request the HTTP request
+     * @param response the HTTP Response
+     * @return the Json object with a message of true or false
+     * @throws Exception
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         Player player = playerLobby.getPlayer(request.session().id());

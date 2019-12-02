@@ -1,5 +1,8 @@
 package com.webcheckers.model;
 
+/**
+ * Represents the position of the piece.
+ */
 public class Position {
 
     private int row;
@@ -10,10 +13,18 @@ public class Position {
         this.cell = cell;
     }
 
+    /**
+     * Get the row of the piece.
+     * @return the row of the piece.
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Get the cell of the piece.
+     * @return the cell of the piece.
+     */
     public int getCell() {
         return cell;
     }

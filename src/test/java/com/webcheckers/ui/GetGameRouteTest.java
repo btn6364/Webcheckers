@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.google.gson.Gson;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -43,6 +43,7 @@ public class GetGameRouteTest {
 
     private PlayerLobby playerLobby;
     private GameServer gameServer;
+    private Gson gson;
 
 
     @BeforeEach
@@ -57,9 +58,10 @@ public class GetGameRouteTest {
         engine = mock(TemplateEngine.class);
         playerLobby = mock(PlayerLobby.class);
         gameServer = mock(GameServer.class);
+        gson = mock(Gson.class);
 
         //Create a unique CuT for each test.
-        CuT = new GetGameRoute(engine, playerLobby, gameServer, new Gson());
+        CuT = new GetGameRoute(engine, playerLobby, gameServer, gson);
     }
 
     @Test

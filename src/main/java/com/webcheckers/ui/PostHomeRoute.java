@@ -63,6 +63,8 @@ public class PostHomeRoute implements Route {
                 return null; //player didn't exist
             } else if (gameServer.getGame(secondPlayer) != null) {
                 return null; //player already in a game
+            } else if (!playerLobby.isPlayerAvailable(secondPlayer)){
+                return null;
             }
 
             gameServer.newGame(currentPlayer, secondPlayer);
@@ -78,12 +80,22 @@ public class PostHomeRoute implements Route {
             halt();
             return null;
 
-        } else {
+        } else { //This means that the input from query params shows the player wants to spectate or replay
             Game game = gameServer.getGameFromGameID(input);
-            game.addSpectator(currentPlayer);
-            response.redirect(WebServer.SPECTATOR_GAME_URL + "?gameID=" + game.getGameID());
-            halt();
-            return null;
+
+            if (game == null || game.isGameEnded()){ // If this is true, the game doesn't exist and the player is trying to replay a previous game
+                playerLobby.addReplayer(currentPlayer);
+                response.redirect(WebServer.REPLAY_GAME_URL + "?gameID=" + input);
+                halt();
+                return null;
+            } else {
+                playerLobby.addSpectator(currentPlayer);
+                game.addSpectator(currentPlayer);
+                response.redirect(WebServer.SPECTATOR_GAME_URL + "?gameID=" + game.getGameID());
+                halt();
+                return null;
+            }
+
         }
 
     }

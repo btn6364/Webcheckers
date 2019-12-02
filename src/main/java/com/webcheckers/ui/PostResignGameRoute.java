@@ -61,8 +61,6 @@ public class PostResignGameRoute implements Route {
             return gson.toJson(Message.error("You can only resign on your turn!"));
         }
 
-        //TODO: for the other player, handle the resign by check if resigned is True or False in the PostBackUpMoveRoute and PostSubmitTurnRoute
-
 
     }
 }
