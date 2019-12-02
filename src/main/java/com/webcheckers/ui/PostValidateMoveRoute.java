@@ -16,6 +16,11 @@ import spark.TemplateEngine;
 import java.awt.*;
 import java.util.logging.Logger;
 
+/**
+ * Handle validate move
+ * @author Liam Obrochta
+ * @author John Licitra
+ */
 public class PostValidateMoveRoute implements Route {
 
 
@@ -32,7 +37,12 @@ public class PostValidateMoveRoute implements Route {
         this.gson = gson;
     }
 
-
+    /**
+     * Validate move
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @return the Json object with a message if the move is valid.
+     */
     @Override
     public Object handle(Request request, Response response){
         Player player = playerLobby.getPlayer(request.session().id());
@@ -42,8 +52,6 @@ public class PostValidateMoveRoute implements Route {
         Position initial = move.getStart();
         Position fin = move.getEnd();
         Message message;
-
-
 
         if (game.getGame().attemptMove(initial.getRow(), initial.getCell(), fin.getRow(), fin.getCell())){
             message = Message.info("Move is valid");

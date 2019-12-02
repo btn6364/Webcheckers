@@ -32,7 +32,13 @@ public class PostReplayNextTurnRoute implements Route {
         this.gson = gson;
     }
 
-
+    /**
+     * Get the next turn from the game save.
+     * @param request the HTTP Request
+     * @param response the HTTP response
+     * @return the Json object with a message of true or false
+     * @throws Exception
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         Player player = playerLobby.getPlayer(request.session().id());

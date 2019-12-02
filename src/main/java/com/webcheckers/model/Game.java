@@ -23,29 +23,27 @@ public class Game {
     private String gameID;
     /** check if the game is resigned or not.**/
     private boolean resigned;
-
+    /** Check if the game is ended or not. **/
     private boolean gameEnded;
-
+    /** The current active color piece. **/
     private String activeColor;
 
     private Player playerWithTurn;
-
+    /** The winner of the game **/
     private Player winner;
-
+    /** The loser of the game **/
     private Player loser;
-
+    /** The board view of the game **/
     private BoardView boardView;
-
+    /** The name of the game **/
     private String name;
-
+    /** The list of all spectators **/
     private ArrayList<Player> spectators;
-
+    /** Check unseen turn **/
     private boolean unseenTurn;
-
-
+    /** The list of all game saves. **/
     private ArrayList<BoardView> gameSave = new ArrayList<>();
 
-//    private ArrayList<Player> replayers;
 
     /**
      * Construct a new Game instance
@@ -65,7 +63,6 @@ public class Game {
         this.unseenTurn = false;
         this.spectators = new ArrayList<Player>();
         this.gameSave.add(this.boardView);
-//        this.replayers = new ArrayList<Player>();
     }
 
 
@@ -89,7 +86,11 @@ public class Game {
         return false;
     }
 
-
+    /**
+     * Submit move
+     * @param player the player
+     * @return the message whether or not the move was submitted.
+     */
     public Message submitMove(Player player){
         if (player.equals(this.playerWithTurn)) {
             game.submitMove();
@@ -102,6 +103,11 @@ public class Game {
         return Message.error("Error while submitting move!");
     }
 
+    /**
+     * End the game and save it.
+     * @param winner the winner
+     * @param loser the loser
+     */
     public void endGame(Player winner, Player loser){
         this.gameEnded = true;
         this.winner = winner;
@@ -161,14 +167,25 @@ public class Game {
         return player2;
     }
 
+    /**
+     * Get the name of the game
+     * @return the name of the game.
+     */
     public String getName(){
         return this.name;
     }
 
+    /**
+     * Get the board view of the game.
+     * @return the board view of the game.
+     */
     public BoardView getBoardView(){
         return this.boardView;
     }
 
+    /**
+     * Change player's turn
+     */
     private void changePlayerWithTurn(){
         Player active = this.playerWithTurn;
         if (active.equals(player1)){
@@ -180,66 +197,82 @@ public class Game {
         }
     }
 
-//    /**
-//     * Get the list of all replayers
-//     * @return the list of people who are replaying this game.
-//     */
-//    public ArrayList<Player> getReplayers(){
-//        return this.replayers;
-//    }
-//
-//    /**
-//     * Add a new replayer into the game.
-//     * @param replayer the replayer
-//     */
-//    public void addReplayer(Player replayer){
-//        this.replayers.add(replayer);
-//    }
-//
-//    /**
-//     * Remove a replayer out of the game.
-//     * @param replayer the replayer.
-//     */
-//    public void removeReplayer(Player replayer){
-//        this.replayers.remove(replayer);
-//    }
-
+    /**
+     * Add new spectator to the collection
+     * @param spectator the new spectator
+     */
     public void addSpectator(Player spectator){
         this.spectators.add(spectator);
     }
 
+    /**
+     * Remove a spectator from the collection.
+     * @param spectator the spectator who is leaving the game.
+     */
     public void removeSpectator(Player spectator){
         this.spectators.remove(spectator);
     }
 
+    /**
+     * Get the list of all spectators.
+     * @return the list of all spectators.
+     */
     public ArrayList<Player> getSpectators(){
         return this.spectators;
     }
 
+    /**
+     * Get the winner of the game.
+     * @return the winner of the game.
+     */
     public Player getWinner(){
         return this.winner;
     }
 
+    /**
+     * Get the loser of the game.
+     * @return the loser of the game.
+     */
     public Player getLoser(){
         return this.loser;
     }
 
+    /**
+     * Get current player
+     * @return the player.
+     */
     public Player getPlayerWithTurn(){
         return this.playerWithTurn;
     }
 
+    /**
+     * Get the current active color.
+     * @return the current active color.
+     */
     public String getActiveColor(){
         return this.activeColor;
     }
 
+    /**
+     * Check if the game is over.
+     * @return true if it is and false otherwise.
+     */
     public boolean isGameEnded(){
         return this.gameEnded;
     }
 
+    /**
+     * Get the unseen turn.
+     * @return the unseen turn.
+     */
     public boolean isUnseenTurn(){
         return this.unseenTurn;
     }
 
+    /**
+     * Get the game save.
+     * @return the game save.
+     */
     public ArrayList<BoardView> getGameSave(){
         return gameSave;
     }

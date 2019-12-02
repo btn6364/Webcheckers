@@ -86,7 +86,6 @@ public class PlayerLobby {
         return false;
     }
 
-
     /**
      * Add the player to the server.
      * @param username the username of the player.
@@ -105,22 +104,43 @@ public class PlayerLobby {
         removePlayer(getPlayer(identifier));
     }
 
+    /**
+     * Add a replayer
+     * @param player the replayer
+     */
     public void addReplayer(Player player){
         this.replayers.add(player);
     }
 
+    /**
+     * Remove a replayer from the collection.
+     * @param player the replayer who is leaving the game.
+     */
     public void removeReplayer(Player player){
         this.replayers.remove(player);
     }
 
+    /**
+     * Add a new spectator to the collection.
+     * @param player the spectator.
+     */
     public void addSpectator(Player player){
         this.spectators.add(player);
     }
 
+    /**
+     * Remove a spectator from the collection.
+     * @param player the spectator who is leaving the game.
+     */
     public void removeSpectator(Player player){
         this.spectators.remove(player);
     }
 
+    /**
+     * Check if the player is watching a game or replaying a game
+     * @param player the player
+     * @return true if he is and false otherwise.
+     */
     public boolean isPlayerAvailable(Player player){
         if (this.replayers.contains(player) || this.spectators.contains(player)){
             return false;

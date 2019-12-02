@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * A class representing a Player in the Checkers model
  * @author John Licitra
+ * @author Bao Nguyen
  */
 public class Player {
     /** The player's name **/
@@ -44,6 +45,10 @@ public class Player {
         return this.playedGames;
     }
 
+    /**
+     * add a new game to the player.
+     * @param game the game that the player wants to play.
+     */
     public void addPlayedGames(Game game){
         this.playedGames.add(game);
     }

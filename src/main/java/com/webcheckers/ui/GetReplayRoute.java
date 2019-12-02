@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Handle GET replay/game URL
+ * @author Liam Obrochta
+ */
 public class GetReplayRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());

@@ -21,10 +21,6 @@ public class GameServer {
     private static HashMap<Player, ArrayList<GameSave>> savedGames = new HashMap<Player, ArrayList<GameSave>>();
     private int gameCounter = 1;
 
-
-//    public HashMap<Player, GameSave> getSavedGames(){
-//        return this.savedGames;
-//    }
     /**
      * Create a new game for 2 players.
      *
@@ -70,6 +66,11 @@ public class GameServer {
         return null;
     }
 
+    /**
+     * Get the game playing by name.
+     * @param name the name of the game.
+     * @return the game with a match name.
+     */
     public Game getGameByName(String name){
         for (Game game : gamesInProgress){
             if (game.getName().equals(name)){
@@ -115,6 +116,11 @@ public class GameServer {
         savedGames.put(saver2, gameSaves2);
     }
 
+    /**
+     * Get the save game for the player
+     * @param player the player
+     * @return the list of game that the player has played.
+     */
     public ArrayList<GameSave> getSavesForPlayer(Player player){
 
         if (savedGames.containsKey(player)){
@@ -126,6 +132,12 @@ public class GameServer {
 
     }
 
+    /**
+     * Get save game from gameID.
+     * @param id the game id.
+     * @param player the player played that game.
+     * @return the game.
+     */
     public GameSave getSaveFromID(String id, Player player){
         ArrayList<GameSave> saves = getSavesForPlayer(player);
         for (GameSave save : saves){

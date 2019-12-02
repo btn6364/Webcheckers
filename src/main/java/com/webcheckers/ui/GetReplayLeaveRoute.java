@@ -36,10 +36,9 @@ public class GetReplayLeaveRoute implements Route {
     }
 
     /**
-     *
-     * @param request
-     * @param response
-     * @return
+     * Remove the replayer and redirect the player to the homepage.
+     * @param request HTTP request
+     * @param response HTTP response
      */
     @Override
     public Object handle(Request request, Response response) {

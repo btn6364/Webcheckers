@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Handle GET spectator/game URL
+ * @author Bao Nguyen
+ * @author Liam Obrochta
+ */
 public class GetSpectatorRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
     public static final String TITLE = "Spectator";
@@ -45,13 +50,11 @@ public class GetSpectatorRoute implements Route {
     @Override
     public Object handle(Request request, Response response){
         LOG.finer("GetSpectatorRoute is invoked.");
-        //
 
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
 
         Player spectator = playerLobby.getPlayer(request.session().id());
-        // TODO: get the Game from gameID.
         String gameID = request.queryParams("gameID");
         Game game = gameServer.getGameFromGameID(gameID);
         if (game != null) {

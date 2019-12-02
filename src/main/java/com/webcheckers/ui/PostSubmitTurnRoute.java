@@ -12,6 +12,10 @@ import spark.Response;
 import spark.Route;
 import spark.TemplateEngine;
 
+/**
+ * Handle Submit action in Play mode
+ * @author Liam Obrochta
+ */
 public class PostSubmitTurnRoute implements Route {
 
     private TemplateEngine templateEngine;
@@ -24,6 +28,12 @@ public class PostSubmitTurnRoute implements Route {
         this.gameServer = gameServer;
     }
 
+    /**
+     * Submit the move
+     * @param request the HTTP request
+     * @param response the HTTP response
+     * @throws Exception
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception {
         Player player = playerLobby.getPlayer(request.session().id());

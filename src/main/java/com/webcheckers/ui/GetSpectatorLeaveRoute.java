@@ -13,6 +13,11 @@ import java.util.logging.Logger;
 
 import static spark.Spark.halt;
 
+/**
+ * Handle GET spectator/stopWatching URL
+ * @author Liam Obrochta
+ * @author Bao Nguyen
+ */
 public class GetSpectatorLeaveRoute implements Route {
 
     private static final Logger LOG = Logger.getLogger(GetSpectatorRoute.class.getName());
@@ -32,6 +37,11 @@ public class GetSpectatorLeaveRoute implements Route {
         this.gameServer = gameServer;
     }
 
+    /**
+     * Remove the spectator and redirect the spectator to the Home page.
+     * @param request the HTTP request
+     * @param response the HTTP response
+     */
     @Override
     public Object handle(Request request, Response response) {
 
