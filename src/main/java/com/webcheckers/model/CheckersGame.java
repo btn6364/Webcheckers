@@ -53,13 +53,19 @@ public class CheckersGame {
     }
 
     /**
-     * Getter for whether the game is won
-     * @return is the game won?
+     * Getter for which color won the game
+     * return null if the game isn't won, Piece.RED if red won, Piece.WHITE if white won
      */
     public Piece getWinner(){
         return this.winner;
     }
     
+    /**
+     * Check whether a given piece has a valid move
+     * @param x the x coordinate of the piece
+     * @param y the y coordinate of the piece
+     * @return true if the piece has a move, false otherwise
+     */
     private boolean checkPieceHasMove(int x, int y){
         Piece mover = this.board[y][x];
         // Check if the piece can move normally
@@ -76,7 +82,7 @@ public class CheckersGame {
     }
     
     /**
-     * Check if the game is won and update this.gameWon if it is
+     * Check if the game is won and update this.winner if it is
      */
     private void checkGameWon(){
         // Check if game is won by deadlocking the opposing player
@@ -466,6 +472,13 @@ public class CheckersGame {
         this.moves.push(move);
     }
 
+    /**
+     * Check whether the current moves have any valid jumps left (that is,
+     * whether the move is a multi-jump which is not finished)
+     * @return if the move is valid, return a Piece[][] array which contains
+     *  the game board after the move is made. If the move is not valid, returns
+     *  null
+     */
     private Piece[][] checkMovesForJumps(){
         // We're going to make all move changes on a new board, then check if
         // that board is valid. We do not make these changes on the actual board

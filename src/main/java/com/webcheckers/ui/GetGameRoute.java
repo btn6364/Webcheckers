@@ -81,7 +81,7 @@ public class GetGameRoute implements Route {
                     modeOptions.put("gameOverMessage", game.getLoser().getName() + " has resigned! The game has ended.");
                 } else {
                     if (game.getWinner().equals(currentPlayer)){
-                        modeOptions.put("gameOverMessage", "You won by capturing all pieces!");
+                        modeOptions.put("gameOverMessage", "You won the game!");
                     } else {
                         modeOptions.put("gameOverMessage", game.getWinner().getName() + " won by capturing all pieces!");
                     }
