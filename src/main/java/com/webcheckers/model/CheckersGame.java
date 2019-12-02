@@ -59,6 +59,9 @@ public class CheckersGame {
         return this.gameWon;
     }
     
+    /**
+     * Check if the game is won and update this.gameWon if it is
+     */
     private void checkGameWon(){
         boolean whiteFound = false;
         boolean redFound = false;
@@ -393,9 +396,11 @@ public class CheckersGame {
     /**
      * Submit all moves that are on the stack
      */
-    public void submitMove(){
-        // If no move is being made, return without doing anything
-        if(this.moves.empty()){ return; }
+    public boolean submitMove(){
+        // If no move is being made, return false
+        if(this.moves.empty()){ return false; }
+        // Alternatively, if there's a jump left, return false
+        //TODO
         // Start and end pos of the piece to move
         // Java isn't smart enough to tell that these will always be initialized
         int sx = 0, sy = 0, ex = 0, ey = 0;
@@ -438,6 +443,7 @@ public class CheckersGame {
         // Check if game is won and update current player
         checkGameWon();
         this.currentPlayer = !this.currentPlayer;
+        return true;
     }
 
     /**
