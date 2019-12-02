@@ -1,4 +1,5 @@
 package com.webcheckers.model;
+import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -224,28 +225,34 @@ public class CheckersGame {
         if (sx >= this.board.length || sy >= this.board.length || sx < 0 || sy < 0
                 || dx >= this.board.length || dy >= this.board.length || dx < 0 || dy < 0){
             // IntelliJ says this check can be simplified but it DOESN'T SAY HOW
+            //System.out.println("Test 1 failed");
             return false;
         }
         // Validate solution and destination are both black tiles
         else if (sx + sy % 2 == 0 || dx + dy % 2 == 0){
+            //System.out.println("Test 2 failed");
             return false;
         }
         // Validate tile has a piece on it
         else if (this.board[sy][sx] == Piece.EMPTY){
+            //System.out.println("Test 3 failed");
             return false;
         }
         // Validate destination tile has no piece on it
         else if (this.board[dy][dx] != Piece.EMPTY){
+            //System.out.println("Test 4 failed");
             return false;
         }
         // Validate moving piece is owned (red player)
         else if (this.currentPlayer && 
                 (this.board[sy][sx] == Piece.WHITE || this.board[sy][sx] == Piece.WHITE_KING)){
+            //System.out.println("Test 5 failed");
             return false;
         }
         // Validate moving piece is owned (white player)
         else if (!this.currentPlayer && 
                 (this.board[sy][sx] == Piece.RED || this.board[sy][sx] == Piece.RED_KING)){
+            //System.out.println("Test 6 failed");
             return false;
         }
         // If the piece isn't a king, validate the move is in the correct direction
@@ -256,7 +263,8 @@ public class CheckersGame {
         else if(this.board[sy][sx] == Piece.WHITE){
             // White can move to higher y values
             if(sy > dy){ return false; }
-        }        
+        }       
+        //System.out.println("Test 7 passed"); 
         // Validate that destination is a valid move
         boolean[] jumps = jumpExists(sx, sy);
         if(playerHasJumps()){
@@ -281,6 +289,7 @@ public class CheckersGame {
             }
         }
         // We've checked every possible legal move, so if we get to this point, return false
+        //System.out.println("Test 8 failed");
         return false;
     }
 
@@ -398,11 +407,23 @@ public class CheckersGame {
         // that board is valid. We do not make these changes on the actual board
         // because that's submitMove's job, and if they're invalid we need to
         // revert them
-        Piece[][] cloneBoard = this.board.clone();
-        Stack<Move> cloneStack = (Stack<Move>)this.moves.clone();
+        // Deep copy board
+        Piece[][] cloneBoard = new Piece[this.board.length][this.board.length];
+        for (int y = 0; y < this.board.length; y++){
+            for (int x = 0; x < this.board.length; x++){
+                cloneBoard[y][x] = this.board[y][x];
+            }
+        }
+        // Deep copy stack
+        Object[] oldMoves = this.moves.toArray();
+        Stack<Move> cloneStack = new Stack<Move>();
+        for(Object o : oldMoves){
+            Move m = (Move) o;
+            cloneStack.add(new Move(m.getStart(), m.getEnd(), m.getType()));
+        }
         // Update our clone board with our clone moves
         boolean first = true;
-        boolean noJumps = false;
+        boolean noJumps = true;
         int sx = 0, sy = 0, ex = 0, ey = 0;
         while(!cloneStack.empty()){
             Move top = cloneStack.pop();
@@ -414,8 +435,6 @@ public class CheckersGame {
             if(cloneStack.empty()){
                 sx = ix;
                 sy = iy;
-                // If this is the first AND last move, update noJumps
-                if(first){ noJumps = true; }
             }
             // If this is the first move, update ex and ey
             if(first){
@@ -426,6 +445,7 @@ public class CheckersGame {
 
             // If this is a jump, remove the jumped piece
             if(iy % 2 == fy % 2){
+                noJumps = false;
                 int tx, ty;
                 if(ix > fx){tx = ix-1;}else{tx = ix+1;}
                 if(iy > fy){ty = iy-1;}else{ty = iy+1;}
@@ -444,18 +464,25 @@ public class CheckersGame {
         // If noJumps is true, then we can skip this -- we can't be missing
         // multijumps if we didn't make a jump in the first place!
         boolean hasJump = false;
+        System.out.printf("Is move not a jump? %b\n", noJumps);
         if(!noJumps){
+            System.out.println("Move is a jump, checking for multis");
+            System.out.printf("Position:%d %d\n", ex, ey);
             if(ex<6 && ey>1){ // Northeast
-                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey-2); 
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey-2);
+                System.out.printf("Northeast:%b\n", hasJump);
             }
             if(ex<6 && ey<6 && !hasJump){ // Southeast 
-                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey+2); 
+                hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey+2);
+                System.out.printf("Southeast:%b\n", hasJump);
             }
             if(ex>1 && ey<6 && !hasJump){ // Southwest
                 hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey+2); 
+                System.out.printf("Southwest:%b\n", hasJump);
             }
             if(ex>1 && ey>1 && !hasJump){ // Northwest 
                 hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey-2); 
+                System.out.printf("Northwest:%b\n", hasJump);
             }
         }
         if(!hasJump){ return cloneBoard; }
