@@ -13,7 +13,7 @@ public class CheckersGame {
     /** Whose turn is it? True = Red, False = White **/
     private boolean currentPlayer;
     /** Has the game been won? **/
-    private boolean gameWon;
+    private Piece winner;
     /** Unpushed moves **/
     private Stack<Move> moves = new Stack<>();
 
@@ -29,7 +29,7 @@ public class CheckersGame {
      */
     public CheckersGame() {
         this.currentPlayer = true;
-        this.gameWon = false;
+        this.winner = null;
         this.board = new Piece[8][8];
         for (int y = 0; y < this.board.length; y++) {
             for (int x = 0; x < this.board.length; x++) {
@@ -56,14 +56,76 @@ public class CheckersGame {
      * Getter for whether the game is won
      * @return is the game won?
      */
-    public boolean isGameWon(){
-        return this.gameWon;
+    public Piece getWinner(){
+        return this.winner;
+    }
+    
+    private boolean checkPieceHasMove(int x, int y){
+        Piece mover = this.board[y][x];
+        // Check if the piece can move normally
+        if(mover == Piece.RED || mover == Piece.WHITE_KING){
+            if(y>0 && x<7){if(this.board[y-1][x+1] == Piece.EMPTY){ return true; }}
+            if(y>0 && x>0){if(this.board[y-1][x-1] == Piece.EMPTY){ return true; }}
+        }
+        if(mover == Piece.WHITE || mover == Piece.RED_KING){
+            if(y<7 && x<7){if(this.board[y+1][x+1] == Piece.EMPTY){ return true; }}
+            if(y<7 && x>0){if(this.board[y+1][x-1] == Piece.EMPTY){ return true; }}
+        }
+        // Check for jumps
+        return jumpExists(x, y)[4];
     }
     
     /**
      * Check if the game is won and update this.gameWon if it is
      */
     private void checkGameWon(){
+        // Check if game is won by deadlocking the opposing player
+        boolean deadlocked = true;
+        if(this.currentPlayer){
+            // Check for deadlocking white
+            for (int y=0; y<this.board.length; y++){
+                for (int x=0; x<this.board.length; x++){
+                    // If there's a white piece here, check if it can move
+                    if(this.board[y][x] == Piece.WHITE 
+                            || this.board[y][x] == Piece.WHITE_KING){
+                        // If the piece has a move, the player isn't deadlocked!
+                        if(checkPieceHasMove(x, y)){
+                            deadlocked = false;
+                            break;
+                        }
+                    }
+                }
+                if(!deadlocked){ break; }
+            }
+            // If deadlocked is still true, the game is deadlocked!
+            if(deadlocked){
+                this.winner = Piece.RED;
+                return;
+            }
+        }
+        else{
+            // Check for deadlocking red
+            for (int y=0; y<this.board.length; y++){
+                for (int x=0; x<this.board.length; x++){
+                    // If there's a white piece here, check if it can move
+                    if(this.board[y][x] == Piece.RED
+                            || this.board[y][x] == Piece.RED_KING){
+                        // If the piece has a move, the player isn't deadlocked!
+                        if(checkPieceHasMove(x, y)){
+                            deadlocked = false;
+                            break;
+                        }
+                    }
+                }
+                if(!deadlocked){ break; }
+            }
+            // If deadlocked is still true, the game is deadlocked!
+            if(deadlocked){
+                this.winner = Piece.WHITE;
+                return;
+            }
+        }
+        // Check if game is won by capturing all pieces
         boolean whiteFound = false;
         boolean redFound = false;
         for (int y = 0; y < this.board.length; y++){
@@ -84,7 +146,8 @@ public class CheckersGame {
         }
         if( whiteFound && redFound ){ return; }
         // If we haven't exited yet, the game has been won!
-        this.gameWon = true;
+        if(this.currentPlayer){ this.winner = Piece.RED; } 
+        else{ this.winner = Piece.WHITE; }
     }
     
     /**
@@ -343,6 +406,7 @@ public class CheckersGame {
         Move top = this.moves.peek();
         Piece jumper = top.getType();
         Piece target;
+        // Note: Unsure if kinging mid-jump is legal, but the code for it would go here
         // Check if move on top of stack moves a piece to sx, sy
         if(top.getEnd().getRow() == sy && top.getEnd().getCell() == sx){
             // If so, return whether the move is a valid jump
