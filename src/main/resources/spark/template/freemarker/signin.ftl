@@ -17,6 +17,9 @@
 
   <div class="body">
 
+    <!-- Provide a message to the user, if supplied. -->
+    <#include "message.ftl" />
+
     <h2>User Sign In</h2>
 
     <form id="signin" action="./signin" method="POST">

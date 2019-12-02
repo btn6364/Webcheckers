@@ -1,10 +1,12 @@
 package com.webcheckers.ui;
 
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameServer;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 import com.webcheckers.util.NameUtils;
 import org.eclipse.jetty.util.StringUtil;
 import spark.*;
@@ -59,11 +61,17 @@ public class PostHomeRoute implements Route {
 
             Player secondPlayer = playerLobby.getPlayer(input);
 
-            if (secondPlayer == null) {
-                return null; //player didn't exist
+            if (secondPlayer == null) { //player didn't exist
+                response.redirect(WebServer.HOME_URL + "?error=Player does not exist!");
+                halt();
+                return null;
             } else if (gameServer.getGame(secondPlayer) != null) {
-                return null; //player already in a game
+                response.redirect(WebServer.HOME_URL + "?error=Player is already in a game!");
+                halt();
+                return null;
             } else if (!playerLobby.isPlayerAvailable(secondPlayer)){
+                response.redirect(WebServer.HOME_URL + "?error=Player is not available to play!");
+                halt();
                 return null;
             }
 

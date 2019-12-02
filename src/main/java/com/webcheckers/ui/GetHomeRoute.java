@@ -94,6 +94,11 @@ public class GetHomeRoute implements Route {
       vm.put(GAME_SAVE_ATTR, gameServer.getSavesForPlayer(player));
     }
 
+    if (!request.queryParams().isEmpty()){
+      String errorMessage = request.queryParams("error");
+      vm.put("message", Message.error(errorMessage));
+    }
+
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , VIEW_NAME));

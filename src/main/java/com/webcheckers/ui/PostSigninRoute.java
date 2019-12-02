@@ -52,13 +52,18 @@ public class PostSigninRoute implements Route {
         final Map<String, Object> vm = new HashMap<>();
 
         String inputUsername = request.queryParams(USERNAME_PARAM);
-        if ((!NameUtils.isAlphaNumeric(inputUsername)) || playerLobby.isPlayerOnline(inputUsername)){
+        if ((!NameUtils.isAlphaNumeric(inputUsername))){
             //redirect to the sign-in page again.
-            response.redirect(WebServer.SIGNIN_URL);
+            response.redirect(WebServer.SIGNIN_URL + "?error=User names must be alphanumeric");
             halt();
             return null;
-           //If player has submitted a valid name
-        } else {
+
+        } else if (playerLobby.isPlayerOnline(inputUsername)) {
+            //redirect to the sign-in page again.
+            response.redirect(WebServer.SIGNIN_URL + "?error=User name is already taken!");
+            halt();
+            return null;
+        } else { //If player has submitted a valid name
             //reserve the name of the user and return to the home page.
             playerLobby.addPlayerToLobby(inputUsername, request.session().id());
 

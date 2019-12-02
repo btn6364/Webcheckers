@@ -59,7 +59,7 @@ public class GameServer {
      */
     public Game getGame(Player player) {
         for (Game game : gamesInProgress) {
-            if (game.contains(player) || game.getSpectators().contains(player)) {
+            if (game.contains(player)) {
                 return game;
             }
         }

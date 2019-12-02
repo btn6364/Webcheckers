@@ -66,10 +66,14 @@ public class GetSpectatorRoute implements Route {
             vm.put("whitePlayer", second);
             vm.put("activeColor", game.getActiveColor());
             vm.put("board", game.getBoardView());
-        }
-        // render the view model
-        return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
 
+
+            // render the view model
+            return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
+        }
+
+        response.redirect(WebServer.HOME_URL);
+        return null;
     }
 
 

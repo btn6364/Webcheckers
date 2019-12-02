@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.webcheckers.util.Message;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -54,6 +55,11 @@ public class GetSigninRoute implements Route {
 
         Map<String, Object> vm = new HashMap<>();
         vm.put("title", TITLE);
+
+        if (!(request.queryParams("error") == null)){
+            String errorMessage = request.queryParams("error");
+            vm.put("message", Message.error(errorMessage));
+        }
 
         // render the View
         return templateEngine.render(new ModelAndView(vm , VIEW_NAME));
