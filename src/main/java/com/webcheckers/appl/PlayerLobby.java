@@ -20,8 +20,8 @@ public class PlayerLobby {
 
     private ArrayList<Player> players = new ArrayList<Player>();
 
-    // one player can only replay one game at a time, so don't need a list.
-    private HashMap<Player, GameSave> replayings = new HashMap<Player, GameSave>();
+    private ArrayList<Player> replayers = new ArrayList<>();
+    private ArrayList<Player> spectators = new ArrayList<>();
 
     /**
      * Retrieves a player based on the supplied UUID or Player name
@@ -105,25 +105,27 @@ public class PlayerLobby {
         removePlayer(getPlayer(identifier));
     }
 
-    /**
-     * Add replaying games
-     * @param replayer
-     * @param gameSave
-     */
-    public void addReplaying(Player replayer, GameSave gameSave){
-        replayings.put(replayer, gameSave);
+    public void addReplayer(Player player){
+        this.replayers.add(player);
     }
 
-    /**
-     * Remove replaying games from a player.
-     * @param replayer
-     */
-    public void removeReplaying(Player replayer){
-        replayings.remove(replayer);
+    public void removeReplayer(Player player){
+        this.replayers.remove(player);
     }
 
-    public GameSave getGameSaveFromPlayer(Player replayer){
-        return this.replayings.get(replayer);
+    public void addSpectator(Player player){
+        this.spectators.add(player);
+    }
+
+    public void removeSpectator(Player player){
+        this.spectators.remove(player);
+    }
+
+    public boolean isPlayerAvailable(Player player){
+        if (this.replayers.contains(player) || this.spectators.contains(player)){
+            return false;
+        }
+        return true;
     }
 
 
