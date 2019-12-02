@@ -88,11 +88,13 @@ public class Game {
 
     public Message submitMove(Player player){
         if (player.equals(this.playerWithTurn)) {
-            //TODO: Error checking
-            this.game.submitMove();
+            // Check if move was a success
+            boolean success = this.game.submitMove();
+            if(!success){ return Message.error("Move is invalid! (Are there jumps left?)"); }
+            // If it was, update the game
             changePlayerWithTurn();
             this.unseenTurn = true;
-            this.boardView = new BoardView(game);
+            this.boardView = new BoardView(this.game);
             // Check if game is over
             if (this.game.isGameWon()){
                 Player otherPlayer = (this.playerWithTurn == this.player1 

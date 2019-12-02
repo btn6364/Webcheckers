@@ -307,7 +307,7 @@ public class CheckersGame {
         // If stack has moves in it: make sure move is a valid multijump
         else{
             Piece type = this.moves.peek().getType();
-            if(validateMultiJump(sx, sy, ex, ey)){
+            if(validateMultiJump(this.board, sx, sy, ex, ey)){
                 Move move = new Move(new Position(sy, sx), new Position(ey, ex), type);
                 addMoveToStack(move);
                 return true;
@@ -324,7 +324,7 @@ public class CheckersGame {
      * @param ey Destination tile y position
      * @return True if the move is a valid multijump, else false
      */
-    private boolean validateMultiJump(int sx, int sy, int ex, int ey){
+    private boolean validateMultiJump(Piece[][] board, int sx, int sy, int ex, int ey){
         // Note: This function is separate from the usual validation functions
         // because it has to consider in-progress moves, while the other
         // functions simply consider the current board state (and are thus only
@@ -338,19 +338,19 @@ public class CheckersGame {
         if(top.getEnd().getRow() == sy && top.getEnd().getCell() == sx){
             // If so, return whether the move is a valid jump
             // Check if the destination is empty
-            if(this.board[ey][ex] != Piece.EMPTY){ return false; }
+            if(board[ey][ex] != Piece.EMPTY){ return false; }
             // Check if the move a proper diagonal jump
             if(ey == sy-2 && ex == sx-2){
-                target = this.board[sy-1][sx-1];
+                target = board[sy-1][sx-1];
             }
             else if(ey == sy-2 && ex == sx+2){
-                target = this.board[sy-1][sx+1];
+                target = board[sy-1][sx+1];
             }
             else if(ey == sy+2 && ex == sx+2){
-                target = this.board[sy+1][sx+1];
+                target = board[sy+1][sx+1];
             }
             else if(ey == sy+2 && ex == sx-2){
-                target = this.board[sy+1][sx-1];
+                target = board[sy+1][sx-1];
             }
             else{
                 // Not a jump
@@ -393,27 +393,22 @@ public class CheckersGame {
         this.moves.push(move);
     }
 
-    /**
-     * Submit all moves that are on the stack
-     */
-    public boolean submitMove(){
-        // If no move is being made, return false
-        if(this.moves.empty()){ return false; }
-        // Alternatively, if there's a jump left, return false
-        //TODO
-        // Start and end pos of the piece to move
-        // Java isn't smart enough to tell that these will always be initialized
-        int sx = 0, sy = 0, ex = 0, ey = 0;
+    private Piece[][] checkMovesForJumps(){
+        // We're going to make all move changes on a new board, then check if
+        // that board is valid. We do not make these changes on the actual board
+        // because that's submitMove's job, and if they're invalid we need to
+        // revert them
+        Piece[][] cloneBoard = this.board.clone();
+        Stack<Move> cloneStack = (Stack<Move>)this.moves.clone();
+        // Update our clone board with our clone moves
         boolean first = true;
-        // Handle each move
-        while(!moves.empty()) {
-            // Get move info
-            Move top = moves.pop();
+        int sx = 0, sy = 0, ex = 0, ey = 0;
+        while(!cloneStack.empty()){
+            Move top = cloneStack.pop();
             int ix = top.getStart().getCell();
             int iy = top.getStart().getRow();
             int fx = top.getEnd().getCell();
             int fy = top.getEnd().getRow();
-                
             // If this is the first move, update ex and ey
             if(first){
                 ex = fx;
@@ -421,7 +416,7 @@ public class CheckersGame {
                 first = false;
             }
             // If this is the last move, update sx and sy
-            if(moves.empty()){
+            if(cloneStack.empty()){
                 sx = ix;
                 sy = iy;
             }
@@ -430,16 +425,48 @@ public class CheckersGame {
                 int tx, ty;
                 if(ix > fx){tx = ix-1;}else{tx = ix+1;}
                 if(iy > fy){ty = iy-1;}else{ty = iy+1;}
-                this.board[ty][tx] = Piece.EMPTY;
+                cloneBoard[ty][tx] = Piece.EMPTY;
             }
         }
-        // Update the piece position
-        Piece piece = this.board[sy][sx];
-        this.board[ey][ex] = piece;
-        this.board[sy][sx] = Piece.EMPTY;
+                // Update the piece position
+        Piece piece = cloneBoard[sy][sx];
+        cloneBoard[ey][ex] = piece;
+        cloneBoard[sy][sx] = Piece.EMPTY;
         // If the piece is in place to be kinged, king it!
-        if(ey == 0 && piece == Piece.RED){ this.board[ey][ex] = Piece.RED_KING; }
-        if(ey == 7 && piece == Piece.WHITE){ this.board[ey][ex] = Piece.WHITE_KING; }
+        if(ey == 0 && piece == Piece.RED){ cloneBoard[ey][ex] = Piece.RED_KING; }
+        if(ey == 7 && piece == Piece.WHITE){ cloneBoard[ey][ex] = Piece.WHITE_KING; }
+        // Check if move is valid (ie, has no remaining jumps)
+        // We do this by calling validateMultiJump on all tiles in jump range
+        boolean hasJump = false;
+        if(ex<6 && ey>1){ // Northeast
+            hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey-2); 
+        }
+        if(ex<6 && ey<6 && !hasJump){ // Southeast 
+            hasJump = validateMultiJump(cloneBoard, ex, ey, ex+2, ey+2); 
+        }
+        if(ex>1 && ey<6 && !hasJump){ // Southwest
+            hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey+2); 
+        }
+        if(ex>1 && ey>1 && !hasJump){ // Northwest 
+            hasJump = validateMultiJump(cloneBoard, ex, ey, ex-2, ey-2); 
+        }
+        if(!hasJump){ return cloneBoard; }
+        // Return null if the move is invalid
+        return null;
+    }
+    
+    /**
+     * Submit all moves that are on the stack
+     */
+    public boolean submitMove(){
+        // If no move is being made, return false
+        if(this.moves.empty()){ return false; }
+        // If there's a jump left, return false; otherwise update the board
+        Piece[][] newBoard = checkMovesForJumps();
+        if(newBoard == null){ return false; }
+        // If the move is valid, update the board and clear the stack
+        this.board = newBoard.clone();
+        this.moves.clear();
         // Check if game is won and update current player
         checkGameWon();
         this.currentPlayer = !this.currentPlayer;
