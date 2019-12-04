@@ -108,6 +108,12 @@ with the WebCheckers application.
     If he chooses to log out, the player will be redirect to the sign in page again.
 - Resign:
     + When a player wants to leave a game, he could clicked the RESIGN button on the controller bar. A POST "/resign" HTTP response is called and he will be taken to the home page.
+- Spectator Mode:
+    + A user is given the option to watch a game happening between two players. They cannot change or interfere with the game. 
+- Replay Mode:
+    + After each move is made in game, the move is saved to an arraylist which contains all board views for the given game. Replay mode allows a player to iterate through this arraylist using the replay mode UI and the next/previous replay routes. 
+- Kinging Pieces 
+    + Allows pieces to be king pieces and complete actions that only king pieces can perform such as jumping in any diagonal direction.
 
 
 
@@ -128,17 +134,25 @@ with the WebCheckers application.
 ### Design Improvements
 
 - Create some helpers function in as utils to handle HTTP request.
-
+- The Controller Principle
+    + PlayerLobby and GameServer are now independent of one another and control their own specific attributes. Prior to changes, there was poor adherence to the controller principle. 
+- Increased Cohesion, Lowered Coupling
+    + Prior to sprint three, our code exhibited many attributes of high coupling between the UI and Model tiers. This was largely due to incorrectly designed model data. These issues have been solved in Sprint 3.
+- Polymorphism
+    + Our endgame handling code has been designed to follow a polymorphic nature so that there is a clear distinguishing between a player resignation and natural game winning. This helped to lower the amount of lines of code in our product.
 
 ## Testing
 
 - Run the website as normal to check if it is working.
 - Write unit testings to test UI, Model and Application components and see whether they are fully functional.
-
+- The game is fully functional and the player can spectate and replay games.
 
 ### Acceptance Testing
 
 - Sign In/ Sign Out and Resign have passed all their acceptance criteria. 
+- Spectator passed their acceptance criteria
+- Replay passed their acceptance criteria
+- Kinging passed their acceptance criteria
 
 ### Unit Testing and Code Coverage
 

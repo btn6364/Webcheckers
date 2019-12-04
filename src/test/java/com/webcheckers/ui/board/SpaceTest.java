@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
  * Unit test for the Space board UI
  * author: Angela Hudak
  */
+
 public class SpaceTest {
     private int cellIdx = 69;
     private int row = 420;
